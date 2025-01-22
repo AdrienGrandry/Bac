@@ -1,27 +1,36 @@
-/**
- * 
- */
 package main;
+import ressources.Variables;
 
-/**
- * @author Utilisateur
- *
- */
-public class main {
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
-	/**
-	 * 
-	 */
-	public main() {
-		// TODO Auto-generated constructor stub
-	}
+import javax.swing.JFrame;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+public class Main {
+	static Variables variables = new Variables();
+	
+    public static void main(String[] args) {
+    	//déclaration autres classes
 
-	}
+    	final JFrame frame = new JFrame("BAC");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(500, 500);
+        frame.getContentPane().setLayout(null);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
+        
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+            	updateSize(frame);
+            }
+        });
 
+    }
+    
+   public static void updateSize(JFrame frame)
+   {
+	   variables.setHeight(frame.getSize().height);
+	   variables.setWidth(frame.getSize().width);
+   }
 }
