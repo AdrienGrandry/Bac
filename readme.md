@@ -6,6 +6,7 @@ Programme de gestion de stock pour le bac.
 
 ## [Version 2.0.0] - 23-01-2025
 ### Ajouts
+- Ajout des classes de message de validation et d'erreur
 
 ### Modifications
 - Séparation du code dans différents fichier et fonctions
