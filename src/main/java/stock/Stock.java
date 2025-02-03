@@ -41,7 +41,7 @@ public class Stock extends JPanel
         buttonPanel.setBackground(Color.decode(color.xmlReader("background")));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        String[] periods = {"Tous", "Salle", "Cafétéria"};
+        String[] periods = {"Tous", "Salle", "CafÃ©tÃ©ria"};
 
         final JComboBox<String> comboBox = new JComboBox<>(periods);
         Style.applyBoxStyle(comboBox);
@@ -77,21 +77,23 @@ public class Stock extends JPanel
         add(tableauPanel, BorderLayout.CENTER);
         tableauPanel.setPreferredSize(new Dimension(parentFrame.getWidth(), parentFrame.getHeight()));
         
-        changeTab = new ActionListener() {
+        changeTab = new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedPeriod = (String) comboBox.getSelectedItem();
                 String sql = null;
 
-                switch (selectedPeriod) {
+                switch (selectedPeriod)
+                {
                     case "Tous":
-                        sql = "Select numero as 'Numéro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix Unité', (prix*stock) as 'Prix total' from produit  where visible = 1 order by numero";
+                        sql = "Select numero as 'NumÃ©ro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix UnitÃ©', round((prix*stock),3) as 'Prix total' from produit  where visible = 1 order by numero";
                         break;
                     case "Salle":
-                        sql = "Select numero as 'Numéro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix Unité', (prix*stock) as 'Prix total' from produit  where visible = 1 and lieu='salle' order by numero";
+                        sql = "Select numero as 'NumÃ©ro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix UnitÃ©', round((prix*stock),3) as 'Prix total' from produit  where visible = 1 and lieu='salle' order by numero";
                         break;
-                    case "Cafétéria":
-                        sql = "Select numero as 'Numéro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix Unité', (prix*stock) as 'Prix total' from produit  where visible = 1 and lieu='cafeteria' order by numero";
+                    case "CafÃ©tÃ©ria":
+                        sql = "Select numero as 'NumÃ©ro', libelle as 'Libelle', lieu as 'Lieu', stock as 'Stock', prix as 'Prix UnitÃ©', round((prix*stock),3) as 'Prix total' from produit  where visible = 1 and lieu='cafeteria' order by numero";
                         break;
                 }
 
@@ -106,29 +108,34 @@ public class Stock extends JPanel
                 {
                 	String query = null;
 
-                    switch (selectedPeriod) {
+                    switch (selectedPeriod)
+                    {
                         case "Tous":
                         	query = "SELECT SUM(stock * prix) AS valeur_totale_stock FROM produit where visible = 1";
                             break;
                         case "Salle":
                         	query = "SELECT SUM(stock * prix) AS valeur_totale_stock FROM produit where lieu = 'salle' and visible = 1";
                             break;
-                        case "Cafétéria":
+                        case "CafÃ©tÃ©ria":
                         	query = "SELECT SUM(stock * prix) AS valeur_totale_stock FROM produit where lieu = 'cafeteria' and visible = 1";
                             break;
                     }
                 	
                     try (Statement statement = connection.createStatement();
-                         ResultSet resultSet = statement.executeQuery(query)) {
+                         ResultSet resultSet = statement.executeQuery(query))
+                    {
 
-                        if (resultSet.next()) {
+                        if (resultSet.next())
+                        {
                             String valeurTotaleStock = resultSet.getString("valeur_totale_stock");
-                            totalLabel.setText("Stock total : " + valeurTotaleStock+" €");
+                            totalLabel.setText("Stock total : " + valeurTotaleStock+" â‚¬");
                         }
 
                     }
                     
-                } catch (SQLException e1) {
+                }
+                catch (SQLException e1)
+                {
                     e1.printStackTrace();
                 }
             }

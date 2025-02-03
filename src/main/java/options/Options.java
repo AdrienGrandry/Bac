@@ -65,9 +65,11 @@ public class Options extends JPanel
             gbc.fill = GridBagConstraints.HORIZONTAL;
             contentPanel.add(exemplaire, gbc);
 
-            exemplaire.addMouseListener(new MouseAdapter() {
+            exemplaire.addMouseListener(new MouseAdapter()
+            {
                 @Override
-                public void mouseClicked(MouseEvent e) {
+                public void mouseClicked(MouseEvent e)
+                {
                 	Color selectedColor = JColorChooser.showDialog(null, "Changer la couleur (" + color.getDescription() + ")", getBackground());
                     if (selectedColor != null)
                     {

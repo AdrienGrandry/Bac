@@ -39,7 +39,7 @@ public class Requete
             else
             {
                 int affectedRows = statement.executeUpdate(query);
-                JLabel label = new JLabel(affectedRows + " ligne(s) affectée(s).", SwingConstants.CENTER);
+                JLabel label = new JLabel(affectedRows + " ligne(s) affectÃ©e(s).", SwingConstants.CENTER);
                 label.setFont(new Font("Arial", Font.BOLD, 20));
                 label.setBackground(Color.decode(color.xmlReader("background")));
                 resultPanel.add(label, BorderLayout.CENTER);
@@ -115,7 +115,7 @@ public class Requete
 	                        if (isSpecificColumnExists(this, "Type"))
 	                        {
 	                            String typeValue = getColumnValue(this, row, "Type");
-	                            if ("Entrée".equalsIgnoreCase(typeValue))
+	                            if ("EntrÃ©e".equalsIgnoreCase(typeValue))
 	                            {
 	                                component.setBackground(Color.decode("#DFF0D8"));
 	                                component.setForeground(Color.GREEN);
@@ -143,26 +143,27 @@ public class Requete
             }
         };
         
-        for (int i = 0; i < columnCount; i++) {
+        for (int i = 0; i < columnCount; i++)
+        {
             TableColumn column = table.getColumnModel().getColumn(i);
             int maxWidth = 0;
 
-            // Calcul de la largeur maximale de la colonne
             TableCellRenderer headerRenderer = column.getHeaderRenderer();
-            if (headerRenderer == null) {
+            if (headerRenderer == null)
+            {
                 headerRenderer = table.getTableHeader().getDefaultRenderer();
             }
             Component headerComp = headerRenderer.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, 0, 0);
             maxWidth = headerComp.getPreferredSize().width;
 
-            // Parcourir les lignes pour ajuster la largeur
-            for (int row = 0; row < table.getRowCount(); row++) {
+            for (int row = 0; row < table.getRowCount(); row++)
+            {
                 TableCellRenderer cellRenderer = table.getCellRenderer(row, i);
                 Component cellComp = cellRenderer.getTableCellRendererComponent(table, table.getValueAt(row, i), false, false, row, i);
                 maxWidth = Math.max(cellComp.getPreferredSize().width, maxWidth);
             }
 
-            column.setPreferredWidth(maxWidth + 20);  // Ajoute une petite marge de 10 pixels
+            column.setPreferredWidth(maxWidth + 20);
         }
         
         for (int i = 0; i < table.getColumnCount(); i++) {

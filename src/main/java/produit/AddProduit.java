@@ -13,24 +13,24 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class AddProduit extends JDialog {
+public class AddProduit extends JDialog
+{
     private static final long serialVersionUID = 1L;
     ColorXml color = new ColorXml();
 
-    public AddProduit(JFrame parent, final int id) {
+    public AddProduit(JFrame parent, final int id)
+    {
         super(parent, "Ajouter un produit", true);
 
         setSize(500, 700);
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
-        // Panneau principal pour les composants
         JPanel panneauPrincipal = new JPanel();
         panneauPrincipal.setBackground(Color.decode(color.xmlReader("background")));
         panneauPrincipal.setLayout(null);
 
-        // Label et champ pour le numéro
-        JLabel instructionNum = new JLabel("Ajouter le numéro du produit");
+        JLabel instructionNum = new JLabel("Ajouter le numÃ©ro du produit");
         styleLabel(instructionNum);
         instructionNum.setBounds(50, 50, 400, 30);
         panneauPrincipal.add(instructionNum);
@@ -40,7 +40,6 @@ public class AddProduit extends JDialog {
         num.setBounds(50, 90, 400, 30);
         panneauPrincipal.add(num);
 
-        // Label et champ pour le nom
         JLabel instructionNom = new JLabel("Ajouter le nom du produit");
         styleLabel(instructionNom);
         instructionNom.setBounds(50, 150, 400, 30);
@@ -51,19 +50,17 @@ public class AddProduit extends JDialog {
         nom.setBounds(50, 190, 400, 30);
         panneauPrincipal.add(nom);
 
-        // Label et champ pour le lieu (JComboBox)
-        JLabel instructionLieu = new JLabel("Sélectionner le lieu du produit");
+        JLabel instructionLieu = new JLabel("SÃ©lectionner le lieu du produit");
         styleLabel(instructionLieu);
         instructionLieu.setBounds(50, 250, 400, 30);
         panneauPrincipal.add(instructionLieu);
 
-        String[] periods = {"Salle", "Cafétéria"};
+        String[] periods = {"Salle", "CafÃ©tÃ©ria"};
         final JComboBox<String> comboBox = new JComboBox<>(periods);
         comboBox.setBounds(50, 290, 400, 30);
         Style.applyBoxStyle(comboBox);
         panneauPrincipal.add(comboBox);
 
-        // Label et champ pour le stock
         JLabel instructionStock = new JLabel("Ajouter le stock du produit");
         styleLabel(instructionStock);
         instructionStock.setBounds(50, 350, 400, 30);
@@ -74,7 +71,6 @@ public class AddProduit extends JDialog {
         stock.setBounds(50, 390, 400, 30);
         panneauPrincipal.add(stock);
 
-        // Label et champ pour le prix
         JLabel instructionPrix = new JLabel("Ajouter le prix du produit");
         styleLabel(instructionPrix);
         instructionPrix.setBounds(50, 450, 400, 30);
@@ -92,12 +88,13 @@ public class AddProduit extends JDialog {
         checkBoxVisibilite.setSelected(true);
         panneauPrincipal.add(checkBoxVisibilite);
 
-        // Bouton de fermeture
         JButton boutonFermer = new JButton("Fermer");
-        boutonFermer.addActionListener(new ActionListener() {
+        boutonFermer.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose(); // Fermer la fenêtre
+            public void actionPerformed(ActionEvent e)
+            {
+                dispose();
             }
         });
         boutonFermer.setBounds(50, 590, 100, 40);
@@ -105,46 +102,48 @@ public class AddProduit extends JDialog {
         boutonFermer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panneauPrincipal.add(boutonFermer);
 
-        // Bouton de validation
         JButton boutonValider = new JButton("Valider");
-        boutonValider.addActionListener(new ActionListener() {
+        boutonValider.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Validation des champs
+            public void actionPerformed(ActionEvent e)
+            {
                 String nomProduit = nom.getText();
                 String stockText = stock.getText();
                 String numText = num.getText();
                 String prixText = prix.getText();
                 String selectedPeriod = (String) comboBox.getSelectedItem();
 
-                if (nomProduit.isEmpty() || stockText.isEmpty() || numText.isEmpty() || prixText.isEmpty() || selectedPeriod == null) {
+                if (nomProduit.isEmpty() || stockText.isEmpty() || numText.isEmpty() || prixText.isEmpty() || selectedPeriod == null)
+                {
                     JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                try {
+                try
+                {
                     int stockProduit = Integer.parseInt(stockText);
                     int numProduit = Integer.parseInt(numText);
                     float prixProduit = Float.parseFloat(prixText.replace(',', '.'));
                     boolean visible = checkBoxVisibilite.isSelected();
 
-                    // Validation supplémentaire si nécessaire
-                    if (stockProduit < 0 || numProduit < 0 || prixProduit < 0) {
-                        JOptionPane.showMessageDialog(null, "Les valeurs numériques doivent être positives.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+                    if (stockProduit < 0 || numProduit < 0 || prixProduit < 0)
+                    {
+                        JOptionPane.showMessageDialog(null, "Les valeurs numÃ©riques doivent Ãªtre positives.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
                     String lieu = null;
-                    switch (selectedPeriod) {
+                    switch (selectedPeriod)
+                    {
                         case "Salle":
                             lieu = "salle";
                             break;
-                        case "Cafétéria":
+                        case "CafÃ©tÃ©ria":
                             lieu = "cafeteria";
                             break;
                     }
 
-                    // Interaction avec la base de données
                     try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
                          Statement statement = connection.createStatement())
                     {
@@ -173,12 +172,12 @@ public class AddProduit extends JDialog {
                     }
                     catch (SQLException ex)
                     {
-                        JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour de la base de données : " + ex.getMessage(), "Erreur SQL", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Erreur lors de la mise Ã  jour de la base de donnÃ©es : " + ex.getMessage(), "Erreur SQL", JOptionPane.ERROR_MESSAGE);
                     }
 
-                    dispose(); // Fermer la fenêtre si tout est valide
+                    dispose();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Le stock, le numéro du produit et le prix doivent être des nombres valides.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Le stock, le numÃ©ro du produit et le prix doivent Ãªtre des nombres valides.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -187,19 +186,24 @@ public class AddProduit extends JDialog {
         boutonValider.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panneauPrincipal.add(boutonValider);
 
-        // Bouton de suppression
         JButton boutonSupprimer = new JButton("Supprimer");
         boutonSupprimer.setBounds(200, 590, 100, 40);
         Style.applyButtonStyle(boutonSupprimer);
         boutonSupprimer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        boutonSupprimer.addActionListener(new ActionListener() {
+        
+        boutonSupprimer.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
-                     Statement statement = connection.createStatement()) {
+                     Statement statement = connection.createStatement())
+                {
 
                     statement.executeUpdate("DELETE FROM produit WHERE id = " + id);
-                } catch (SQLException e1) {
+                }
+                catch (SQLException e1)
+                {
                     JOptionPane.showMessageDialog(null, "Impossible de lancer la demande !", "ERREUR...", JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -207,11 +211,13 @@ public class AddProduit extends JDialog {
             }
         });
 
-        if (id != 0) {
+        if (id != 0)
+        {
             panneauPrincipal.add(boutonSupprimer);
 
             try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
-                 Statement statement = connection.createStatement()) {
+                 Statement statement = connection.createStatement())
+            {
 
                 ResultSet resultSet = statement.executeQuery("SELECT * FROM produit WHERE id=" + id);
 
@@ -223,7 +229,8 @@ public class AddProduit extends JDialog {
                 String visibleSql = resultSet.getString("visible");
 
                 nom.setText(nomSql);
-                switch (lieuSql) {
+                switch (lieuSql)
+                {
                     case "salle":
                         comboBox.setSelectedIndex(0);
                         break;
@@ -244,7 +251,9 @@ public class AddProduit extends JDialog {
                 	checkBoxVisibilite.setSelected(false);
                 }
 
-            } catch (SQLException e1) {
+            }
+            catch (SQLException e1)
+            {
                 JOptionPane.showMessageDialog(null, "Impossible de lancer la demande car vide ou incorrect !", "ERREUR...", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -253,12 +262,14 @@ public class AddProduit extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-    public void styleLabel(JLabel label) {
+    public void styleLabel(JLabel label)
+    {
         label.setFont(new Font("Arial", Font.BOLD, 18));
         label.setForeground(Color.decode(color.xmlReader("foreground")));
     }
 
-    public void styleTextField(JTextField textField) {
+    public void styleTextField(JTextField textField)
+    {
         textField.setFont(new Font("Arial", Font.PLAIN, 16));
         textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }

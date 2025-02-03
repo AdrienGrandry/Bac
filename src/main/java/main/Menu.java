@@ -21,7 +21,8 @@ import org.w3c.dom.NodeList;
 
 import ressources.ColorXml;
 
-public class Menu extends JPanel {
+public class Menu extends JPanel
+{
     private static final long serialVersionUID = 1L;
     private final ArrayList<String> menuItems = new ArrayList<>();
     
@@ -31,10 +32,12 @@ public class Menu extends JPanel {
     public Menu(ActionListener actionListener)
     {
     	menuItems.add("Accueil");
-    	menuItems.add("Entrée / Sortie");
+    	menuItems.add("Mouvement");
     	menuItems.add("Stock");
     	menuItems.add("Produits");
     	menuItems.add("Commande");
+    	//menuItems.add("Prévision");
+    	//menuItems.add("Location");
     	menuItems.add("Options");
 
     	if (addDebugMenu())
@@ -59,7 +62,8 @@ public class Menu extends JPanel {
         
         add(panel);
         
-        addComponentListener(new ComponentAdapter() {
+        addComponentListener(new ComponentAdapter()
+        {
             @Override
             public void componentResized(ComponentEvent e) {
                 updateButtonLayout(panel);
@@ -69,7 +73,7 @@ public class Menu extends JPanel {
     
     private void updateButtonLayout(JPanel panel)
     {
-        int columns = (getWidth() / 185) > 1 ? (getWidth() / 185) : 1;
+        int columns = (getWidth() / 145) > 1 ? (getWidth() / 145) : 1;
         columns = Math.min(columns, menuItems.size());
         
         panel.setLayout(new GridLayout(0, columns, 20, 25));

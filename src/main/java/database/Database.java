@@ -25,7 +25,7 @@ public class Database extends JPanel
         entete.setLayout(new BorderLayout(10, 10));
         add(entete, BorderLayout.NORTH);
 
-        JLabel titre = new JLabel("Base de donn�es", SwingConstants.CENTER);
+        JLabel titre = new JLabel("Base de données", SwingConstants.CENTER);
         titre.setFont(new Font("Arial", Font.BOLD, 40));
         titre.setForeground(Color.decode(color.xmlReader("foreground")));
         titre.setBorder(new EmptyBorder(10, 10, 10, 10));

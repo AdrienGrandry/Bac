@@ -16,7 +16,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorXml {
+public class ColorXml
+{
 
     private static final String XML_FILE_PATH = "config.xml";
 
@@ -27,17 +28,21 @@ public class ColorXml {
             Document doc = loadXmlDocument();
 
             NodeList nodeList = doc.getElementsByTagName("color");
-            for (int i = 0; i < nodeList.getLength(); i++) {
+            for (int i = 0; i < nodeList.getLength(); i++)
+            {
                 Element colorElement = (Element) nodeList.item(i);
                 String name = colorElement.getElementsByTagName("name").item(0).getTextContent();
                 
-                if (name.equals(colorName)) {
+                if (name.equals(colorName))
+                {
                     return colorElement.getElementsByTagName("value").item(0).getTextContent();
                 }
             }
 
             return "#FFFFFF";  
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return "#FFFFFF";
         }
@@ -51,10 +56,12 @@ public class ColorXml {
             NodeList nodeList = doc.getElementsByTagName("color");
             boolean colorFound = false;
 
-            for (int i = 0; i < nodeList.getLength(); i++) {
+            for (int i = 0; i < nodeList.getLength(); i++)
+            {
                 Element colorElement = (Element) nodeList.item(i);
                 String name = colorElement.getElementsByTagName("name").item(0).getTextContent();
-                if (name.equals(colorName)) {
+                if (name.equals(colorName))
+                {
                     colorElement.getElementsByTagName("value").item(0).setTextContent(newColorValue);
                     colorFound = true;
                     break;

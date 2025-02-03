@@ -17,11 +17,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Produit extends JPanel {
+public class Produit extends JPanel
+{
     private static final long serialVersionUID = 1L;
     private ActionListener changeTab;
 
-    public Produit(final JFrame parentFrame) {
+    public Produit(final JFrame parentFrame)
+    {
         final ColorXml color = new ColorXml();
         final Requete requete = new Requete();
 
@@ -72,21 +74,24 @@ public class Produit extends JPanel {
         add(tableauPanel, BorderLayout.CENTER);
         tableauPanel.setPreferredSize(new Dimension(parentFrame.getWidth(), parentFrame.getHeight()));
 
-        changeTab = new ActionListener() {
+        changeTab = new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 String selectedPeriod = (String) comboBox.getSelectedItem();
                 String sql = null;
 
-                switch (selectedPeriod) {
+                switch (selectedPeriod)
+                {
                     case "Tous":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé' FROM produit ORDER BY numero";
+                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit ORDER BY numero";
                         break;
                     case "Salle":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé' FROM produit WHERE lieu LIKE 'salle' ORDER BY numero";
+                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'salle' ORDER BY numero";
                         break;
                     case "Cafétéria":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé' FROM produit WHERE lieu LIKE 'cafeteria' ORDER BY numero";
+                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'cafeteria' ORDER BY numero";
                         break;
                 }
 
@@ -94,22 +99,27 @@ public class Produit extends JPanel {
                 JPanel tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
                 final JTable table = (JTable) ((JScrollPane) tab.getComponent(0)).getViewport().getView();
 
-                table.addMouseListener(new MouseAdapter() {
+                table.addMouseListener(new MouseAdapter()
+                {
                     @Override
-                    public void mouseClicked(MouseEvent e) {
+                    public void mouseClicked(MouseEvent e)
+                    {
                         int row = table.rowAtPoint(e.getPoint());
                         if (row >= 0) {
                             TableModel model = table.getModel();
                             String numeroProduitStr = model.getValueAt(row, 0).toString();
                             String libelleProduit = model.getValueAt(row, 1).toString();
+                            String lieuProduit = model.getValueAt(row, 2).toString();
 
                             int numeroProduit = Integer.parseInt(numeroProduitStr);
-                            int id = getIdRow(numeroProduit, libelleProduit);
+                            int id = getIdRow(numeroProduit, libelleProduit, lieuProduit);
 
                             AddProduit fenetreProduit = new AddProduit(parentFrame, id);
-                            fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter() {
+                            fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
+                            {
                                 @Override
-                                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                                public void windowClosed(java.awt.event.WindowEvent windowEvent)
+                                {
                                     changeTab.actionPerformed(null);
                                 }
                             });
@@ -127,13 +137,17 @@ public class Produit extends JPanel {
         comboBox.addActionListener(changeTab);
         changeTab.actionPerformed(null);
        
-        button.addActionListener(new ActionListener() {
+        button.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 AddProduit fenetreProduit = new AddProduit(parentFrame, 0);
-                fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter() {
+                fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
+                {
                     @Override
-                    public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent)
+                    {
                         changeTab.actionPerformed(null);
                     }
                 });
@@ -142,19 +156,26 @@ public class Produit extends JPanel {
         });
     }
 
-    public int getIdRow(int numeroProduit, String libelleProduit) {
+    public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit)
+    {
         int id = -1;
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db")) {
-            String query = "SELECT id FROM produit WHERE numero = ? AND libelle = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db"))
+        {
+            String query = "SELECT id FROM produit WHERE numero = ? AND libelle = ? AND lieu = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+            {
                 preparedStatement.setInt(1, numeroProduit);
                 preparedStatement.setString(2, libelleProduit);
+                preparedStatement.setString(3, lieuProduit);
                 ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
+                if (resultSet.next())
+                {
                     id = resultSet.getInt("id");
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
         return id;

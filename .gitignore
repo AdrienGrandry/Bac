@@ -2,3 +2,13 @@ target/
 .classpath
 .project
 .settings/
+Gesti'Bac_lib/
+jre-1.8/
+*.db
+*.exe
+*.mxl
+*.txt
+*.jar
+*.log
+*.ico
+*.png
