@@ -6,7 +6,7 @@ Gesti'Bac_lib/
 jre-1.8/
 *.db
 *.exe
-*.mxl
+GestiBac.mxl
 *.txt
 *.jar
 *.log
