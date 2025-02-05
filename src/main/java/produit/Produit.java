@@ -11,9 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -96,7 +93,15 @@ public class Produit extends JPanel
                 }
 
                 tableauPanel.removeAll(); 
-                JPanel tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
+                JPanel tab = null;
+				try
+				{
+					tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
+				}
+				catch (SQLException e1)
+				{
+					e1.printStackTrace();
+				}
                 final JTable table = (JTable) ((JScrollPane) tab.getComponent(0)).getViewport().getView();
 
                 table.addMouseListener(new MouseAdapter()
@@ -112,7 +117,15 @@ public class Produit extends JPanel
                             String lieuProduit = model.getValueAt(row, 2).toString();
 
                             int numeroProduit = Integer.parseInt(numeroProduitStr);
-                            int id = getIdRow(numeroProduit, libelleProduit, lieuProduit);
+                            int id = 0;
+							try
+							{
+								id = getIdRow(numeroProduit, libelleProduit, lieuProduit);
+							}
+							catch (SQLException e1)
+							{
+								e1.printStackTrace();
+							}
 
                             AddProduit fenetreProduit = new AddProduit(parentFrame, id);
                             fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
@@ -156,27 +169,15 @@ public class Produit extends JPanel
         });
     }
 
-    public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit)
+    public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit) throws SQLException
     {
-        int id = -1;
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db"))
+        String query = "SELECT id FROM produit WHERE numero = " + numeroProduit + " AND libelle = '" + libelleProduit + "' AND lieu = '" + lieuProduit + "'";
+        
+        ResultSet resultSet = Requete.executeQuery(query);
+        int id = 0;
+        if (resultSet.next())
         {
-            String query = "SELECT id FROM produit WHERE numero = ? AND libelle = ? AND lieu = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query))
-            {
-                preparedStatement.setInt(1, numeroProduit);
-                preparedStatement.setString(2, libelleProduit);
-                preparedStatement.setString(3, lieuProduit);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                if (resultSet.next())
-                {
-                    id = resultSet.getInt("id");
-                }
-            }
-        }
-        catch (SQLException e)
-        {
-            e.printStackTrace();
+            id = resultSet.getInt("id");
         }
         return id;
     }

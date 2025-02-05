@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class Database extends JPanel
 {
@@ -61,7 +62,12 @@ public class Database extends JPanel
             public void mouseClicked(MouseEvent e)
             {
                 tableauPanel.removeAll();
-                JPanel tab = requete.executeQueryAndReturnPanel(textArea.getText(), tableauPanel.getSize().height, getSize().width, "pair_impair");
+                JPanel tab = null;
+				try {
+					tab = requete.executeQueryAndReturnPanel(textArea.getText(), tableauPanel.getSize().height, getSize().width, "pair_impair");
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 
                 tableauPanel.add(tab);
 

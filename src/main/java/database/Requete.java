@@ -15,50 +15,56 @@ public class Requete
 {
 	ColorXml color = new ColorXml();
 	
-    public JPanel executeQueryAndReturnPanel(String query, int height, int width, String styleCase)
+    public JPanel executeQueryAndReturnPanel(String query, int height, int width, String styleCase) throws SQLException
     {
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new BorderLayout());
 
-        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
-             Statement statement = connection.createStatement())
+        if (query.toLowerCase().startsWith("select"))
         {
-            if (query.toLowerCase().startsWith("select"))
-            {
-                ResultSet resultSet = statement.executeQuery(query);
-                JTable table = buildTable(resultSet, styleCase);
-                table.getTableHeader().setBackground(Color.decode(color.xmlReader("background")));
-                JScrollPane scrollPane = new JScrollPane(table);
-                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            
+            JTable table = null;
+			table = buildTable(executeQuery(query), styleCase);
+            table.getTableHeader().setBackground(Color.decode(color.xmlReader("background")));
+            JScrollPane scrollPane = new JScrollPane(table);
+            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-                scrollPane.setPreferredSize(new Dimension(width-4, height-4));
-                scrollPane.getViewport().setBackground(Color.decode(color.xmlReader("background")));
-                resultPanel.add(scrollPane, BorderLayout.CENTER);
-            }
-            else
-            {
-                int affectedRows = statement.executeUpdate(query);
-                JLabel label = new JLabel(affectedRows + " ligne(s) affectée(s).", SwingConstants.CENTER);
+            scrollPane.setPreferredSize(new Dimension(width-4, height-4));
+            scrollPane.getViewport().setBackground(Color.decode(color.xmlReader("background")));
+            resultPanel.add(scrollPane, BorderLayout.CENTER);
+        }
+        else
+        {
+        	ResultSet resultSet = executeQuery(query);
+        	if(resultSet != null)
+        	{
+        		JLabel label = new JLabel("Base de données mise à jour.", SwingConstants.CENTER);
                 label.setFont(new Font("Arial", Font.BOLD, 20));
                 label.setBackground(Color.decode(color.xmlReader("background")));
                 resultPanel.add(label, BorderLayout.CENTER);
-            }
-        }
-        catch (SQLException e)
-        {
-            JLabel errorLabel = new JLabel("Erreur : " + e.getMessage(), SwingConstants.CENTER);
-            errorLabel.setFont(new Font("Arial", Font.BOLD, 20));
-            errorLabel.setForeground(Color.RED);
-            errorLabel.setBackground(Color.decode(color.xmlReader("background")));
-            resultPanel.add(errorLabel, BorderLayout.CENTER);
+        	}
         }
 
         return resultPanel;
     }
+    
+    public static ResultSet executeQuery(String query) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);  // ✅ Exécute la requête SQL
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, 
+                "Erreur SQL : " + e.getMessage(), 
+                "Erreur de Base de Données", 
+                JOptionPane.ERROR_MESSAGE);
+            return null;  // ❌ Évite de retourner un ResultSet invalide
+        }
+    }
 
     private JTable buildTable(ResultSet resultSet, final String styleCase) throws SQLException
-    {
+    {    	
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
         String[] columnNames = new String[columnCount];
