@@ -32,7 +32,7 @@ public class Menu extends JPanel
     public Menu(ActionListener actionListener)
     {
     	menuItems.add("Accueil");
-    	menuItems.add("Mouvement");
+    	menuItems.add("Mouvements");
     	menuItems.add("Stock");
     	menuItems.add("Produits");
     	menuItems.add("Commande");

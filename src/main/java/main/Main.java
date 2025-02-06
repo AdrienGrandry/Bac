@@ -15,6 +15,7 @@ import java.lang.reflect.Constructor;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -80,8 +81,8 @@ public class Main
                 case "Produits":
                     loadSpecificPanel("produit.Produit", parentFrame);
                     break;
-                case "Entrée / Sortie":
-                    loadSpecificPanel("inputouput.inputouput", parentFrame);
+                case "Mouvements":
+                    loadSpecificPanel("mouvement.Mouvement", parentFrame);
                     break;
                 case "Commande":
                     loadSpecificPanel("inputouput.inputouput", parentFrame);
@@ -93,7 +94,10 @@ public class Main
                     loadSpecificPanel("database.Database", parentFrame);
                     break;
                 default:
-                    System.out.println("Panneau non reconnu: " + panelName);
+                	JOptionPane.showMessageDialog(null, 
+                            "Pas d'onglet de ce nom : " + panelName, 
+                            "Erreur d'onglet", 
+                            JOptionPane.ERROR_MESSAGE);
             }
         }
         catch (Exception ex)
