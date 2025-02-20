@@ -5,12 +5,9 @@ import style.Style;
 import ressources.ColorXml;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -40,7 +37,7 @@ public class Mouvement extends JPanel
         buttonPanel.setBackground(Color.decode(color.xmlReader("background")));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        String[] periods = {"Tous", "Entrée", "Sortie"};
+        String[] periods = {"Tous", "Entrée", "Sortie", "Commande", "Location"};
 
         final JComboBox<String> comboBox = new JComboBox<>(periods);
         Style.applyBoxStyle(comboBox);
@@ -48,17 +45,26 @@ public class Mouvement extends JPanel
         comboBox.setMaximumSize(new Dimension(250, 40));
         comboBox.setMinimumSize(new Dimension(250, 40));
 
-        JButton button = new JButton("AJOUTER UN PRODUIT");
+        JButton button = new JButton("AJOUTER UN MOUVEMENT");
         Style.applyButtonStyle(button);
         button.setPreferredSize(new Dimension(250, 40));
         button.setMaximumSize(new Dimension(250, 40));
         button.setMinimumSize(new Dimension(250, 40));
         button.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        JButton buttonInventaire = new JButton("INVENTAIRE");
+        Style.applyButtonStyle(buttonInventaire);
+        buttonInventaire.setPreferredSize(new Dimension(250, 40));
+        buttonInventaire.setMaximumSize(new Dimension(250, 40));
+        buttonInventaire.setMinimumSize(new Dimension(250, 40));
+        buttonInventaire.setBorder(BorderFactory.createLineBorder(Color.black));
 
         buttonPanel.add(Box.createHorizontalGlue());
         buttonPanel.add(comboBox);
         buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonPanel.add(button);
+        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+        buttonPanel.add(buttonInventaire);
         buttonPanel.add(Box.createHorizontalGlue());
 
         entete.add(titre, BorderLayout.NORTH);
@@ -82,64 +88,19 @@ public class Mouvement extends JPanel
                 switch (selectedPeriod)
                 {
                     case "Tous":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit ORDER BY numero";
+                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit ORDER BY Date DESC;";
                         break;
                     case "Entrée":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'salle' ORDER BY numero";
+                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit WHERE type = 'Entrée' ORDER BY Date DESC;";
                         break;
                     case "Sortie":
-                        sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'cafeteria' ORDER BY numero";
+                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit WHERE type = 'Sortie' ORDER BY Date DESC;";
                         break;
                 }
 
                 tableauPanel.removeAll(); 
                 JPanel tab = null;
-				try
-				{
-					tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
-				}
-				catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
-                final JTable table = (JTable) ((JScrollPane) tab.getComponent(0)).getViewport().getView();
-
-                table.addMouseListener(new MouseAdapter()
-                {
-                    @Override
-                    public void mouseClicked(MouseEvent e)
-                    {
-                        int row = table.rowAtPoint(e.getPoint());
-                        if (row >= 0) {
-                            TableModel model = table.getModel();
-                            String numeroProduitStr = model.getValueAt(row, 0).toString();
-                            String libelleProduit = model.getValueAt(row, 1).toString();
-                            String lieuProduit = model.getValueAt(row, 2).toString();
-
-                            int numeroProduit = Integer.parseInt(numeroProduitStr);
-                            int id = 0;
-							try
-							{
-								id = getIdRow(numeroProduit, libelleProduit, lieuProduit);
-							}
-							catch (SQLException e1)
-							{
-								e1.printStackTrace();
-							}
-
-                            /*AddProduit fenetreProduit = new AddProduit(parentFrame, id);
-                            fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
-                            {
-                                @Override
-                                public void windowClosed(java.awt.event.WindowEvent windowEvent)
-                                {
-                                    changeTab.actionPerformed(null);
-                                }
-                            });
-                            fenetreProduit.setVisible(true);*/
-                        }
-                    }
-                });
+				tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "type_colonne");
 
                 tableauPanel.add(tab);
                 revalidate();
@@ -155,7 +116,17 @@ public class Mouvement extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                /*AddProduit fenetreProduit = new AddProduit(parentFrame, 0);
+                AddMouvement fenetreProduit = null;
+				
+                try
+				{
+					fenetreProduit = new AddMouvement(parentFrame);
+				}
+				catch (SQLException e1)
+				{
+					e1.printStackTrace();
+				}
+                
                 fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
                 {
                     @Override
@@ -164,21 +135,36 @@ public class Mouvement extends JPanel
                         changeTab.actionPerformed(null);
                     }
                 });
-                fenetreProduit.setVisible(true);*/
+                fenetreProduit.setVisible(true);
             }
         });
-    }
-
-    public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit) throws SQLException
-    {
-        String query = "SELECT id FROM produit WHERE numero = " + numeroProduit + " AND libelle = '" + libelleProduit + "' AND lieu = '" + lieuProduit + "'";
         
-        ResultSet resultSet = Requete.executeQuery(query);
-        int id = 0;
-        if (resultSet.next())
+        buttonInventaire.addActionListener(new ActionListener()
         {
-            id = resultSet.getInt("id");
-        }
-        return id;
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+            	Inventaire fenetreInvenaire = null;
+				
+                try
+				{
+                	fenetreInvenaire = new Inventaire(parentFrame);
+				}
+				catch (SQLException e1)
+				{
+					e1.printStackTrace();
+				}
+                
+                fenetreInvenaire.addWindowListener(new java.awt.event.WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent windowEvent)
+                    {
+                        changeTab.actionPerformed(null);
+                    }
+                });
+                fenetreInvenaire.setVisible(true);
+            }
+        });
     }
 }

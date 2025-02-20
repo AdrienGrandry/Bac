@@ -15,52 +15,46 @@ public class Requete
 {
 	ColorXml color = new ColorXml();
 	
-    public JPanel executeQueryAndReturnPanel(String query, int height, int width, String styleCase) throws SQLException
+    public JPanel executeQueryAndReturnPanel(String query, int height, int width, String styleCase)
     {
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new BorderLayout());
 
-        if (query.toLowerCase().startsWith("select"))
+        try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+             Statement statement = connection.createStatement())
         {
-            
-            JTable table = null;
-			table = buildTable(executeQuery(query), styleCase);
-            table.getTableHeader().setBackground(Color.decode(color.xmlReader("background")));
-            JScrollPane scrollPane = new JScrollPane(table);
-            scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            if (query.toLowerCase().startsWith("select"))
+            {
+                ResultSet resultSet = statement.executeQuery(query);
+                JTable table = buildTable(resultSet, styleCase);
+                table.getTableHeader().setBackground(Color.decode(color.xmlReader("background")));
+                JScrollPane scrollPane = new JScrollPane(table);
+                scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-            scrollPane.setPreferredSize(new Dimension(width-4, height-4));
-            scrollPane.getViewport().setBackground(Color.decode(color.xmlReader("background")));
-            resultPanel.add(scrollPane, BorderLayout.CENTER);
-        }
-        else
-        {
-        	ResultSet resultSet = executeQuery(query);
-        	if(resultSet != null)
-        	{
-        		JLabel label = new JLabel("Base de données mise à jour.", SwingConstants.CENTER);
+                scrollPane.setPreferredSize(new Dimension(width-4, height-4));
+                scrollPane.getViewport().setBackground(Color.decode(color.xmlReader("background")));
+                resultPanel.add(scrollPane, BorderLayout.CENTER);
+            }
+            else
+            {
+                int affectedRows = statement.executeUpdate(query);
+                JLabel label = new JLabel(affectedRows + " ligne(s) affectée(s).", SwingConstants.CENTER);
                 label.setFont(new Font("Arial", Font.BOLD, 20));
                 label.setBackground(Color.decode(color.xmlReader("background")));
                 resultPanel.add(label, BorderLayout.CENTER);
-        	}
+            }
+        }
+        catch (SQLException e)
+        {
+            JLabel errorLabel = new JLabel("Erreur : " + e.getMessage(), SwingConstants.CENTER);
+            errorLabel.setFont(new Font("Arial", Font.BOLD, 20));
+            errorLabel.setForeground(Color.RED);
+            errorLabel.setBackground(Color.decode(color.xmlReader("background")));
+            resultPanel.add(errorLabel, BorderLayout.CENTER);
         }
 
         return resultPanel;
-    }
-    
-    public static ResultSet executeQuery(String query) {
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
-            Statement statement = connection.createStatement();
-            return statement.executeQuery(query);  // ✅ Exécute la requête SQL
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, 
-                "Erreur SQL : " + e.getMessage(), 
-                "Erreur de Base de Données", 
-                JOptionPane.ERROR_MESSAGE);
-            return null;  // ❌ Évite de retourner un ResultSet invalide
-        }
     }
 
     private JTable buildTable(ResultSet resultSet, final String styleCase) throws SQLException
@@ -121,21 +115,19 @@ public class Requete
 	                        if (isSpecificColumnExists(this, "Type"))
 	                        {
 	                            String typeValue = getColumnValue(this, row, "Type");
-	                            if ("Entrée".equalsIgnoreCase(typeValue))
+	                            if ("Entrée".equalsIgnoreCase(typeValue) || "Commande".equalsIgnoreCase(typeValue))
 	                            {
-	                                component.setBackground(Color.decode("#DFF0D8"));
-	                                component.setForeground(Color.GREEN);
+	                                component.setBackground(Color.decode("#98FB98"));
 	                            }
-	                            else if ("Sortie".equalsIgnoreCase(typeValue))
+	                            else if ("Sortie".equalsIgnoreCase(typeValue) || "Location".equalsIgnoreCase(typeValue))
 	                            {
-	                                component.setBackground(Color.decode("#F2DEDE"));
-	                                component.setForeground(Color.RED);
+	                                component.setBackground(Color.decode("#FFA590"));
 	                            }
 	                            else
 	                            {
-	                                component.setBackground(Color.WHITE);
-	                                component.setForeground(Color.BLACK);
+	                                component.setBackground(Color.YELLOW);
 	                            }
+                                component.setForeground(Color.BLACK);
 	                        }
 	                        break;
 	
@@ -178,7 +170,7 @@ public class Requete
 
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        table.setRowHeight(50);
+        table.setRowHeight(20);
         
         table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getPreferredSize().width, 30));
 
@@ -238,5 +230,13 @@ public class Requete
             }
         }
         return "";
+    }
+    
+    public static QueryResult executeQuery(String query) throws SQLException {
+        Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        return new QueryResult(connection, resultSet);
     }
 }

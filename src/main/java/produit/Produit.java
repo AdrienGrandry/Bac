@@ -1,5 +1,6 @@
 package produit;
 
+import database.QueryResult;
 import database.Requete;
 import style.Style;
 import ressources.ColorXml;
@@ -94,14 +95,7 @@ public class Produit extends JPanel
 
                 tableauPanel.removeAll(); 
                 JPanel tab = null;
-				try
-				{
-					tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
-				}
-				catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
+				tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
                 final JTable table = (JTable) ((JScrollPane) tab.getComponent(0)).getViewport().getView();
 
                 table.addMouseListener(new MouseAdapter()
@@ -172,13 +166,28 @@ public class Produit extends JPanel
     public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit) throws SQLException
     {
         String query = "SELECT id FROM produit WHERE numero = " + numeroProduit + " AND libelle = '" + libelleProduit + "' AND lieu = '" + lieuProduit + "'";
-        
-        ResultSet resultSet = Requete.executeQuery(query);
+
+        QueryResult queryResult = null;
         int id = 0;
-        if (resultSet.next())
+
+        try
         {
-            id = resultSet.getInt("id");
+            queryResult = Requete.executeQuery(query);
+            ResultSet resultSet = queryResult.getResultSet();
+            
+            if (resultSet.next())
+            {
+                id = resultSet.getInt("id");
+                System.out.print(":" + id + ":");
+            }
         }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        
+        if (queryResult != null) queryResult.close();
+
         return id;
     }
 }

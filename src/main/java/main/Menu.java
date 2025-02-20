@@ -39,7 +39,7 @@ public class Menu extends JPanel
     	//menuItems.add("Prévision");
     	//menuItems.add("Location");
     	menuItems.add("Options");
-
+    	
     	if (addDebugMenu())
     	{
     	    menuItems.add("Base de Données");

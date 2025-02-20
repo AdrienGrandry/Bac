@@ -30,7 +30,7 @@ public class AddProduit extends JDialog
         panneauPrincipal.setBackground(Color.decode(color.xmlReader("background")));
         panneauPrincipal.setLayout(null);
 
-        JLabel instructionNum = new JLabel("Ajouter le numéro du produit");
+        JLabel instructionNum = new JLabel("Numéro");
         styleLabel(instructionNum);
         instructionNum.setBounds(50, 50, 400, 30);
         panneauPrincipal.add(instructionNum);
@@ -40,7 +40,7 @@ public class AddProduit extends JDialog
         num.setBounds(50, 90, 400, 30);
         panneauPrincipal.add(num);
 
-        JLabel instructionNom = new JLabel("Ajouter le nom du produit");
+        JLabel instructionNom = new JLabel("Nom");
         styleLabel(instructionNom);
         instructionNom.setBounds(50, 150, 400, 30);
         panneauPrincipal.add(instructionNom);
@@ -50,7 +50,7 @@ public class AddProduit extends JDialog
         nom.setBounds(50, 190, 400, 30);
         panneauPrincipal.add(nom);
 
-        JLabel instructionLieu = new JLabel("Sélectionner le lieu du produit");
+        JLabel instructionLieu = new JLabel("Lieu");
         styleLabel(instructionLieu);
         instructionLieu.setBounds(50, 250, 400, 30);
         panneauPrincipal.add(instructionLieu);
@@ -61,7 +61,7 @@ public class AddProduit extends JDialog
         Style.applyBoxStyle(comboBox);
         panneauPrincipal.add(comboBox);
 
-        JLabel instructionStock = new JLabel("Ajouter le stock du produit");
+        JLabel instructionStock = new JLabel("Stock");
         styleLabel(instructionStock);
         instructionStock.setBounds(50, 350, 400, 30);
         panneauPrincipal.add(instructionStock);
@@ -71,7 +71,7 @@ public class AddProduit extends JDialog
         stock.setBounds(50, 390, 400, 30);
         panneauPrincipal.add(stock);
 
-        JLabel instructionPrix = new JLabel("Ajouter le prix du produit");
+        JLabel instructionPrix = new JLabel("Prix");
         styleLabel(instructionPrix);
         instructionPrix.setBounds(50, 450, 400, 30);
         panneauPrincipal.add(instructionPrix);
@@ -174,7 +174,6 @@ public class AddProduit extends JDialog
                     {
                         JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour de la base de données : " + ex.getMessage(), "Erreur SQL", JOptionPane.ERROR_MESSAGE);
                     }
-
                     dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Le stock, le numéro du produit et le prix doivent être des nombres valides.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);

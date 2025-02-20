@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS produit (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    libelle varchar(50) NOT NULL,
+    lieu varchar(20) NOT NULL,
+    stock INTEGER NOT NULL,
+    prix FLOAT NOT NULL,
+    numero INTEGER NOT NULL,
+    visible BOOLEAN DEFAULT TRUE
+);
+
+select numero, libelle, lieu, stock, prix, (stock * prix) as somme, visible from produit order by numero
+
+
+CREATE TABLE mouvement (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    date_creation DATETIME DEFAULT (DATETIME('now', 'localtime')),
+    type VARCHAR(20) NOT NULL,
+    description VARCHAR(200) NOT NULL,
+    valide BOOLEAN DEFAULT FALSE
+);
+
+SELECT * FROM mouvement
+WHERE strftime('%d/%m/%Y à %Hh%M:%S', date_creation) = '07/02/2025 à 08h20:46'
+
+SELECT type AS "Type", date_creation AS "Date", description as "Description" FROM mouvement
+WHERE strftime('%d/%m/%Y à %Hh%M:%S', date_creation) = '07/02/2025 à 08h20:46'
+
+
+CREATE TABLE inclure (
+    id_mouvement INTEGER,
+    id_produit INTEGER,
+    quantite INTEGER NOT NULL,
+    PRIMARY KEY (id_mouvement, id_produit)
+);

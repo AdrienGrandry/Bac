@@ -99,14 +99,7 @@ public class Stock extends JPanel
 
                 tableauPanel.removeAll(); 
                 JPanel tab = null;
-				try
-				{
-					tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
-				}
-				catch (SQLException e1)
-				{
-					e1.printStackTrace();
-				}
+				tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(), "pair_impair");
 
                 tableauPanel.add(tab);
                 revalidate();

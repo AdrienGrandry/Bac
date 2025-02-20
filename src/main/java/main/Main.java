@@ -11,7 +11,6 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,7 +49,7 @@ public class Main
         Menu menu = new Menu(actionListener);
         frame.add(menu, BorderLayout.NORTH);
         
-        panel.setBorder(new EmptyBorder(50, 50, 10, 50));
+        panel.setBorder(new EmptyBorder(0, 50, 10, 50));
         panel.setBackground(Color.decode(color.xmlReader("background")));
         panel.add(start, BorderLayout.CENTER);
         start.setBackground(Color.decode(color.xmlReader("background")));
@@ -63,7 +62,7 @@ public class Main
         copyright.setBackground(Color.RED);
         panelCopyright.add(copyright);
         frame.add(panelCopyright, BorderLayout.SOUTH);
-
+        
         frame.setVisible(true);
     }
     
