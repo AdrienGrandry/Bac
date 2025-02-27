@@ -103,11 +103,11 @@ public class Menu extends JPanel
     	        {
     	        	return false;
     	        }
-    	    }
-    	    else
-    	    {
-    	        return false;
-    	    }
+    	     }
+    	     else
+    	     {
+    	    	 return false;
+    	     }
     	}
     	catch (Exception e)
     	{

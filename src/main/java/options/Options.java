@@ -4,9 +4,16 @@ import ressources.ColorXml;
 import ressources.ColorInfo;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.List;
 
 public class Options extends JPanel
@@ -29,6 +36,7 @@ public class Options extends JPanel
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
         contentPanel.setBackground(Color.decode(colorXml.xmlReader("background")));
+        
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -82,6 +90,32 @@ public class Options extends JPanel
 
             gbc.gridy++;
         }
+        
+        String labelText = "Enregistrement fichier :";
+        JLabel titleLabel = new JLabel("<html><body>" + labelText + "</body></html>");
+        titleLabel.setFont(new Font("Arial", Font.PLAIN, 25));
+        titleLabel.setForeground(Color.decode(colorXml.xmlReader("foreground")));
+        titleLabel.setPreferredSize(new Dimension(0, 23));
+        gbc.gridx = 0;
+        gbc.weightx = 0.2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPanel.add(titleLabel, gbc);
+
+        JPanel panelLocated = new JPanel();
+        panelLocated.setBackground(Color.decode(colorXml.xmlReader("background")));
+        panelLocated.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        panelLocated.setPreferredSize(new Dimension(0, 23));
+        JLabel located = new JLabel(colorXml.xmlLocated());
+        located.setFont(new Font("Arial", Font.PLAIN, 20));
+        panelLocated.add(located);
+        
+        //
+        // ajouter au centre verticalement et à droite horizontalement
+        //
+        gbc.gridx = 1;
+        gbc.weightx = 0.075;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPanel.add(panelLocated, gbc);
     }
 
     private String colorToHex(Color color)

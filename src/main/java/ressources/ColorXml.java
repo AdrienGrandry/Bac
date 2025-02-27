@@ -114,6 +114,23 @@ public class ColorXml
         return colors;
     }
     
+    public String xmlLocated()
+    {
+        try
+        {
+            Document doc = loadXmlDocument();
+
+            NodeList nodeList = doc.getElementsByTagName("located");
+            
+	        return (nodeList.item(0).getTextContent().trim());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    
     private Document loadXmlDocument() throws Exception
     {
         File xmlFile = new File(XML_FILE_PATH);

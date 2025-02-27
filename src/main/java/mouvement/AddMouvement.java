@@ -50,7 +50,7 @@ public class AddMouvement extends JDialog
         instructionType.setBounds(25, 115, 100, 30);
         panneauPrincipal.add(instructionType);
 
-        String[] type = {"Entrée", "Sortie", "Commande", "Inventaire"};
+        String[] type = {"Entrée", "Sortie", "Commande"};
         final JComboBox<String> comboBoxType = new JComboBox<>(type);
         comboBoxType.setBounds(125, 115, 200, 30);
         Style.applyBoxStyle(comboBoxType);
