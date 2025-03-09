@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Mouvement extends JPanel
@@ -37,14 +36,6 @@ public class Mouvement extends JPanel
         buttonPanel.setBackground(Color.decode(color.xmlReader("background")));
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        String[] periods = {"Tous", "Entrée", "Sortie", "Commande", "Location"};
-
-        final JComboBox<String> comboBox = new JComboBox<>(periods);
-        Style.applyBoxStyle(comboBox);
-        comboBox.setPreferredSize(new Dimension(250, 40));
-        comboBox.setMaximumSize(new Dimension(250, 40));
-        comboBox.setMinimumSize(new Dimension(250, 40));
-
         JButton button = new JButton("AJOUTER UN MOUVEMENT");
         Style.applyButtonStyle(button);
         button.setPreferredSize(new Dimension(250, 40));
@@ -60,8 +51,6 @@ public class Mouvement extends JPanel
         buttonInventaire.setBorder(BorderFactory.createLineBorder(Color.black));
 
         buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(comboBox);
-        buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonPanel.add(button);
         buttonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
         buttonPanel.add(buttonInventaire);
@@ -82,21 +71,7 @@ public class Mouvement extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String selectedPeriod = (String) comboBox.getSelectedItem();
-                String sql = null;
-
-                switch (selectedPeriod)
-                {
-                    case "Tous":
-                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit ORDER BY Date DESC;";
-                        break;
-                    case "Entrée":
-                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit WHERE type = 'Entrée' ORDER BY Date DESC;";
-                        break;
-                    case "Sortie":
-                        sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit WHERE type = 'Sortie' ORDER BY Date DESC;";
-                        break;
-                }
+                String sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit ORDER BY date_creation DESC;";
 
                 tableauPanel.removeAll(); 
                 JPanel tab = null;
@@ -107,8 +82,7 @@ public class Mouvement extends JPanel
                 repaint();
             }
         };
-
-        comboBox.addActionListener(changeTab);
+        
         changeTab.actionPerformed(null);
        
         button.addActionListener(new ActionListener()

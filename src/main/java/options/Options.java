@@ -101,17 +101,32 @@ public class Options extends JPanel
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPanel.add(titleLabel, gbc);
 
-        JPanel panelLocated = new JPanel();
+        JPanel panelLocated = new JPanel(new BorderLayout());
         panelLocated.setBackground(Color.decode(colorXml.xmlReader("background")));
         panelLocated.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         panelLocated.setPreferredSize(new Dimension(0, 23));
         JLabel located = new JLabel(colorXml.xmlLocated());
-        located.setFont(new Font("Arial", Font.PLAIN, 20));
-        panelLocated.add(located);
+        located.setFont(new Font("Arial", Font.PLAIN, 15));
+        panelLocated.add(located, BorderLayout.EAST);
         
-        //
-        // ajouter au centre verticalement et à droite horizontalement
-        //
+        panelLocated.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+            	JFileChooser chooser = new JFileChooser();
+                chooser.setDialogTitle("Sélectionnez un répertoire");
+                chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chooser.setAcceptAllFileFilterUsed(false);
+
+                int returnValue = chooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedDirectory = chooser.getSelectedFile();
+                    colorXml.updateLocated(selectedDirectory.getAbsolutePath());
+                }
+            }
+        });
+        
         gbc.gridx = 1;
         gbc.weightx = 0.075;
         gbc.fill = GridBagConstraints.HORIZONTAL;

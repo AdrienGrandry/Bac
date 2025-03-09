@@ -54,7 +54,7 @@
         <color>
             <name>background_tab</name>
             <description>Entete colonnes</description>
-            <value>#ff0000</value>
+            <value>#ffff00</value>
         </color>
         <color>
             <name>background_tab_texte</name>

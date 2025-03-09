@@ -121,11 +121,11 @@ public class Requete
 	                            }
 	                            else if ("Sortie".equalsIgnoreCase(typeValue) || "Location".equalsIgnoreCase(typeValue))
 	                            {
-	                                component.setBackground(Color.decode("#FFA590"));
+	                                component.setBackground(Color.decode("#f14949"));
 	                            }
 	                            else
 	                            {
-	                                component.setBackground(Color.YELLOW);
+	                                component.setBackground(Color.decode("#72b4e6"));
 	                            }
                                 component.setForeground(Color.BLACK);
 	                        }

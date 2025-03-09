@@ -131,6 +131,23 @@ public class ColorXml
         }
     }
     
+    public void updateLocated(String path) {
+        try {
+            Document doc = loadXmlDocument();
+            NodeList nodeList = doc.getElementsByTagName("located");
+
+            if (nodeList.getLength() > 0) {
+                nodeList.item(0).setTextContent(path);
+                saveXmlDocument(doc); // Sauvegarde du document après modification
+            } else {
+                JOptionPane.showMessageDialog(null, "Balise <located> non trouvée dans le fichier XML.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Échec de la modification du fichier XML.", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     private Document loadXmlDocument() throws Exception
     {
         File xmlFile = new File(XML_FILE_PATH);
