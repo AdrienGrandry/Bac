@@ -1,0 +1,424 @@
+src/main/java/database/Requete.java:75:	NPathComplexity:	NPathComplexity: The method 'buildTable(ResultSet, String)' has an NPath complexity of 300, current threshold is 300
+src/main/java/database/Requete.java:75:	NcssCount:	NcssCount: The method 'buildTable(ResultSet, String)' has a NCSS line count of 68.
+src/main/java/database/Requete.java:255:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/database/Requete.java:263:	UnusedAssignment:	UnusedAssignment: The value assigned to variable 'ret' is never used (overwritten on line 267)
+src/main/java/database/Requete.java:271:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/database/Requete.java:279:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/database/Requete.java:288:	CloseResource:	CloseResource: Ensure that resources like this Statement object are closed after use
+src/main/java/main/Main.java:22:	ShortClassName:	ShortClassName: Avoid short class names like Main
+src/main/java/main/Main.java:22:	UseUtilityClass:	UseUtilityClass: This utility class has a non-private constructor
+src/main/java/main/Main.java:24:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'panel'
+src/main/java/main/Main.java:24:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/main/Main.java:25:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'start'
+src/main/java/main/Main.java:25:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/main/Main.java:26:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/main/Main.java:26:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/main/Main.java:34:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'actionListener' could be declared final
+src/main/java/main/Main.java:37:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'e' is not assigned and could be declared final
+src/main/java/main/Main.java:37:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/main/Main.java:44:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'menu' could be declared final
+src/main/java/main/Main.java:63:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'frame' could be declared final
+src/main/java/main/Main.java:69:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'icon' could be declared final
+src/main/java/main/Main.java:75:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'frame' is not assigned and could be declared final
+src/main/java/main/Main.java:77:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'panelCopyright' could be declared final
+src/main/java/main/Main.java:79:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'copyright' could be declared final
+src/main/java/main/Main.java:86:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/main/Main.java:86:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'panelName' is not assigned and could be declared final
+src/main/java/main/Main.java:86:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parentFrame' is not assigned and could be declared final
+src/main/java/main/Main.java:116:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/main/Main.java:122:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'className' is not assigned and could be declared final
+src/main/java/main/Main.java:122:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parentFrame' is not assigned and could be declared final
+src/main/java/main/Main.java:122:	SignatureDeclareThrowsException:	SignatureDeclareThrowsException: A method/constructor should not explicitly throw java.lang.Exception
+src/main/java/main/Main.java:125:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'panelClass' could be declared final
+src/main/java/main/Main.java:128:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'constructor' could be declared final
+src/main/java/main/Main.java:129:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'panelObject' could be declared final
+src/main/java/main/Main.java:134:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'loadedPanel' could be declared final
+src/main/java/main/Menu.java:25:	ShortClassName:	ShortClassName: Avoid short class names like Menu
+src/main/java/main/Menu.java:28:	LooseCoupling:	LooseCoupling: Avoid using implementation types like 'ArrayList'; use the interface instead
+src/main/java/main/Menu.java:30:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'style'
+src/main/java/main/Menu.java:30:	NonSerializableClass:	NonSerializableClass: The field 'style' of serializable class 'main.Menu' is of non-serializable type 'style.Style'.
+src/main/java/main/Menu.java:31:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/main/Menu.java:31:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/main/Menu.java:33:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/main/Menu.java:33:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'actionListener' is not assigned and could be declared final
+src/main/java/main/Menu.java:51:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'menuItem' could be declared final
+src/main/java/main/Menu.java:53:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/main/Menu.java:53:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'button' could be declared final
+src/main/java/main/Menu.java:65:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/main/Menu.java:86:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/main/Menu.java:86:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'panel' is not assigned and could be declared final
+src/main/java/main/Menu.java:100:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'xmlFile' could be declared final
+src/main/java/main/Menu.java:101:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dbFactory' could be declared final
+src/main/java/main/Menu.java:102:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dBuilder' could be declared final
+src/main/java/main/Menu.java:103:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/main/Menu.java:106:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'debugNodeList' could be declared final
+src/main/java/main/Menu.java:109:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'debugValue' could be declared final
+src/main/java/main/Menu.java:111:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/main/Menu.java:111:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/main/Menu.java:114:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/main/Menu.java:116:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/mouvement/AddMouvement.java:23:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/mouvement/AddMouvement.java:23:	NonSerializableClass:	NonSerializableClass: The field 'color' of serializable class 'mouvement.AddMouvement' is of non-serializable type 'ressources.ColorXml'.
+src/main/java/mouvement/AddMouvement.java:24:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'listeBoissons'
+src/main/java/mouvement/AddMouvement.java:24:	LooseCoupling:	LooseCoupling: Avoid using implementation types like 'ArrayList'; use the interface instead
+src/main/java/mouvement/AddMouvement.java:26:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parent' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:26:	NPathComplexity:	NPathComplexity: The constructor 'AddMouvement(JFrame)' has an NPath complexity of 16032, current threshold is 300
+src/main/java/mouvement/AddMouvement.java:26:	NcssCount:	NcssCount: The constructor 'AddMouvement(JFrame)' has a NCSS line count of 90.
+src/main/java/mouvement/AddMouvement.java:31:	UnnecessaryFullyQualifiedName:	UnnecessaryFullyQualifiedName: Unnecessary qualifier 'JDialog': 'WindowConstants::DO_NOTHING_ON_CLOSE' is already in scope because it is inherited by an enclosing type
+src/main/java/mouvement/AddMouvement.java:38:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionCommentaire' could be declared final
+src/main/java/mouvement/AddMouvement.java:38:	LongVariable:	LongVariable: Avoid excessively long variable names like instructionCommentaire
+src/main/java/mouvement/AddMouvement.java:48:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionType' could be declared final
+src/main/java/mouvement/AddMouvement.java:53:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'type' could be declared final
+src/main/java/mouvement/AddMouvement.java:60:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionBoisson' could be declared final
+src/main/java/mouvement/AddMouvement.java:60:	LongVariable:	LongVariable: Avoid excessively long variable names like instructionBoisson
+src/main/java/mouvement/AddMouvement.java:71:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionStock' could be declared final
+src/main/java/mouvement/AddMouvement.java:81:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonFermer' could be declared final
+src/main/java/mouvement/AddMouvement.java:85:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/AddMouvement.java:100:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:111:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'table' could be declared final
+src/main/java/mouvement/AddMouvement.java:116:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:116:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'renderer' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:116:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'row' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:118:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'component' could be declared final
+src/main/java/mouvement/AddMouvement.java:149:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'isSelected' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:149:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'table' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:149:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'value' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:150:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:150:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'hasFocus' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:150:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'row' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:152:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'headerLabel' could be declared final
+src/main/java/mouvement/AddMouvement.java:166:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'scrollPane' could be declared final
+src/main/java/mouvement/AddMouvement.java:170:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonAjouter' could be declared final
+src/main/java/mouvement/AddMouvement.java:174:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/AddMouvement.java:177:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boisson' could be declared final
+src/main/java/mouvement/AddMouvement.java:181:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'id' could be declared final
+src/main/java/mouvement/AddMouvement.java:181:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/mouvement/AddMouvement.java:202:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonValider' could be declared final
+src/main/java/mouvement/AddMouvement.java:206:	NPathComplexity:	NPathComplexity: The method 'actionPerformed(ActionEvent)' has an NPath complexity of 501, current threshold is 300
+src/main/java/mouvement/AddMouvement.java:206:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/AddMouvement.java:232:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/mouvement/AddMouvement.java:232:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/mouvement/AddMouvement.java:248:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'idProduit' could be declared final
+src/main/java/mouvement/AddMouvement.java:249:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'quantite' could be declared final
+src/main/java/mouvement/AddMouvement.java:265:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/mouvement/AddMouvement.java:269:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/mouvement/AddMouvement.java:296:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'comboBox' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:303:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/mouvement/AddMouvement.java:303:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/mouvement/AddMouvement.java:307:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'idProduit' could be declared final
+src/main/java/mouvement/AddMouvement.java:308:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nom' could be declared final
+src/main/java/mouvement/AddMouvement.java:310:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/mouvement/AddMouvement.java:310:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boisson' could be declared final
+src/main/java/mouvement/AddMouvement.java:315:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/mouvement/AddMouvement.java:317:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/mouvement/AddMouvement.java:325:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'label' is not assigned and could be declared final
+src/main/java/mouvement/AddMouvement.java:331:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'textField' is not assigned and could be declared final
+src/main/java/mouvement/Boisson.java:5:	ImmutableField:	ImmutableField: Field 'id' may be declared final
+src/main/java/mouvement/Boisson.java:5:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/mouvement/Boisson.java:6:	ImmutableField:	ImmutableField: Field 'nom' may be declared final
+src/main/java/mouvement/Boisson.java:8:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'id' is not assigned and could be declared final
+src/main/java/mouvement/Boisson.java:8:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'nom' is not assigned and could be declared final
+src/main/java/mouvement/Boisson.java:8:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/mouvement/Inventaire.java:18:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.time.ZoneId'
+src/main/java/mouvement/Inventaire.java:19:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.time.ZonedDateTime'
+src/main/java/mouvement/Inventaire.java:20:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.time.format.DateTimeFormatter'
+src/main/java/mouvement/Inventaire.java:22:	UnnecessaryImport:	UnnecessaryImport: Unused import 'java.util.Locale'
+src/main/java/mouvement/Inventaire.java:27:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/mouvement/Inventaire.java:27:	NonSerializableClass:	NonSerializableClass: The field 'color' of serializable class 'mouvement.Inventaire' is of non-serializable type 'ressources.ColorXml'.
+src/main/java/mouvement/Inventaire.java:28:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'listeBoissons'
+src/main/java/mouvement/Inventaire.java:28:	LooseCoupling:	LooseCoupling: Avoid using implementation types like 'ArrayList'; use the interface instead
+src/main/java/mouvement/Inventaire.java:30:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parent' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:30:	NPathComplexity:	NPathComplexity: The constructor 'Inventaire(JFrame)' has an NPath complexity of 16000, current threshold is 300
+src/main/java/mouvement/Inventaire.java:30:	NcssCount:	NcssCount: The constructor 'Inventaire(JFrame)' has a NCSS line count of 90.
+src/main/java/mouvement/Inventaire.java:35:	UnnecessaryFullyQualifiedName:	UnnecessaryFullyQualifiedName: Unnecessary qualifier 'JDialog': 'WindowConstants::DO_NOTHING_ON_CLOSE' is already in scope because it is inherited by an enclosing type
+src/main/java/mouvement/Inventaire.java:42:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionCommentaire' could be declared final
+src/main/java/mouvement/Inventaire.java:42:	LongVariable:	LongVariable: Avoid excessively long variable names like instructionCommentaire
+src/main/java/mouvement/Inventaire.java:52:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionType' could be declared final
+src/main/java/mouvement/Inventaire.java:57:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'type' could be declared final
+src/main/java/mouvement/Inventaire.java:64:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionBoisson' could be declared final
+src/main/java/mouvement/Inventaire.java:64:	LongVariable:	LongVariable: Avoid excessively long variable names like instructionBoisson
+src/main/java/mouvement/Inventaire.java:75:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionStock' could be declared final
+src/main/java/mouvement/Inventaire.java:85:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonFermer' could be declared final
+src/main/java/mouvement/Inventaire.java:89:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Inventaire.java:104:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:115:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'table' could be declared final
+src/main/java/mouvement/Inventaire.java:120:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:120:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'renderer' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:120:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'row' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:122:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'component' could be declared final
+src/main/java/mouvement/Inventaire.java:153:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'isSelected' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:153:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'table' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:153:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'value' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:154:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'column' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:154:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'hasFocus' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:154:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'row' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:156:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'headerLabel' could be declared final
+src/main/java/mouvement/Inventaire.java:170:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'scrollPane' could be declared final
+src/main/java/mouvement/Inventaire.java:174:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonAjouter' could be declared final
+src/main/java/mouvement/Inventaire.java:178:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Inventaire.java:181:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boisson' could be declared final
+src/main/java/mouvement/Inventaire.java:185:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'id' could be declared final
+src/main/java/mouvement/Inventaire.java:185:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/mouvement/Inventaire.java:206:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonValider' could be declared final
+src/main/java/mouvement/Inventaire.java:210:	NPathComplexity:	NPathComplexity: The method 'actionPerformed(ActionEvent)' has an NPath complexity of 500, current threshold is 300
+src/main/java/mouvement/Inventaire.java:210:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Inventaire.java:230:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/mouvement/Inventaire.java:230:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/mouvement/Inventaire.java:239:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/mouvement/Inventaire.java:248:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'idProduit' could be declared final
+src/main/java/mouvement/Inventaire.java:249:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'quantite' could be declared final
+src/main/java/mouvement/Inventaire.java:265:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/mouvement/Inventaire.java:269:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/mouvement/Inventaire.java:295:	CommentSize:	CommentSize: Comment is too large: Too many lines
+src/main/java/mouvement/Inventaire.java:398:	CommentSize:	CommentSize: Comment is too large: Line too long
+src/main/java/mouvement/Inventaire.java:431:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'comboBox' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:438:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/mouvement/Inventaire.java:438:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/mouvement/Inventaire.java:442:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'idProduit' could be declared final
+src/main/java/mouvement/Inventaire.java:443:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nom' could be declared final
+src/main/java/mouvement/Inventaire.java:445:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/mouvement/Inventaire.java:445:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boisson' could be declared final
+src/main/java/mouvement/Inventaire.java:450:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/mouvement/Inventaire.java:452:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/mouvement/Inventaire.java:460:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'label' is not assigned and could be declared final
+src/main/java/mouvement/Inventaire.java:466:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'textField' is not assigned and could be declared final
+src/main/java/mouvement/Mouvement.java:16:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/mouvement/Mouvement.java:16:	ImmutableField:	ImmutableField: Field 'changeTab' may be declared final
+src/main/java/mouvement/Mouvement.java:18:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/mouvement/Mouvement.java:26:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'entete' could be declared final
+src/main/java/mouvement/Mouvement.java:30:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titre' could be declared final
+src/main/java/mouvement/Mouvement.java:35:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'buttonPanel' could be declared final
+src/main/java/mouvement/Mouvement.java:39:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'button' could be declared final
+src/main/java/mouvement/Mouvement.java:46:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'buttonInventaire' could be declared final
+src/main/java/mouvement/Mouvement.java:72:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Mouvement.java:74:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'sql' could be declared final
+src/main/java/mouvement/Mouvement.java:77:	UnusedAssignment:	UnusedAssignment: The initializer for variable 'tab' is never used (overwritten on line 78)
+src/main/java/mouvement/Mouvement.java:92:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Mouvement.java:101:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/mouvement/Mouvement.java:119:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/mouvement/Mouvement.java:128:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/options/Options.java:7:	UnnecessaryImport:	UnnecessaryImport: Unused import 'javax.xml.parsers.DocumentBuilder'
+src/main/java/options/Options.java:8:	UnnecessaryImport:	UnnecessaryImport: Unused import 'javax.xml.parsers.DocumentBuilderFactory'
+src/main/java/options/Options.java:10:	UnnecessaryImport:	UnnecessaryImport: Unused import 'org.w3c.dom.Document'
+src/main/java/options/Options.java:11:	UnnecessaryImport:	UnnecessaryImport: Unused import 'org.w3c.dom.NodeList'
+src/main/java/options/Options.java:23:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/options/Options.java:23:	NcssCount:	NcssCount: The constructor 'Options(JFrame)' has a NCSS line count of 66.
+src/main/java/options/Options.java:26:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'colors' could be declared final
+src/main/java/options/Options.java:31:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titre' could be declared final
+src/main/java/options/Options.java:36:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'contentPanel' could be declared final
+src/main/java/options/Options.java:40:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'scrollPane' could be declared final
+src/main/java/options/Options.java:46:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'gbc' could be declared final
+src/main/java/options/Options.java:57:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'labelText' could be declared final
+src/main/java/options/Options.java:58:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:58:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titleLabel' could be declared final
+src/main/java/options/Options.java:59:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:61:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:67:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:70:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:76:	AvoidInstantiatingObjectsInLoops:	AvoidInstantiatingObjectsInLoops: Avoid instantiating new objects inside loops
+src/main/java/options/Options.java:79:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/options/Options.java:81:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'selectedColor' could be declared final
+src/main/java/options/Options.java:85:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'newColorValue' could be declared final
+src/main/java/options/Options.java:95:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'labelText' could be declared final
+src/main/java/options/Options.java:96:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titleLabel' could be declared final
+src/main/java/options/Options.java:105:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'panelLocated' could be declared final
+src/main/java/options/Options.java:109:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'located' could be declared final
+src/main/java/options/Options.java:116:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/options/Options.java:118:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'chooser' could be declared final
+src/main/java/options/Options.java:123:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'returnValue' could be declared final
+src/main/java/options/Options.java:126:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'selectedDirectory' could be declared final
+src/main/java/options/Options.java:138:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/options/Options.java:138:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'color' is not assigned and could be declared final
+src/main/java/produit/AddProduit.java:19:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/produit/AddProduit.java:19:	NonSerializableClass:	NonSerializableClass: The field 'color' of serializable class 'produit.AddProduit' is of non-serializable type 'ressources.ColorXml'.
+src/main/java/produit/AddProduit.java:21:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parent' is not assigned and could be declared final
+src/main/java/produit/AddProduit.java:21:	NPathComplexity:	NPathComplexity: The constructor 'AddProduit(JFrame, int)' has an NPath complexity of 4158, current threshold is 300
+src/main/java/produit/AddProduit.java:21:	NcssCount:	NcssCount: The constructor 'AddProduit(JFrame, int)' has a NCSS line count of 102.
+src/main/java/produit/AddProduit.java:21:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/produit/AddProduit.java:26:	UnnecessaryFullyQualifiedName:	UnnecessaryFullyQualifiedName: Unnecessary qualifier 'JDialog': 'WindowConstants::DO_NOTHING_ON_CLOSE' is already in scope because it is inherited by an enclosing type
+src/main/java/produit/AddProduit.java:29:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'panneauPrincipal' could be declared final
+src/main/java/produit/AddProduit.java:33:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionNum' could be declared final
+src/main/java/produit/AddProduit.java:43:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionNom' could be declared final
+src/main/java/produit/AddProduit.java:53:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionLieu' could be declared final
+src/main/java/produit/AddProduit.java:58:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'periods' could be declared final
+src/main/java/produit/AddProduit.java:65:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionStock' could be declared final
+src/main/java/produit/AddProduit.java:75:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'instructionPrix' could be declared final
+src/main/java/produit/AddProduit.java:85:	LongVariable:	LongVariable: Avoid excessively long variable names like checkBoxVisibilite
+src/main/java/produit/AddProduit.java:92:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonFermer' could be declared final
+src/main/java/produit/AddProduit.java:96:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/AddProduit.java:106:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonValider' could be declared final
+src/main/java/produit/AddProduit.java:110:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/AddProduit.java:112:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nomProduit' could be declared final
+src/main/java/produit/AddProduit.java:113:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'stockText' could be declared final
+src/main/java/produit/AddProduit.java:114:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'numText' could be declared final
+src/main/java/produit/AddProduit.java:115:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'prixText' could be declared final
+src/main/java/produit/AddProduit.java:116:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'selectedPeriod' could be declared final
+src/main/java/produit/AddProduit.java:123:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/produit/AddProduit.java:128:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'stockProduit' could be declared final
+src/main/java/produit/AddProduit.java:129:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'numProduit' could be declared final
+src/main/java/produit/AddProduit.java:130:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'prixProduit' could be declared final
+src/main/java/produit/AddProduit.java:131:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'visible' could be declared final
+src/main/java/produit/AddProduit.java:141:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/main/java/produit/AddProduit.java:141:	TooFewBranchesForSwitch:	TooFewBranchesForSwitch: A switch with less than three branches is inefficient, use a if statement instead.
+src/main/java/produit/AddProduit.java:187:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'boutonSupprimer' could be declared final
+src/main/java/produit/AddProduit.java:195:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/AddProduit.java:220:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/produit/AddProduit.java:220:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/produit/AddProduit.java:222:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'numeroSql' could be declared final
+src/main/java/produit/AddProduit.java:223:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nomSql' could be declared final
+src/main/java/produit/AddProduit.java:224:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'lieuSql' could be declared final
+src/main/java/produit/AddProduit.java:225:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'stockSql' could be declared final
+src/main/java/produit/AddProduit.java:226:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'prixSql' could be declared final
+src/main/java/produit/AddProduit.java:227:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'visibleSql' could be declared final
+src/main/java/produit/AddProduit.java:230:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/main/java/produit/AddProduit.java:230:	TooFewBranchesForSwitch:	TooFewBranchesForSwitch: A switch with less than three branches is inefficient, use a if statement instead.
+src/main/java/produit/AddProduit.java:243:	LiteralsFirstInComparisons:	LiteralsFirstInComparisons: Position literals first in String comparisons
+src/main/java/produit/AddProduit.java:262:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'label' is not assigned and could be declared final
+src/main/java/produit/AddProduit.java:268:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'textField' is not assigned and could be declared final
+src/main/java/produit/Produit.java:21:	AccessorMethodGeneration:	AccessorMethodGeneration: Consider giving this member package visibility to access it from  without a synthetic accessor method
+src/main/java/produit/Produit.java:21:	ImmutableField:	ImmutableField: Field 'changeTab' may be declared final
+src/main/java/produit/Produit.java:23:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/produit/Produit.java:31:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'entete' could be declared final
+src/main/java/produit/Produit.java:35:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titre' could be declared final
+src/main/java/produit/Produit.java:40:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'buttonPanel' could be declared final
+src/main/java/produit/Produit.java:44:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'periods' could be declared final
+src/main/java/produit/Produit.java:53:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'button' could be declared final
+src/main/java/produit/Produit.java:79:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/Produit.java:81:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'selectedPeriod' could be declared final
+src/main/java/produit/Produit.java:84:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/main/java/produit/Produit.java:98:	UnusedAssignment:	UnusedAssignment: The initializer for variable 'tab' is never used (overwritten on line 99)
+src/main/java/produit/Produit.java:106:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'e' is not assigned and could be declared final
+src/main/java/produit/Produit.java:106:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/Produit.java:108:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'row' could be declared final
+src/main/java/produit/Produit.java:111:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'model' could be declared final
+src/main/java/produit/Produit.java:112:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'numeroProduitStr' could be declared final
+src/main/java/produit/Produit.java:113:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'libelleProduit' could be declared final
+src/main/java/produit/Produit.java:114:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'lieuProduit' could be declared final
+src/main/java/produit/Produit.java:116:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'numeroProduit' could be declared final
+src/main/java/produit/Produit.java:117:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/produit/Produit.java:123:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/produit/Produit.java:126:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'fenetreProduit' could be declared final
+src/main/java/produit/Produit.java:152:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/produit/Produit.java:154:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'fenetreProduit' could be declared final
+src/main/java/produit/Produit.java:168:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'libelleProduit' is not assigned and could be declared final
+src/main/java/produit/Produit.java:168:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'lieuProduit' is not assigned and could be declared final
+src/main/java/produit/Produit.java:168:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'numeroProduit' is not assigned and could be declared final
+src/main/java/produit/Produit.java:170:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'query' could be declared final
+src/main/java/produit/Produit.java:174:	ShortVariable:	ShortVariable: Avoid variables with short names like id
+src/main/java/produit/Produit.java:179:	CloseResource:	CloseResource: Ensure that resources like this ResultSet object are closed after use
+src/main/java/produit/Produit.java:179:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'resultSet' could be declared final
+src/main/java/produit/Produit.java:184:	SystemPrintln:	SystemPrintln: Usage of System.out/err
+src/main/java/produit/Produit.java:186:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/produit/Produit.java:188:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorInfo.java:5:	ImmutableField:	ImmutableField: Field 'name' may be declared final
+src/main/java/ressources/ColorInfo.java:6:	ImmutableField:	ImmutableField: Field 'description' may be declared final
+src/main/java/ressources/ColorInfo.java:7:	ImmutableField:	ImmutableField: Field 'value' may be declared final
+src/main/java/ressources/ColorInfo.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'description' is not assigned and could be declared final
+src/main/java/ressources/ColorInfo.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'name' is not assigned and could be declared final
+src/main/java/ressources/ColorInfo.java:9:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'value' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:24:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'colorName' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:28:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:30:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nodeList' could be declared final
+src/main/java/ressources/ColorXml.java:33:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'colorElement' could be declared final
+src/main/java/ressources/ColorXml.java:34:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'name' could be declared final
+src/main/java/ressources/ColorXml.java:38:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/ressources/ColorXml.java:42:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/ressources/ColorXml.java:44:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/ressources/ColorXml.java:46:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorXml.java:51:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'colorName' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:51:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'newColorValue' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:55:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:56:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nodeList' could be declared final
+src/main/java/ressources/ColorXml.java:61:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'colorElement' could be declared final
+src/main/java/ressources/ColorXml.java:62:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'name' could be declared final
+src/main/java/ressources/ColorXml.java:80:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/ressources/ColorXml.java:82:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorXml.java:89:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'colors' could be declared final
+src/main/java/ressources/ColorXml.java:92:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'xmlFile' could be declared final
+src/main/java/ressources/ColorXml.java:93:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dbFactory' could be declared final
+src/main/java/ressources/ColorXml.java:94:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dBuilder' could be declared final
+src/main/java/ressources/ColorXml.java:95:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:98:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nodeList' could be declared final
+src/main/java/ressources/ColorXml.java:101:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'colorElement' could be declared final
+src/main/java/ressources/ColorXml.java:103:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'name' could be declared final
+src/main/java/ressources/ColorXml.java:104:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'description' could be declared final
+src/main/java/ressources/ColorXml.java:105:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'value' could be declared final
+src/main/java/ressources/ColorXml.java:110:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/ressources/ColorXml.java:112:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorXml.java:121:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:123:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nodeList' could be declared final
+src/main/java/ressources/ColorXml.java:125:	OnlyOneReturn:	OnlyOneReturn: A method should have only one exit point, and that should be the last statement in the method
+src/main/java/ressources/ColorXml.java:125:	UselessParentheses:	UselessParentheses: Useless parentheses.
+src/main/java/ressources/ColorXml.java:127:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/ressources/ColorXml.java:129:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorXml.java:134:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'path' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:136:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:137:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'nodeList' could be declared final
+src/main/java/ressources/ColorXml.java:145:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/ressources/ColorXml.java:146:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/ressources/ColorXml.java:151:	SignatureDeclareThrowsException:	SignatureDeclareThrowsException: A method/constructor should not explicitly throw java.lang.Exception
+src/main/java/ressources/ColorXml.java:153:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'xmlFile' could be declared final
+src/main/java/ressources/ColorXml.java:154:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dbFactory' could be declared final
+src/main/java/ressources/ColorXml.java:155:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'dBuilder' could be declared final
+src/main/java/ressources/ColorXml.java:156:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'doc' could be declared final
+src/main/java/ressources/ColorXml.java:161:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'doc' is not assigned and could be declared final
+src/main/java/ressources/ColorXml.java:161:	SignatureDeclareThrowsException:	SignatureDeclareThrowsException: A method/constructor should not explicitly throw java.lang.Exception
+src/main/java/ressources/ColorXml.java:163:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'transformerFactory' could be declared final
+src/main/java/ressources/ColorXml.java:163:	LongVariable:	LongVariable: Avoid excessively long variable names like transformerFactory
+src/main/java/ressources/ColorXml.java:164:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'transformer' could be declared final
+src/main/java/ressources/ColorXml.java:167:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'source' could be declared final
+src/main/java/ressources/ColorXml.java:168:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'result' could be declared final
+src/main/java/ressources/Message.java:6:	UseUtilityClass:	UseUtilityClass: This utility class has a non-private constructor
+src/main/java/ressources/Message.java:12:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'icon' could be declared final
+src/main/java/ressources/Message.java:18:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'description' is not assigned and could be declared final
+src/main/java/ressources/Message.java:18:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'errorName' is not assigned and could be declared final
+src/main/java/ressources/Message.java:20:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'icon' could be declared final
+src/main/java/start/Start.java:21:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/start/Start.java:21:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/start/Start.java:23:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/start/Start.java:30:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'img' could be declared final
+src/main/java/start/Start.java:31:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'scaledImage' could be declared final
+src/main/java/start/Start.java:33:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'textLabel' could be declared final
+src/main/java/start/Start.java:37:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'picLabel' could be declared final
+src/main/java/start/Start.java:39:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'gbc' could be declared final
+src/main/java/start/Start.java:47:	AvoidCatchingGenericException:	AvoidCatchingGenericException: Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block
+src/main/java/start/Start.java:49:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/stock/Stock.java:21:	ImmutableField:	ImmutableField: Field 'changeTab' may be declared final
+src/main/java/stock/Stock.java:21:	SingularField:	SingularField: Perhaps 'changeTab' could be replaced by a local variable.
+src/main/java/stock/Stock.java:23:	CallSuperInConstructor:	CallSuperInConstructor: It is a good practice to call super() in a constructor
+src/main/java/stock/Stock.java:23:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'parentFrame' is not assigned and could be declared final
+src/main/java/stock/Stock.java:31:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'entete' could be declared final
+src/main/java/stock/Stock.java:35:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'titre' could be declared final
+src/main/java/stock/Stock.java:40:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'buttonPanel' could be declared final
+src/main/java/stock/Stock.java:44:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'periods' could be declared final
+src/main/java/stock/Stock.java:53:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'totalPanel' could be declared final
+src/main/java/stock/Stock.java:83:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/stock/Stock.java:85:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'selectedPeriod' could be declared final
+src/main/java/stock/Stock.java:88:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/main/java/stock/Stock.java:102:	UnusedAssignment:	UnusedAssignment: The initializer for variable 'tab' is never used (overwritten on line 103)
+src/main/java/stock/Stock.java:114:	NonExhaustiveSwitch:	NonExhaustiveSwitch: Switch statements or expressions should be exhaustive, add a default case (or missing enum branches)
+src/main/java/stock/Stock.java:133:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'valeurTotaleStock' could be declared final
+src/main/java/stock/Stock.java:141:	AvoidPrintStackTrace:	AvoidPrintStackTrace: Avoid printStackTrace(); use a logger call instead.
+src/main/java/style/Style.java:20:	UseUtilityClass:	UseUtilityClass: This utility class has a non-private constructor
+src/main/java/style/Style.java:22:	CommentDefaultAccessModifier:	CommentDefaultAccessModifier: Missing commented default access modifier on field 'color'
+src/main/java/style/Style.java:22:	MutableStaticState:	MutableStaticState: Do not use non-final non-private static fields
+src/main/java/style/Style.java:24:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'button' is not assigned and could be declared final
+src/main/java/style/Style.java:37:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/style/Style.java:44:	ShortVariable:	ShortVariable: Avoid variables with short names like e
+src/main/java/style/Style.java:52:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'comboBox' is not assigned and could be declared final
+src/main/java/style/Style.java:66:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'index' is not assigned and could be declared final
+src/main/java/style/Style.java:66:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'isSelected' is not assigned and could be declared final
+src/main/java/style/Style.java:66:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'list' is not assigned and could be declared final
+src/main/java/style/Style.java:66:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'value' is not assigned and could be declared final
+src/main/java/style/Style.java:67:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'cellHasFocus' is not assigned and could be declared final
+src/main/java/style/Style.java:69:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'label' could be declared final
+src/main/java/style/Style.java:73:	UnnecessaryFullyQualifiedName:	UnnecessaryFullyQualifiedName: Unnecessary qualifier 'SwingConstants': 'CENTER' is already in scope because it is inherited by an enclosing type
+src/main/java/style/Style.java:84:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'comboBox' is not assigned and could be declared final
+src/main/java/style/Style.java:98:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'index' is not assigned and could be declared final
+src/main/java/style/Style.java:98:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'isSelected' is not assigned and could be declared final
+src/main/java/style/Style.java:98:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'list' is not assigned and could be declared final
+src/main/java/style/Style.java:98:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'value' is not assigned and could be declared final
+src/main/java/style/Style.java:99:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'cellHasFocus' is not assigned and could be declared final
+src/main/java/style/Style.java:101:	LocalVariableCouldBeFinal:	LocalVariableCouldBeFinal: Local variable 'label' could be declared final
+src/main/java/style/Style.java:105:	UnnecessaryFullyQualifiedName:	UnnecessaryFullyQualifiedName: Unnecessary qualifier 'SwingConstants': 'CENTER' is already in scope because it is inherited by an enclosing type
+src/main/java/style/Style.java:116:	MethodArgumentCouldBeFinal:	MethodArgumentCouldBeFinal: Parameter 'panel' is not assigned and could be declared final

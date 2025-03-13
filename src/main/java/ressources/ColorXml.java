@@ -19,7 +19,7 @@ import java.util.List;
 public class ColorXml
 {
 
-    private static final String XML_FILE_PATH = "config.xml";
+    private static final String XML_FILE_PATH = "ressources/config.xml";
 
     public String xmlReader(String colorName)
     {

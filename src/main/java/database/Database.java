@@ -7,69 +7,70 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 public class Database extends JPanel
 {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    public Database(JFrame parentFrame)
-    {
-        final ColorXml color = new ColorXml();
-        final Requete requete = new Requete();
+	public Database(JFrame parentFrame)
+	{
+		super();
 
-        setBackground(Color.decode(color.xmlReader("background")));
-        setLayout(new BorderLayout(10, 10));
+		final ColorXml color = new ColorXml();
+		final Requete requete = new Requete();
 
-        JPanel entete = new JPanel();
-        entete.setBackground(Color.decode(color.xmlReader("background")));
-        entete.setLayout(new BorderLayout(10, 10));
-        add(entete, BorderLayout.NORTH);
+		final JPanel entete = new JPanel();
+		final JLabel titre = new JLabel("Base de données", SwingConstants.CENTER);
+		final JTextArea textArea = new JTextArea();
+		final JScrollPane scrollPane = new JScrollPane(textArea);
+		final JPanel centerPanel = new JPanel(new BorderLayout());
+		final JButton button = new JButton("VALIDER . . .");
+		final JPanel tableauPanel = new JPanel();
 
-        JLabel titre = new JLabel("Base de données", SwingConstants.CENTER);
-        titre.setFont(new Font("Arial", Font.BOLD, 40));
-        titre.setForeground(Color.decode(color.xmlReader("foreground")));
-        titre.setBorder(new EmptyBorder(10, 10, 10, 10));
-        entete.add(titre, BorderLayout.NORTH);
+		setLayout(new BorderLayout(10, 10));
+		setBackground(Color.decode(color.xmlReader("background")));
 
-        final JTextArea textArea = new JTextArea();
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setFont(new Font("Arial", Font.PLAIN, 15));
+		entete.setBackground(Color.decode(color.xmlReader("background")));
+		entete.setLayout(new BorderLayout(10, 10));
+		add(entete, BorderLayout.NORTH);
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setPreferredSize(new Dimension(400, 100));
+		titre.setFont(new Font("Arial", Font.BOLD, 40));
+		titre.setForeground(Color.decode(color.xmlReader("foreground")));
+		titre.setBorder(new EmptyBorder(10, 10, 10, 10));
+		entete.add(titre, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new BorderLayout());
-        centerPanel.setBackground(Color.decode(color.xmlReader("background")));
-        centerPanel.add(scrollPane, BorderLayout.CENTER);
-        centerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
-        entete.add(centerPanel, BorderLayout.CENTER);
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		textArea.setFont(new Font("Arial", Font.PLAIN, 15));
+		scrollPane.setPreferredSize(new Dimension(400, 100));
 
-        final JButton button = new JButton("VALIDER . . .");
-        Style.applyButtonStyle(button);
-        button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        button.setPreferredSize(new Dimension(200, 50));
-        entete.add(button, BorderLayout.SOUTH);
+		centerPanel.setBackground(Color.decode(color.xmlReader("background")));
+		centerPanel.add(scrollPane, BorderLayout.CENTER);
+		centerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+		entete.add(centerPanel, BorderLayout.CENTER);
 
-        final JPanel tableauPanel = new JPanel();
-        tableauPanel.setBackground(Color.decode(color.xmlReader("background")));
-        add(tableauPanel, BorderLayout.WEST);
+		Style.applyButtonStyle(button);
+		button.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		button.setPreferredSize(new Dimension(200, 50));
+		entete.add(button, BorderLayout.SOUTH);
 
-        button.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseClicked(MouseEvent e)
-            {
-                tableauPanel.removeAll();
-                JPanel tab = null;
-				tab = requete.executeQueryAndReturnPanel(textArea.getText(), tableauPanel.getSize().height, getSize().width, "pair_impair");
+		tableauPanel.setBackground(Color.decode(color.xmlReader("background")));
+		add(tableauPanel, BorderLayout.WEST);
 
-                tableauPanel.add(tab);
+		button.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent event)
+			{
+				tableauPanel.removeAll();
+				final JPanel tab = requete.executeQueryAndReturnPanel(textArea.getText(), tableauPanel.getSize().height,
+				        getSize().width, "pair_impair");
 
-                revalidate();
-                repaint();
-            }
-        });
-    }
+				tableauPanel.add(tab);
+
+				revalidate();
+				repaint();
+			}
+		});
+	}
 }

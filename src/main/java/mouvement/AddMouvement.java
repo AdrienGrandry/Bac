@@ -19,281 +19,318 @@ import java.util.ArrayList;
 
 public class AddMouvement extends JDialog
 {
-    private static final long serialVersionUID = 1L;
-    ColorXml color = new ColorXml();
-    ArrayList<Boisson> listeBoissons = new ArrayList<>();
+	private static final long serialVersionUID = 1L;
+	ColorXml color = new ColorXml();
+	ArrayList<Boisson> listeBoissons = new ArrayList<>();
 
-    public AddMouvement(JFrame parent) throws SQLException
-    {
-        super(parent, "Ajouter un mouvement", true);
+	public AddMouvement(JFrame parent) throws SQLException
+	{
+		super(parent, "Ajouter un mouvement", true);
 
-        setSize(615, 700);
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        setResizable(false);
+		setSize(615, 700);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		setResizable(false);
 
-        final JPanel panneauPrincipal = new JPanel();
-        panneauPrincipal.setBackground(Color.decode(color.xmlReader("background")));
-        panneauPrincipal.setLayout(null);
+		final JPanel panneauPrincipal = new JPanel();
+		panneauPrincipal.setBackground(Color.decode(color.xmlReader("background")));
+		panneauPrincipal.setLayout(null);
 
-        JLabel instructionCommentaire = new JLabel("Commentaire :");
-        styleLabel(instructionCommentaire);
-        instructionCommentaire.setBounds(25, 25, 400, 30);
-        panneauPrincipal.add(instructionCommentaire);
+		JLabel instructionCommentaire = new JLabel("Commentaire :");
+		styleLabel(instructionCommentaire);
+		instructionCommentaire.setBounds(25, 25, 400, 30);
+		panneauPrincipal.add(instructionCommentaire);
 
-        final JTextField commentaire = new JTextField();
-        commentaire.setBounds(25, 50, 550, 30);
-        styleTextField(commentaire);
-        panneauPrincipal.add(commentaire);
-        
-        JLabel instructionType = new JLabel("Type :");
-        styleLabel(instructionType);
-        instructionType.setBounds(25, 115, 100, 30);
-        panneauPrincipal.add(instructionType);
+		final JTextField commentaire = new JTextField();
+		commentaire.setBounds(25, 50, 550, 30);
+		styleTextField(commentaire);
+		panneauPrincipal.add(commentaire);
 
-        String[] type = {"Entrée", "Sortie", "Commande"};
-        final JComboBox<String> comboBoxType = new JComboBox<>(type);
-        comboBoxType.setBounds(125, 115, 200, 30);
-        Style.applyBoxStyle(comboBoxType);
-        panneauPrincipal.add(comboBoxType);
+		JLabel instructionType = new JLabel("Type :");
+		styleLabel(instructionType);
+		instructionType.setBounds(25, 115, 100, 30);
+		panneauPrincipal.add(instructionType);
 
-        JLabel instructionBoisson = new JLabel("Boisson : ");
-        styleLabel(instructionBoisson);
-        instructionBoisson.setBounds(25, 180, 100, 30);
-        panneauPrincipal.add(instructionBoisson);
+		String[] type =
+		{ "Entrée", "Sortie", "Commande" };
+		final JComboBox<String> comboBoxType = new JComboBox<>(type);
+		comboBoxType.setBounds(125, 115, 200, 30);
+		Style.applyBoxStyle(comboBoxType);
+		panneauPrincipal.add(comboBoxType);
 
-        final JComboBox<Boisson> comboBox = new JComboBox<>();
-        loadProduct(comboBox);
-        comboBox.setBounds(125, 180, 150, 30);
-        Style.applyBoxStyleBoisson(comboBox);
-        panneauPrincipal.add(comboBox);
+		JLabel instructionBoisson = new JLabel("Boisson : ");
+		styleLabel(instructionBoisson);
+		instructionBoisson.setBounds(25, 180, 100, 30);
+		panneauPrincipal.add(instructionBoisson);
 
-        JLabel instructionStock = new JLabel("Quantité : ");
-        styleLabel(instructionStock);
-        instructionStock.setBounds(300, 180, 100, 30);
-        panneauPrincipal.add(instructionStock);
+		final JComboBox<Boisson> comboBox = new JComboBox<>();
+		loadProduct(comboBox);
+		comboBox.setBounds(125, 180, 150, 30);
+		Style.applyBoxStyleBoisson(comboBox);
+		panneauPrincipal.add(comboBox);
 
-        final JTextField stock = new JTextField();
-        styleTextField(stock);
-        stock.setBounds(400, 180, 50, 30);
-        panneauPrincipal.add(stock);
+		JLabel instructionStock = new JLabel("Quantité : ");
+		styleLabel(instructionStock);
+		instructionStock.setBounds(300, 180, 100, 30);
+		panneauPrincipal.add(instructionStock);
 
-        JButton boutonFermer = new JButton("Fermer");
-        boutonFermer.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                dispose();
-            }
-        });
-        boutonFermer.setBounds(25, 590, 100, 40);
-        Style.applyButtonStyle(boutonFermer);
-        boutonFermer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panneauPrincipal.add(boutonFermer);
-        
-        final DefaultTableModel model = new DefaultTableModel()
-        {
-            private static final long serialVersionUID = 1L;
+		final JTextField stock = new JTextField();
+		styleTextField(stock);
+		stock.setBounds(400, 180, 50, 30);
+		panneauPrincipal.add(stock);
 
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 2; // Seule la colonne "Nombre" est éditable
-            }
-        };
+		JButton boutonFermer = new JButton("Fermer");
+		boutonFermer.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				dispose();
+			}
+		});
+		boutonFermer.setBounds(25, 590, 100, 40);
+		Style.applyButtonStyle(boutonFermer);
+		boutonFermer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panneauPrincipal.add(boutonFermer);
 
-        // Ajouter les colonnes "ID", "Boisson" et "Nombre"
-        model.addColumn("ID");      // Colonne cachée
-        model.addColumn("Boisson"); 
-        model.addColumn("Nombre");
+		final DefaultTableModel model = new DefaultTableModel()
+		{
+			private static final long serialVersionUID = 1L;
 
-        JTable table = new JTable(model)
-        {
-            private static final long serialVersionUID = 1L;
-            
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-                Component component = super.prepareRenderer(renderer, row, column);
-                if (row % 2 == 0) {
-                    component.setBackground(Color.decode(color.xmlReader("background_tab_pair")));
-                    component.setForeground(Color.decode(color.xmlReader("foreground")));
-                } else {
-                    component.setBackground(Color.decode(color.xmlReader("background_tab_impair")));
-                    component.setForeground(Color.decode(color.xmlReader("foreground")));
-                }
-                return component;
-            }
-        };
+			@Override
+			public boolean isCellEditable(int row, int column)
+			{
+				return column == 2; // Seule la colonne "Nombre" est éditable
+			}
+		};
 
-        // Masquer la colonne "ID" (colonne 0)
-        table.getColumnModel().getColumn(0).setMinWidth(0);
-        table.getColumnModel().getColumn(0).setMaxWidth(0);
-        table.getColumnModel().getColumn(0).setPreferredWidth(0);
+		// Ajouter les colonnes "ID", "Boisson" et "Nombre"
+		model.addColumn("ID"); // Colonne cachée
+		model.addColumn("Boisson");
+		model.addColumn("Nombre");
 
-        // Désactiver le redimensionnement des autres colonnes
-        for (int i = 1; i < table.getColumnCount(); i++) {
-            table.getColumnModel().getColumn(i).setResizable(false);
-        }
+		JTable table = new JTable(model)
+		{
+			private static final long serialVersionUID = 1L;
 
-        // Style de l'en-tête du tableau
-        table.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
-            private static final long serialVersionUID = 1L;
+			@Override
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				Component component = super.prepareRenderer(renderer, row, column);
+				if (row % 2 == 0)
+				{
+					component.setBackground(Color.decode(color.xmlReader("background_tab_pair")));
+					component.setForeground(Color.decode(color.xmlReader("foreground")));
+				} else
+				{
+					component.setBackground(Color.decode(color.xmlReader("background_tab_impair")));
+					component.setForeground(Color.decode(color.xmlReader("foreground")));
+				}
+				return component;
+			}
+		};
 
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                JLabel headerLabel = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                headerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                headerLabel.setForeground(Color.decode(color.xmlReader("foreground")));
-                headerLabel.setBackground(Color.decode(color.xmlReader("background_tab")));
-                headerLabel.setHorizontalAlignment(CENTER);
-                return headerLabel;
-            }
-        });
+		// Masquer la colonne "ID" (colonne 0)
+		table.getColumnModel().getColumn(0).setMinWidth(0);
+		table.getColumnModel().getColumn(0).setMaxWidth(0);
+		table.getColumnModel().getColumn(0).setPreferredWidth(0);
 
-        // Empêcher le réarrangement des colonnes
-        table.getTableHeader().setReorderingAllowed(false);
+		// Désactiver le redimensionnement des autres colonnes
+		for (int i = 1; i < table.getColumnCount(); i++)
+		{
+			table.getColumnModel().getColumn(i).setResizable(false);
+		}
 
-        // Ajouter le tableau à un JScrollPane
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(25, 250, 550, 275);
-        panneauPrincipal.add(scrollPane);
+		// Style de l'en-tête du tableau
+		table.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer()
+		{
+			private static final long serialVersionUID = 1L;
 
-        JButton boutonAjouter = new JButton("Ajouter");
-        boutonAjouter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean valide = true;
-            	Boisson boisson = (Boisson) comboBox.getSelectedItem(); // Récupérer l'objet Boisson sélectionné
-                
-                for (int i = 0; i < model.getRowCount(); i++) {
-                    int id = (int) model.getValueAt(i, 0); // Récupérer l'ID (colonne 0)
-                    
-                    if(id == boisson.getId() && valide)
-                    {
-                    	valide = false;
-                    	JOptionPane.showMessageDialog(
-                                AddMouvement.this, 
-                                "Ce produit est déjà ajouté à la liste.", 
-                                "Erreur Ajout", 
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                if(valide)
-                {
-                    model.addRow(new Object[]{boisson.getId(), boisson, Integer.parseInt(stock.getText())});
-                }
-            }
-        });
-        boutonAjouter.setBounds(500, 180, 75, 30);
-        Style.applyButtonStyle(boutonAjouter);
-        boutonAjouter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panneauPrincipal.add(boutonAjouter);
-        
-        JButton boutonValider = new JButton("Valider");
-        boutonValider.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-            	QueryResult queryResult = null;
-            	int idMouvement = 0;
-            	
-        		try {
-        			queryResult = Requete.executeQuery("INSERT INTO mouvement (type, description, valide) VALUES ('"
-					        + comboBoxType.getSelectedItem() + "', '"
-					        + commentaire.getText() + "', true);");
-				} catch (SQLException e1) { }
-        		finally {
-		            if (queryResult != null) queryResult.close();
-		        }
-        		
-                try {
-					queryResult = Requete.executeQuery("SELECT MAX(id) as id FROM mouvement");
-					ResultSet resultSet = queryResult.getResultSet();
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+			        boolean hasFocus, int row, int column)
+			{
+				JLabel headerLabel = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus,
+				        row, column);
+				headerLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				headerLabel.setForeground(Color.decode(color.xmlReader("foreground")));
+				headerLabel.setBackground(Color.decode(color.xmlReader("background_tab")));
+				headerLabel.setHorizontalAlignment(CENTER);
+				return headerLabel;
+			}
+		});
 
-					if(resultSet.next())
+		// Empêcher le réarrangement des colonnes
+		table.getTableHeader().setReorderingAllowed(false);
+
+		// Ajouter le tableau à un JScrollPane
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(25, 250, 550, 275);
+		panneauPrincipal.add(scrollPane);
+
+		JButton boutonAjouter = new JButton("Ajouter");
+		boutonAjouter.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean valide = true;
+				Boisson boisson = (Boisson) comboBox.getSelectedItem(); // Récupérer l'objet Boisson sélectionné
+
+				for (int i = 0; i < model.getRowCount(); i++)
+				{
+					int id = (int) model.getValueAt(i, 0); // Récupérer l'ID (colonne 0)
+
+					if (id == boisson.getId() && valide)
 					{
-						idMouvement = resultSet.getInt("id");
+						valide = false;
+						JOptionPane.showMessageDialog(AddMouvement.this, "Ce produit est déjà ajouté à la liste.",
+						        "Erreur Ajout", JOptionPane.ERROR_MESSAGE);
 					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} finally {
-		            if (queryResult != null) queryResult.close();
-		        }
-        		
-            	for(int i=0; i < model.getRowCount(); i++)
-            	{
-            		int idProduit = (int) model.getValueAt(i, 0);
-            		int quantite = (int) model.getValueAt(i, 2);
-            		
-            		try {
-						Requete.executeQuery("INSERT INTO inclure (id_mouvement, id_produit, quantite) VALUES ("
-						        + idMouvement + ", "
-						        + idProduit + ", " + quantite + ")");
-					} catch (SQLException e1) {
-					} finally {
-			            if (queryResult != null) queryResult.close();
-			        }
-            		
-            		try {
-            			if(comboBoxType.getSelectedItem().equals("Entrée"))
-            			{
-            				Requete.executeQuery("UPDATE produit set stock = stock+" + quantite + " where id = " + idProduit);
-            			}
-            			else if(comboBoxType.getSelectedItem().equals("Sortie"))
-            			{
-            				Requete.executeQuery("UPDATE produit set stock = stock-" + quantite + " where id = " + idProduit);
-            			}
-						
-					} catch (SQLException e1) {
-					} finally {
-			            if (queryResult != null) queryResult.close();
-			        }
-                }
-            	dispose();
-            }
-        });
-        boutonValider.setBounds(475, 590, 100, 40);
-        Style.applyButtonStyle(boutonValider);
-        boutonValider.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panneauPrincipal.add(boutonValider);
+				}
+				if (valide)
+				{
+					model.addRow(new Object[]
+					{ boisson.getId(), boisson, Integer.parseInt(stock.getText()) });
+				}
+			}
+		});
+		boutonAjouter.setBounds(500, 180, 75, 30);
+		Style.applyButtonStyle(boutonAjouter);
+		boutonAjouter.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panneauPrincipal.add(boutonAjouter);
 
-        add(panneauPrincipal, BorderLayout.CENTER);
-        setLocationRelativeTo(parent);
-    }
+		JButton boutonValider = new JButton("Valider");
+		boutonValider.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				QueryResult queryResult = null;
+				int idMouvement = 0;
 
-    private void loadProduct(JComboBox<Boisson> comboBox) throws SQLException {
-        QueryResult queryResult = null;
+				if (commentaire.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(AddMouvement.this, "Il faut Ajouter une description.",
+					        "Erreur Mouvement", JOptionPane.ERROR_MESSAGE);
+				} else
+				{
+					try
+					{
+						queryResult = Requete.executeQuery("INSERT INTO mouvement (type, description, valide) VALUES ('"
+						        + comboBoxType.getSelectedItem() + "', '" + commentaire.getText() + "', true);");
+					} catch (SQLException e1)
+					{
+					} finally
+					{
+						if (queryResult != null)
+							queryResult.close();
+					}
 
-        try {
-            queryResult = Requete.executeQuery("SELECT id, libelle FROM Produit;");
-            ResultSet resultSet = queryResult.getResultSet();
+					try
+					{
+						queryResult = Requete.executeQuery("SELECT MAX(id) as id FROM mouvement");
+						ResultSet resultSet = queryResult.getResultSet();
 
-            while (resultSet.next()) {
-                int idProduit = resultSet.getInt("id");
-                String nom = resultSet.getString("libelle");
+						if (resultSet.next())
+						{
+							idMouvement = resultSet.getInt("id");
+						}
+					} catch (SQLException e1)
+					{
+					} finally
+					{
+						if (queryResult != null)
+							queryResult.close();
+					}
 
-                Boisson boisson = new Boisson(idProduit, nom);
-                listeBoissons.add(boisson);
+					for (int i = 0; i < model.getRowCount(); i++)
+					{
+						int idProduit = (int) model.getValueAt(i, 0);
+						int quantite = (int) model.getValueAt(i, 2);
 
-                comboBox.addItem(boisson); // Ajouter directement l'objet Boisson
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (queryResult != null) queryResult.close();
-        }
-    }
+						try
+						{
+							Requete.executeQuery("INSERT INTO inclure (id_mouvement, id_produit, quantite) VALUES ("
+							        + idMouvement + ", " + idProduit + ", " + quantite + ")");
+						} catch (SQLException e1)
+						{
+						} finally
+						{
+							if (queryResult != null)
+								queryResult.close();
+						}
+
+						try
+						{
+							if (comboBoxType.getSelectedItem().equals("Entrée"))
+							{
+								Requete.executeQuery(
+								        "UPDATE produit set stock = stock+" + quantite + " where id = " + idProduit);
+							} else if (comboBoxType.getSelectedItem().equals("Sortie"))
+							{
+								Requete.executeQuery(
+								        "UPDATE produit set stock = stock-" + quantite + " where id = " + idProduit);
+							}
+
+						} catch (SQLException e1)
+						{
+						} finally
+						{
+							if (queryResult != null)
+								queryResult.close();
+						}
+					}
+					dispose();
+				}
+			}
+		});
+		boutonValider.setBounds(475, 590, 100, 40);
+		Style.applyButtonStyle(boutonValider);
+		boutonValider.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panneauPrincipal.add(boutonValider);
+
+		add(panneauPrincipal, BorderLayout.CENTER);
+		setLocationRelativeTo(parent);
+	}
+
+	private void loadProduct(JComboBox<Boisson> comboBox) throws SQLException
+	{
+		QueryResult queryResult = null;
+
+		try
+		{
+			queryResult = Requete.executeQuery("SELECT id, libelle FROM Produit;");
+			ResultSet resultSet = queryResult.getResultSet();
+
+			while (resultSet.next())
+			{
+				int idProduit = resultSet.getInt("id");
+				String nom = resultSet.getString("libelle");
+
+				Boisson boisson = new Boisson(idProduit, nom);
+				listeBoissons.add(boisson);
+
+				comboBox.addItem(boisson); // Ajouter directement l'objet Boisson
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if (queryResult != null)
+				queryResult.close();
+		}
+	}
 
 	public void styleLabel(JLabel label)
-    {
-        label.setFont(new Font("Arial", Font.BOLD, 18));
-        label.setForeground(Color.decode(color.xmlReader("foreground")));
-    }
+	{
+		label.setFont(new Font("Arial", Font.BOLD, 18));
+		label.setForeground(Color.decode(color.xmlReader("foreground")));
+	}
 
-    public void styleTextField(JTextField textField)
-    {
-        textField.setFont(new Font("Arial", Font.PLAIN, 16));
-        textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }
+	public void styleTextField(JTextField textField)
+	{
+		textField.setFont(new Font("Arial", Font.PLAIN, 16));
+		textField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	}
 }
