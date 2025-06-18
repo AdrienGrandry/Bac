@@ -1,47 +1,45 @@
 package options;
 
-import ressources.ColorXml;
-import ressources.ColorInfo;
-
 import javax.swing.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.List;
 
-public class Options extends JPanel
+public class Options extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 
-	public Options(JFrame parentFrame)
+	public Options()
 	{
+		super("Gesti'Bac - Options");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(600, 700);
+		setLocationRelativeTo(null);
+		setExtendedState(Frame.MAXIMIZED_BOTH);
+
+		final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
+		setIconImage(icon.getImage());
+
 		final ColorXml colorXml = new ColorXml();
 		List<ColorInfo> colors = colorXml.getAllColors();
 
-		setBackground(Color.decode(colorXml.xmlReader("background")));
-		setLayout(new BorderLayout());
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setBackground(Color.decode(colorXml.xmlReader("background")));
 
 		JLabel titre = new JLabel("Options", JLabel.CENTER);
 		titre.setFont(new Font("Arial", Font.BOLD, 40));
 		titre.setForeground(Color.decode(colorXml.xmlReader("foreground")));
-		add(titre, BorderLayout.NORTH);
+		mainPanel.add(titre, BorderLayout.NORTH);
 
-		JPanel contentPanel = new JPanel();
-		contentPanel.setLayout(new GridBagLayout());
+		JPanel contentPanel = new JPanel(new GridBagLayout());
 		contentPanel.setBackground(Color.decode(colorXml.xmlReader("background")));
 
 		JScrollPane scrollPane = new JScrollPane(contentPanel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBorder(null);
-		add(scrollPane, BorderLayout.CENTER);
+		mainPanel.add(scrollPane, BorderLayout.CENTER);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(10, 10, 10, 10);
@@ -55,12 +53,12 @@ public class Options extends JPanel
 		for (final ColorInfo color : colors)
 		{
 			String labelText = color.getDescription() + " :";
-			JLabel titleLabel = new JLabel("<html><body>" + labelText + "</body></html>");
+			JLabel titleLabel = new JLabel(labelText);
 			titleLabel.setFont(new Font("Arial", Font.PLAIN, 25));
 			titleLabel.setForeground(Color.decode(colorXml.xmlReader("foreground")));
 			titleLabel.setPreferredSize(new Dimension(0, 23));
 			gbc.gridx = 0;
-			gbc.weightx = 0.2;
+			gbc.weightx = 0.5;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			contentPanel.add(titleLabel, gbc);
 
@@ -69,7 +67,7 @@ public class Options extends JPanel
 			exemplaire.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			exemplaire.setPreferredSize(new Dimension(0, 23));
 			gbc.gridx = 1;
-			gbc.weightx = 0.075;
+			gbc.weightx = 0.5;
 			gbc.fill = GridBagConstraints.HORIZONTAL;
 			contentPanel.add(exemplaire, gbc);
 
@@ -78,10 +76,13 @@ public class Options extends JPanel
 				@Override
 				public void mouseClicked(MouseEvent e)
 				{
-					Color selectedColor = JColorChooser.showDialog(null,
-					        "Changer la couleur (" + color.getDescription() + ")", getBackground());
-					if (selectedColor != null)
-					{
+					Color selectedColor = ColorChooserWin11Style.chooseColor(
+							null,
+							"Changer la couleur (" + color.getDescription() + ")",
+							getBackground()
+					);
+
+					if (selectedColor != null) {
 						String newColorValue = colorToHex(selectedColor);
 						colorXml.updateColorValue(color.getName(), newColorValue);
 						exemplaire.setBackground(selectedColor);
@@ -93,7 +94,7 @@ public class Options extends JPanel
 		}
 
 		String labelText = "Enregistrement fichier :";
-		JLabel titleLabel = new JLabel("<html><body>" + labelText + "</body></html>");
+		JLabel titleLabel = new JLabel(labelText);
 		titleLabel.setFont(new Font("Arial", Font.PLAIN, 25));
 		titleLabel.setForeground(Color.decode(colorXml.xmlReader("foreground")));
 		titleLabel.setPreferredSize(new Dimension(0, 23));
@@ -115,16 +116,11 @@ public class Options extends JPanel
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				JFileChooser chooser = new JFileChooser();
-				chooser.setDialogTitle("Sélectionnez un répertoire");
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				chooser.setAcceptAllFileFilterUsed(false);
-
-				int returnValue = chooser.showOpenDialog(null);
-				if (returnValue == JFileChooser.APPROVE_OPTION)
+				String returnValue = FolderChooserWin11Style.chooseFolder();
+				if (returnValue != null)
 				{
-					File selectedDirectory = chooser.getSelectedFile();
-					colorXml.updateLocated(selectedDirectory.getAbsolutePath());
+					colorXml.updateLocated(returnValue);
+					located.setText(returnValue);
 				}
 			}
 		});
@@ -133,6 +129,9 @@ public class Options extends JPanel
 		gbc.weightx = 0.075;
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		contentPanel.add(panelLocated, gbc);
+
+		setContentPane(mainPanel);
+		setVisible(true);
 	}
 
 	private String colorToHex(Color color)
