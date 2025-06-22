@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="google-api-client-2.8.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/google-api-client-2.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/google-api-services-calendar-v3-rev411-1.25.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/google-http-client-1.47.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/google-oauth-client-jetty-1.39.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
