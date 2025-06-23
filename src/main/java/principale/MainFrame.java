@@ -2,7 +2,12 @@ package principale;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
+import agenda.app.GoogleAgendaStyleCalendar;
 import boisson.Boisson;
+import location.Location;
 import ressources.*;
 import options.Options;
 import options.ColorXml;
@@ -45,8 +50,41 @@ public class MainFrame extends JFrame {
             this.dispose();
         });
 
-        btnCompta.addActionListener(e -> System.out.println("Compta"));
-        btnAgenda.addActionListener(e -> System.out.println("Agenda"));
+        btnCompta.addActionListener(e -> {
+            Location loacation = new Location();
+            loacation.setVisible(true);
+            this.dispose();
+        });
+
+        btnAgenda.addActionListener(e -> {
+            LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement...");
+
+            // Affiche la fenêtre de chargement dans l'EDT
+            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+            // Traitement long dans un thread à part
+            new Thread(() -> {
+                GoogleAgendaStyleCalendar agenda = null;
+                try {
+                    agenda = new GoogleAgendaStyleCalendar();
+
+                    // Une fois terminé, masque le dialog et ouvre l'agenda dans l'EDT
+                    GoogleAgendaStyleCalendar finalAgenda = agenda;
+                    SwingUtilities.invokeLater(() -> {
+                        loadingDialog.setVisible(false);
+                        finalAgenda.setVisible(true);
+                        this.dispose();
+                    });
+
+                } catch (IOException | GeneralSecurityException ex) {
+                    SwingUtilities.invokeLater(() -> {
+                        loadingDialog.setVisible(false);
+                        Message.showErrorMessage("Connexion Refusée", "La connexion à l'agenda Google a été refusée !");
+                    });
+                }
+            }).start();
+        });
+
         btnOption.addActionListener(e -> {
             Options options = new Options();
             options.setVisible(true);

@@ -40,6 +40,7 @@ public class Inventaire extends JDialog
 		instructionCommentaire.setBounds(25, 25, 400, 30);
 		panneauPrincipal.add(instructionCommentaire);
 
+		//texte comme dans les exemples
 		final JTextField commentaire = new JTextField("MODIFIER POUR METTRE LE TEXTE PREFAIT -  CHOIX");
 		commentaire.setBounds(25, 50, 550, 30);
 		styleTextField(commentaire);

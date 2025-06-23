@@ -1,5 +1,6 @@
-package boisson;
+package location;
 
+import boisson.CreateMenuLocation;
 import boisson.start.StartLocation;
 import options.ColorXml;
 import ressources.Message;
@@ -20,13 +21,13 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public final class Boisson extends JFrame
+public final class Location extends JFrame
 {
     final private static JPanel panel = new JPanel(new BorderLayout());
     final private static StartLocation start = new StartLocation(null);
     final private static ColorXml color = new ColorXml();
 
-    public Boisson() {
+    public Location() {
         createMainFrame();
 
         // Définition du listener pour les actions des boutons du menu
@@ -35,12 +36,12 @@ public final class Boisson extends JFrame
             @Override
             public void actionPerformed(final ActionEvent actionEvent)
             {
-                loadPanel(actionEvent.getActionCommand(), boisson.Boisson.this);
+                loadPanel(actionEvent.getActionCommand(), Location.this);
             }
         };
 
         // Création et ajout du menu
-        final boisson.CreateMenu menu = new boisson.CreateMenu(actionListener);
+        final CreateMenuLocation menu = new CreateMenuLocation(actionListener);
         add(menu, BorderLayout.NORTH);
 
         // Panneau central

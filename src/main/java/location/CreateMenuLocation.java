@@ -26,7 +26,7 @@ import options.ColorXml;
 /**
 * @author Grandry Adrien
 */
-public class CreateMenu extends JPanel
+public class CreateMenuLocation extends JPanel
 {
 	private static final long serialVersionUID = 1L;
 	/**
@@ -43,7 +43,7 @@ public class CreateMenu extends JPanel
 	 */
 	final private static ColorXml color = new ColorXml();
 
-	public CreateMenu(ActionListener actionListener)
+	public CreateMenuLocation(ActionListener actionListener)
 	{
 		// Initialisation des éléments du menu
 		initMenuItems();
@@ -85,12 +85,16 @@ public class CreateMenu extends JPanel
 	// Initialisation des éléments du menu
 	private void initMenuItems()
 	{
+		/*
+		*AFFICHER PDF INCLUS
+		 */
 		menuItems.add("Enregistrer et retour");
-		menuItems.add("Mouvements");
-		menuItems.add("Stock");
-		menuItems.add("Produits");
-		menuItems.add("Prévision Boissons");//Comme le excel présent
-		menuItems.add("Commande");
+		menuItems.add("Enregister Location");//AJout dans ajenda + db de la loc avec options + choix 1 ou deux salles
+		menuItems.add("Gérer Location");
+		//liste boisson(affichée ou enregistrer) + document location + info choix loc future ou cloturée
+		//pouvoir annuler location --> remboursement
+		menuItems.add("Facture");//Généré facture : location  ou caution
+		menuItems.add("Tarifs");//Changer le prix
 	}
 
 	// Mise à jour de la disposition des boutons selon la taille de la fenêtre
