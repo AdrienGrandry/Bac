@@ -1,5 +1,8 @@
 package options;
 
+import principale.MainFrame;
+import ressources.Style;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -27,10 +30,39 @@ public class Options extends JFrame
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setBackground(Color.decode(colorXml.xmlReader("background")));
 
+		JPanel TitrePanel = new JPanel(new BorderLayout());
+		TitrePanel.setBackground(Color.decode(colorXml.xmlReader("background")));
+
+		// Panel bouton à gauche
+		JPanel leftPanel = new JPanel(new GridBagLayout());
+		leftPanel.setOpaque(false);
+		JButton retour = new JButton("Retour");
+		Style.applyButtonStyle(retour);
+		retour.addActionListener(e -> {
+			MainFrame mainFrame = new MainFrame();
+			mainFrame.setVisible(true);
+			dispose();
+		});
+		leftPanel.add(retour);
+		TitrePanel.add(leftPanel, BorderLayout.WEST);
+
+		// Panel texte centré
+		JPanel centerPanel = new JPanel(new GridBagLayout());
+		centerPanel.setOpaque(false);
 		JLabel titre = new JLabel("Options", JLabel.CENTER);
 		titre.setFont(new Font("Arial", Font.BOLD, 40));
 		titre.setForeground(Color.decode(colorXml.xmlReader("foreground")));
-		mainPanel.add(titre, BorderLayout.NORTH);
+		centerPanel.add(titre);
+		TitrePanel.add(centerPanel, BorderLayout.CENTER);
+
+		// Panel vide à droite pour équilibrer
+		JPanel rightSpacer = new JPanel();
+		rightSpacer.setOpaque(false);
+		rightSpacer.setPreferredSize(leftPanel.getPreferredSize()); // même taille que leftPanel
+		TitrePanel.add(rightSpacer, BorderLayout.EAST);
+
+
+		mainPanel.add(TitrePanel, BorderLayout.NORTH);
 
 		JPanel contentPanel = new JPanel(new GridBagLayout());
 		contentPanel.setBackground(Color.decode(colorXml.xmlReader("background")));

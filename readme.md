@@ -2,19 +2,43 @@
 
 Programme de gestion de stock pour le bac.
 
-# Journal des modifications (Changelog)
+# Organisation du projet - Avancement
 
-## [Version 2.0.0] - 23-01-2025
-### Ajouts
-- Ajout des classes de message de validation et d'erreur
+- Principale
+- [X] Fenètre principale
+- agenda
+- [ ] agenda
+- location
+- [ ] Enregistrer location
+- [ ] Gérer location
+- [ ] Facture
+- [ ] Tarif
+- boisson
+- [ ] Mouvement
+- [ ] Stock
+- [ ] Produits
+- [ ] Prévision
+- [ ] Commande
+- options
+- [X] Options
 
-### Modifications
-- Séparation du code dans différents fichier et fonctions
-- Nouveau système de responsive
 
-### Corrections
+# Test du projet
 
----
-
-## [Version 1.0.0] - 15-09-2024
-- Première version
+- Principale
+- [X] Fenètre principale
+- agenda
+- [] agenda
+- location
+- [ ] Enregistrer location
+- [ ] Gérer location
+- [ ] Facture
+- [ ] Tarif
+- boisson
+- [ ] Mouvement
+- [ ] Stock
+- [ ] Produits
+- [ ] Prévision
+- [ ] Commande
+- options
+- [X] Options
