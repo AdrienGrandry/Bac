@@ -4,14 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 
 import boisson.mouvement.Boisson;
 import options.ColorXml;
@@ -121,5 +115,33 @@ public class Style
 		panel.setBackground(Color.decode(color.xmlReader("bonton")));
 		panel.setForeground(Color.decode(color.xmlReader("bonton_texte")));
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
+	}
+
+	public static void applyCheckBoxStyle(JCheckBox checkBox) {
+		// Charge les icônes depuis les fichiers
+		Icon uncheckedIcon = new ImageIcon("./square.png");
+		Icon checkedIcon = new ImageIcon("./check.png");
+
+		checkBox.setIcon(uncheckedIcon);
+		checkBox.setSelectedIcon(checkedIcon);
+
+		// Optionnel : enlever la bordure autour de la checkbox
+		checkBox.setBorderPainted(false);
+		checkBox.setFocusPainted(false);
+		checkBox.setContentAreaFilled(false);
+	}
+
+	public static void applyRadioStyle(JRadioButton radioButton) {
+		// Charge les icônes depuis les fichiers
+		Icon uncheckedIcon = new ImageIcon("./square.png");
+		Icon checkedIcon = new ImageIcon("./check.png");
+
+		radioButton.setIcon(uncheckedIcon);
+		radioButton.setSelectedIcon(checkedIcon);
+
+		// Optionnel : enlever la bordure autour de la checkbox
+		radioButton.setBorderPainted(false);
+		radioButton.setFocusPainted(false);
+		radioButton.setContentAreaFilled(false);
 	}
 }

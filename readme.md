@@ -7,7 +7,7 @@ Programme de gestion de stock pour le bac.
 - Principale
 - [X] Fenètre principale
 - agenda
-- [ ] agenda
+- [X] agenda
 - location
 - [ ] Enregistrer location
 - [ ] Gérer location

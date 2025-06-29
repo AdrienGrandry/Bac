@@ -1,4 +1,4 @@
-package boisson.start;
+package location.start;
 
 import java.awt.Color;
 import java.awt.Font;

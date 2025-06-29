@@ -211,14 +211,14 @@ public class GoogleCalendarService {
      * Ajoute un événement sur plusieurs jours (journée complète).
      * @param finExclu Date de fin exclusive (comme demandé par l'API Google Calendar)
      */
-    public EventModel ajouterEvenementPlageJours(String nomCalendrier, String titre, LocalDate debut, LocalDate finExclu) throws IOException {
+    public EventModel ajouterEvenementPlageJours(String nomCalendrier, String titre, String description, LocalDate debut, LocalDate finExclu) throws IOException {
         Map<String, String> calendrierIds = getCalendarNameIdMap();
         String calendarId = calendrierIds.get(nomCalendrier);
         if (calendarId == null) {
             throw new IllegalArgumentException("Calendrier introuvable : " + nomCalendrier);
         }
 
-        Event event = new Event().setSummary(titre);
+        Event event = new Event().setSummary(titre).setDescription(description);;
 
         event.setStart(new EventDateTime().setDate(new com.google.api.client.util.DateTime(debut.toString())));
         event.setEnd(new EventDateTime().setDate(new com.google.api.client.util.DateTime(finExclu.toString())));

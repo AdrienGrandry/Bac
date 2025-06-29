@@ -1,4 +1,4 @@
-package boisson;
+package location;
 
 import ressources.Style;
 

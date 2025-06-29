@@ -1,7 +1,6 @@
 package location;
 
-import boisson.CreateMenuLocation;
-import boisson.start.StartLocation;
+import location.start.StartLocation;
 import options.ColorXml;
 import ressources.Message;
 import principale.MainFrame;
@@ -63,7 +62,7 @@ public final class Location extends JFrame
         setBackground(Color.decode(color.xmlReader("background")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(800, 800));
+        setSize(new Dimension(800, 800));
 
         final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
         setIconImage(icon.getImage());
@@ -91,20 +90,20 @@ public final class Location extends JFrame
                     mainFrame.setVisible(true);
                     dispose(); // ferme Boisson
                     break;
-                case "Stock":
-                    loadSpecificPanel("boisson.stock.Stock", parentFrame);
+                case "Enregister Location":
+                    loadSpecificPanel("location.newLocation.newLocation", parentFrame);
                     break;
-                case "Produits":
-                    loadSpecificPanel("boisson.produit.Produit", parentFrame);
+                case "Gérer Location":
+                    loadSpecificPanel("location.produit.Produit", parentFrame);
                     break;
-                case "Mouvements":
-                    loadSpecificPanel("boisson.mouvement.Mouvement", parentFrame);
+                case "Facture":
+                    loadSpecificPanel("location.mouvement.Mouvement", parentFrame);
                     break;
-                case "Commande":
-                    loadSpecificPanel("boisson.inputouput.inputouput", parentFrame);
+                case "Tarifs":
+                    loadSpecificPanel("location.inputouput.inputouput", parentFrame);
                     break;
                 case "Base de Données":
-                    loadSpecificPanel("boisson.database.Database", parentFrame);
+                    loadSpecificPanel("location.database.Database", parentFrame);
                     break;
                 default:
                     Message.showErrorMessage("Erreur de pannel", "Impossible d'ouvrir l'onglet de ce nom");

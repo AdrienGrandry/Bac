@@ -244,8 +244,15 @@ public class GoogleAgendaStyleCalendar extends JFrame {
         calendarGrid.revalidate();
         calendarGrid.repaint();
 
-        //LocalDate date = ;
-        //calendarService.ajouterEvenementPlageJours("BAC - Salle", "Événement journée complète", date, date.plusDays(1));
+        /*LocalDate date = LocalDate.parse("2025-06-30");;
+        calendarService.ajouterEvenementPlageJours("BAC - Salle", "GRANDRY Adrien (exemple encodage egenda", date, date.plusDays(1));
+
+        date = LocalDate.parse("2025-07-01");;
+        calendarService.ajouterEvenementPlageJours("BAC - Cafétéria", "Événement journée complète", date, date.plusDays(1));
+
+        date = LocalDate.parse("2025-07-02");;
+        calendarService.ajouterEvenementPlageJours("BAC - Salle/Cafétéria", "Événement journée complète", date, date.plusDays(1));
+        */
     }
 
     /**

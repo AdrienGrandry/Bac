@@ -1,6 +1,6 @@
 package boisson;
 
-import boisson.start.StartLocation;
+import boisson.start.Start;
 import options.ColorXml;
 import ressources.Message;
 import principale.MainFrame;
@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 public final class Boisson extends JFrame
 {
     final private static JPanel panel = new JPanel(new BorderLayout());
-    final private static StartLocation start = new StartLocation(null);
+    final private static Start start = new Start(null);
     final private static ColorXml color = new ColorXml();
 
     public Boisson() {
@@ -62,7 +62,7 @@ public final class Boisson extends JFrame
         setBackground(Color.decode(color.xmlReader("background")));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(Frame.MAXIMIZED_BOTH);
-        setMinimumSize(new Dimension(800, 800));
+        setSize(new Dimension(800, 800));
 
         final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
         setIconImage(icon.getImage());
