@@ -17,8 +17,8 @@ import java.security.GeneralSecurityException;
 import java.util.List;
 
 public class GoogleAuthorizeUtil {
-    private static final String CREDENTIALS_FILE_PATH = "src/main/resources/credentials.json";
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String CREDENTIALS_FILE_PATH = "./ressources/credentials.json";
+    private static final String TOKENS_DIRECTORY_PATH = "./ressources/tokens";
     private static final List<String> SCOPES = List.of("https://www.googleapis.com/auth/calendar");
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 

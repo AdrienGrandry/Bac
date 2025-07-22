@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="32c437cf-c51d-471f-8c62-6c7748053e03" name="Changes" comment="Options OK">
+      <change afterPath="$PROJECT_DIR$/src/main/java/location/newLocation/DateParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/location/newLocation/newLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/check.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check.png" beforeDir="false" afterPath="$PROJECT_DIR$/check.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/boisson/Boisson.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/boisson/Boisson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/location/CreateMenuLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/location/CreateMenuLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/location/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/location/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/location/start/StartLocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/location/start/StartLocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ressources/Style.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ressources/Style.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;AdrienGrandry&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AdrienGrandry/Bac.git&quot;,
+    &quot;accountId&quot;: &quot;79f33b15-1d42-4bdd-a396-a51387278081&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2ydC1Hzo3ElbLvkV5hjaMB8m4zu" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.ApplicationLauncher.executor&quot;: &quot;Run&quot;,
+    &quot;Application.CalendarViewer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.DateParser.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MainApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main.ApplicationLauncher.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Bac [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Bac [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Bac [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Utilisateur/OneDrive - Enseignement de la Province de Liège/Projet Bac/test/testAgenda&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Utilisateur\OneDrive - Enseignement de la Province de Liège\Projet Bac\Bac v2.0.0.300125 (WIP)\src\main\java\agenda" />
+      <recent name="C:\Users\Utilisateur\OneDrive - Enseignement de la Province de Liège\Projet Bac\Bac v2.0.0.300125 (WIP)\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="23" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="MainApplication" />
+      <module name="Bac" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Bac v2.0.0.300125 (WIP)" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Bac v2.0.0.300125 (WIP)" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32c437cf-c51d-471f-8c62-6c7748053e03" name="Changes" comment="" />
+      <created>1750154846997</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1750154846997</updated>
+      <workItem from="1750154848489" duration="424000" />
+      <workItem from="1750185738615" duration="5133000" />
+      <workItem from="1750245604471" duration="1520000" />
+      <workItem from="1750247177857" duration="7000" />
+      <workItem from="1750247204636" duration="1620000" />
+      <workItem from="1750329107901" duration="93000" />
+      <workItem from="1750332706664" duration="1879000" />
+      <workItem from="1750596301962" duration="2857000" />
+      <workItem from="1750622345601" duration="3618000" />
+      <workItem from="1750668737396" duration="1224000" />
+      <workItem from="1750670007695" duration="4921000" />
+      <workItem from="1750680410727" duration="2729000" />
+      <workItem from="1750764651588" duration="286000" />
+      <workItem from="1750927919086" duration="6265000" />
+      <workItem from="1750938602774" duration="3717000" />
+      <workItem from="1751032273857" duration="2187000" />
+    </task>
+    <task id="LOCAL-00001" summary="Correction organisation future">
+      <option name="closed" value="true" />
+      <created>1750246167652</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1750246167652</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Page d'acceuil OK">
+      <option name="closed" value="true" />
+      <created>1750622538467</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1750622538467</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Options OK">
+      <option name="closed" value="true" />
+      <created>1750929822163</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1750929822163</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Correction organisation future" />
+    <MESSAGE value="Page d'acceuil OK" />
+    <MESSAGE value="Options OK" />
+    <option name="LAST_COMMIT_MESSAGE" value="Options OK" />
+  </component>
+</project>

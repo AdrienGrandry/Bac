@@ -59,27 +59,33 @@ public class MainFrame extends JFrame {
         btnAgenda.addActionListener(e -> {
             LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement...");
 
-            // Affiche la fenêtre de chargement dans l'EDT
+            // Affiche la fenêtre de chargement
             SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
             // Traitement long dans un thread à part
             new Thread(() -> {
-                GoogleAgendaStyleCalendar agenda = null;
                 try {
-                    agenda = new GoogleAgendaStyleCalendar();
+                    // Test de connexion Internet avant d'aller plus loin
+                    if (!NetworkUtils.hasInternetAccess()) {
+                        SwingUtilities.invokeLater(() -> {
+                            loadingDialog.setVisible(false);
+                            Message.showErrorMessage("Pas d'accès Internet", "Impossible de se connecter à Internet. Veuillez vérifier votre connexion.");
+                        });
+                        return;
+                    }
 
-                    // Une fois terminé, masque le dialog et ouvre l'agenda dans l'EDT
-                    GoogleAgendaStyleCalendar finalAgenda = agenda;
+                    GoogleAgendaStyleCalendar agenda = new GoogleAgendaStyleCalendar();
+
                     SwingUtilities.invokeLater(() -> {
                         loadingDialog.setVisible(false);
-                        finalAgenda.setVisible(true);
+                        agenda.setVisible(true);
                         this.dispose();
                     });
 
                 } catch (IOException | GeneralSecurityException ex) {
                     SwingUtilities.invokeLater(() -> {
                         loadingDialog.setVisible(false);
-                        Message.showErrorMessage("Connexion Refusée", "La connexion à l'agenda Google a été refusée !");
+                        Message.showErrorMessage("Connexion Refusée", "La connexion à l'agenda Google a échoué !");
                     });
                 }
             }).start();
@@ -102,7 +108,7 @@ public class MainFrame extends JFrame {
         titleLabel.setForeground(Color.BLACK);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ImageIcon icon = new ImageIcon("ressources/img/logo.png");
+        ImageIcon icon = new ImageIcon(XmlConfig.getPath("logo"));
         JLabel imageLabel = new JLabel(icon);
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 

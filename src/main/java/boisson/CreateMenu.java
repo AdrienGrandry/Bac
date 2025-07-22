@@ -23,24 +23,12 @@ import org.w3c.dom.NodeList;
 
 import options.ColorXml;
 
-/**
-* @author Grandry Adrien
-*/
 public class CreateMenu extends JPanel
 {
 	private static final long serialVersionUID = 1L;
-	/**
-	 * Variable du tableau des items du menu.
-	 */
-	/* default */private final List<String> menuItems = new ArrayList<>();
 
-	/**
-	 * Variable de la classe style.
-	 */
+	private final List<String> menuItems = new ArrayList<>();
 	private Style style = new Style();
-	/**
-	 * Variable de la classe ColorXml.
-	 */
 	final private static ColorXml color = new ColorXml();
 
 	public CreateMenu(ActionListener actionListener)
