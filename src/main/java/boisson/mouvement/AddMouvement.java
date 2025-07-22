@@ -1,6 +1,7 @@
 package boisson.mouvement;
 
 import options.ColorXml;
+import ressources.Message;
 import ressources.Style;
 import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
@@ -11,9 +12,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Logger;
 
 public class AddMouvement extends JDialog {
@@ -188,7 +190,116 @@ public class AddMouvement extends JDialog {
 	}
 
 	private void validateData(JTextField commentaireField, JComboBox<String> comboBoxType) {
-		// Logic for validation and database insertion
+		int rowCount = tableModel.getRowCount(); // Obtenir le nombre de lignes dans le modéle
+
+		if(rowCount == 0) {
+			dispose();
+			return;
+		}
+
+		QueryResult queryResult = null;
+		try
+		{
+			queryResult = Requete.executeQuery("INSERT INTO mouvement (description, type) VALUES ('" + commentaireField.getText().toString() + "', '" + comboBoxType.getSelectedItem().toString() + "');");
+		} catch (Exception ex) {
+			Message.showErrorMessage("Erreur de l'insertion du mouvement dans la base de données", ex.getMessage());
+		}
+		finally
+		{
+			if (queryResult != null)
+				queryResult.close();
+		}
+
+		queryResult = null;
+		int id_mouv = -1;
+		try
+		{
+			queryResult = Requete.executeQuery("SELECT MAX(id) FROM mouvement");
+			if (queryResult.getResultSet().next()) {
+				id_mouv = queryResult.getResultSet().getInt(1);  // Récupére la premiére colonne
+			}
+		} catch (Exception ex) {
+			Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+		}
+		finally
+		{
+			if (queryResult != null)
+				queryResult.close();
+		}
+
+		// Boucle pour parcourir les lignes du tableau
+		for (int i = 0; i < rowCount; i++) {
+
+			int id_prod = (int)tableModel.getValueAt(i, 0); // Récupérer les données des cellules
+
+			Object valeurCellule = tableModel.getValueAt(i, 2); // Récupére la valeur de la cellule
+
+			// Vérifie si la valeur est bien de type Integer ou peut étre convertie
+			int quantite = 0;
+			if (valeurCellule instanceof Integer) {
+				quantite = (Integer) valeurCellule; // Conversion directe si c'est déjé un entier
+			} else if (valeurCellule instanceof String) {
+				try {
+					quantite = Integer.parseInt((String) valeurCellule); // Conversion si c'est une chaéne de caractéres
+				} catch (NumberFormatException e1) {
+				}
+			} else if (valeurCellule instanceof Number) {
+				quantite = ((Number) valeurCellule).intValue(); // Conversion générique si c'est un nombre
+			}
+
+			if(quantite != 0)
+			{
+				queryResult = null;
+				try
+				{
+					queryResult = Requete.executeQuery("INSERT INTO inclure (id_mouvement, id_produit, quantite) VALUES ('" + id_mouv + "', '" + id_prod + "', '" + quantite + "');");
+				} catch (Exception ex) {
+					Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+				}
+				finally
+				{
+					if (queryResult != null)
+						queryResult.close();
+				}
+
+				if(comboBoxType.getSelectedItem().toString() == "Sortie")
+				{
+					quantite = quantite * (-1);
+				}
+
+				int quantite_db = 0;
+				queryResult = null;
+				try
+				{
+					queryResult = Requete.executeQuery("SELECT stock FROM produit WHERE id = \" + id_prod");
+					if (queryResult.getResultSet().next()) {
+						quantite_db = queryResult.getResultSet().getInt("stock");
+					}
+				} catch (Exception ex) {
+					Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+				}
+				finally
+				{
+					if (queryResult != null)
+						queryResult.close();
+				}
+
+				int quantite_totale = quantite_db + quantite;
+
+				queryResult = null;
+				try
+				{
+					queryResult = Requete.executeQuery("UPDATE produit SET Stock= " + quantite_totale + " WHERE id = " + id_prod + ";");
+				} catch (Exception ex) {
+					Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+				}
+				finally
+				{
+					if (queryResult != null)
+						queryResult.close();
+				}
+			}
+		}
 		dispose();
 	}
 }
