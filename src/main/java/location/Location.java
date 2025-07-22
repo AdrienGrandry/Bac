@@ -4,6 +4,7 @@ import location.start.StartLocation;
 import options.ColorXml;
 import ressources.Message;
 import principale.MainFrame;
+import ressources.XmlConfig;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -64,7 +65,7 @@ public final class Location extends JFrame
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setSize(new Dimension(800, 800));
 
-        final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
+        final ImageIcon icon = new ImageIcon(XmlConfig.getPath("logo"));
         setIconImage(icon.getImage());
     }
 
@@ -94,7 +95,7 @@ public final class Location extends JFrame
                     loadSpecificPanel("location.newLocation.newLocation", parentFrame);
                     break;
                 case "Gérer Location":
-                    loadSpecificPanel("location.produit.Produit", parentFrame);
+                    loadSpecificPanel("location.manageLocation.showLocation", parentFrame);
                     break;
                 case "Facture":
                     loadSpecificPanel("location.mouvement.Mouvement", parentFrame);

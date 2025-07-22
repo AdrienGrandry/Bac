@@ -16,26 +16,23 @@ public class DateParser {
             LocalDate date = LocalDate.parse(normalized, formatter);
             return date;
         } catch (DateTimeParseException e) {
-            System.out.println("Format de date invalide: " + dateStr);
             return null;
         }
     }
 
-    public static void main(String[] args) {
-        String[] testDates = {
-                "31-02-2025",
-                "31-2-2025",
-                "31.02.2025",
-                "31.2.2025",
-                "31 02 2025",
-                "31 2 2025",
-                "31/02/2025",
-                "31/2/2025"
-        };
+    public static String parseString(String dateStr) {
+        // Remplacer les séparateurs possibles par des slash par exemple
+        String normalized = dateStr.trim().replaceAll("[\\.\\-\\s]", "/");
 
-        for (String d : testDates) {
-            LocalDate date = parseDate(d);
-            System.out.println(d + " -> " + date);
+        // Format attendu : jour/mois/année (ex: 26/06/2025)
+        DateTimeFormatter inputformatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+        DateTimeFormatter outputformatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            LocalDate date = LocalDate.parse(normalized, inputformatter);
+            return date.format(outputformatter);
+        } catch (DateTimeParseException e) {
+            return null;
         }
     }
 }

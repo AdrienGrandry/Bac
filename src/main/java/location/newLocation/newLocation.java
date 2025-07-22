@@ -1,6 +1,8 @@
 package location.newLocation;
 
+import ressources.LoadingDialog;
 import ressources.Message;
+import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
 import ressources.Style;
 import options.ColorXml;
@@ -9,10 +11,7 @@ import agenda.google.GoogleCalendarService;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class newLocation extends JPanel {
@@ -154,19 +153,27 @@ public class newLocation extends JPanel {
         buttonPanel.setVisible(false);
 
         enregistrer.addActionListener(e -> {
+            StringBuilder requeteSalle = new StringBuilder();
+            StringBuilder requeteCafet = new StringBuilder();
+            StringBuilder requeteLocation = new StringBuilder();
+
             StringBuilder sb = new StringBuilder();
             sb.append("Informations Générales :\n");
+            requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria) VALUES (");
             for (int i = 0; i < labels.length; i++) {
                 sb.append(labels[i]).append(" ").append(fields[i].getText()).append("\n");
+                requeteLocation.append("'").append(fields[i].getText()).append("', ");
             }
 
             sb.append("\nPersonne Responsable :\n");
             if (isOrganisateur.isSelected()) {
                 sb.append("Même que l'organisateur.\n");
+                requeteLocation.append("null, null, null, null, ");
             } else {
                 for (int i = 0; i < respLabels.length; i++) {
                     sb.append(respLabels[i]).append(" ").append(respFields[i].getText()).append("\n");
                 }
+                requeteLocation.append("'" + respFields[0].getText() + "', '" + respFields[1].getText() + "', '" + respFields[2].getText() + "', '" + respFields[3].getText() + "', ");
             }
 
             // Type de lieu
@@ -174,46 +181,183 @@ public class newLocation extends JPanel {
             boolean cafetSelected = cafet.isSelected();
             String typeAgenda = "";
 
-            if (salleSelected || cafetSelected) {
-                sb.append("\nType : ");
-                if (salleSelected && cafetSelected) {
-                    sb.append("Salle + Cafétéria\n");
+            if (salleSelected) {
+                typeAgenda = "BAC - Salle";
+                requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuissine240, BarAsbl, BarVide, PompeVide) values (");
+                requeteSalle.append(appendOptions(salleOptions));
+                requeteSalle.append(");");
+                if (cafetSelected)
+                {
                     typeAgenda = "BAC - Salle/Cafétéria";
-                } else if (salleSelected) {
-                    sb.append("Salle\n");
-                    typeAgenda = "BAC - Salle";
-                } else {
-                    sb.append("Cafétéria\n");
-                    typeAgenda = "BAC - Cafétéria";
+                    requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
+                    requeteCafet.append(appendOptions(cafetOptions));
+                    requeteCafet.append(");");
                 }
             } else {
-                sb.append("\nAucun espace sélectionné.\n");
-            }
-
-            // Affichage des options selon sélection
-            if (salleSelected) {
-                sb.append("\nOptions Salle :\n");
-                appendOptions(salleOptions, sb);
-            }
-
-            if (cafetSelected) {
-                sb.append("\nOptions Cafétéria :\n");
-                appendOptions(cafetOptions, sb);
+                typeAgenda = "BAC - Cafeteria";
+                requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
+                requeteCafet.append(appendOptions(cafetOptions));
+                requeteCafet.append(");");
             }
 
             LocalDate date = DateParser.parseDate(fields[8].getText());
-
-            try {
-                calendarService.set(new GoogleCalendarService());
-                calendarService.get().ajouterEvenementPlageJours(typeAgenda,
-                        fields[0].getText().toUpperCase() + " " + fields[0].getText(),
-                        sb.toString(), date, date.plusDays(1));
-
-                Message.showValidMessage("Validation de la location",
-                        "La location a été ajoutée à l'agenda");
-            } catch (GeneralSecurityException | IOException ex) {
-                throw new RuntimeException(ex);
+            if(date == null)
+            {
+                Message.showErrorMessage("Erreur date", "Le format de la date est incorrect !");
+                return;
             }
+
+            LoadingDialog loadingDialog = new LoadingDialog(parentFrame, "Ajout dans l'agenda...");
+
+            // Affiche la fenêtre de chargement dans l'EDT
+            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+            // Traitement long dans un thread à part
+            new Thread(() -> {
+                try {
+                    QueryResult queryResult = null;
+
+                    try
+                    {
+                        queryResult = Requete.executeQuery("select count(*) from location where Date = '" + DateParser.parseString(fields[8].getText()) + "'");
+
+                        if(queryResult.getResultSet().next())
+                        {
+                            if(queryResult.getResultSet().getInt(1) != 0)
+                            {
+                                SwingUtilities.invokeLater(() -> {
+                                    loadingDialog.setVisible(false);
+                                });
+
+                                Message.showErrorMessage("Ajout Location", "Une location existe déja à cette date !");
+
+                                return;
+                            }
+                        }
+                    } catch (Exception ex) {
+                        Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                    }
+                    finally
+                    {
+                        if (queryResult != null)
+                            queryResult.close();
+                    }
+
+                    /*calendarService.set(new GoogleCalendarService());
+                    calendarService.get().ajouterEvenementPlageJours(typeAgenda,
+                            fields[0].getText().toUpperCase() + " " + fields[0].getText(),
+                            sb.toString(), date, date.plusDays(1));*/
+
+                    int idSalle = -1;
+                    int idCafet = -1;
+                    queryResult = null;
+
+                    if(requeteSalle.length() != 0)
+                    {
+                        try
+                        {
+                            queryResult = Requete.executeQuery(requeteSalle.toString());
+                        } catch (Exception ex) {
+                            Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                        }
+                        finally
+                        {
+                            if (queryResult != null)
+                                queryResult.close();
+                        }
+
+                        queryResult = null;
+
+                        try
+                        {
+                            queryResult = Requete.executeQuery("SELECT MAX(IdSalle) FROM salle");
+
+                            if(queryResult.getResultSet().next())
+                            {
+                                idSalle = queryResult.getResultSet().getInt(1);
+                            }
+                        } catch (Exception ex) {
+                            Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                        }
+                        finally
+                        {
+                            if (queryResult != null)
+                                queryResult.close();
+                        }
+                        requeteLocation.append(idSalle + ", ");
+                    }
+                    else
+                    {
+                        requeteLocation.append("null, ");
+                    }
+
+                    if(requeteCafet.length() != 0)
+                    {
+                        queryResult = null;
+                        try
+                        {
+                            queryResult = Requete.executeQuery(requeteCafet.toString());
+                        } catch (Exception ex) {
+                            Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                        }
+                        finally
+                        {
+                            if (queryResult != null)
+                                queryResult.close();
+                        }
+
+                        queryResult = null;
+
+                        try
+                        {
+                            queryResult = Requete.executeQuery("SELECT MAX(IdCafeteria) FROM Cafeteria");
+
+                            if(queryResult.getResultSet().next())
+                            {
+                                idCafet = queryResult.getResultSet().getInt(1);
+                            }
+                        } catch (Exception ex) {
+                            Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                        }
+                        finally
+                        {
+                            if (queryResult != null)
+                                queryResult.close();
+                        }
+                        requeteLocation.append(idCafet + ");");
+                    }
+                    else
+                    {
+                        requeteLocation.append("null);");
+                    }
+
+                    queryResult = null;
+                    try
+                    {
+                        queryResult = Requete.executeQuery(requeteLocation.toString());
+                    } catch (Exception ex) {
+                        Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+                    }
+                    finally
+                    {
+                        if (queryResult != null)
+                            queryResult.close();
+                    }
+
+                    SwingUtilities.invokeLater(() -> {
+                        loadingDialog.setVisible(false);
+                    });
+
+                    Message.showValidMessage("Validation de la location",
+                            "La location a été ajoutée à l'agenda");
+
+                } catch (/*GeneralSecurityException | IOException*/Exception ex) {
+                    SwingUtilities.invokeLater(() -> {
+                        loadingDialog.setVisible(false);
+                        Message.showErrorMessage("Erreur", ex.getMessage());
+                    });
+                }
+            }).start();
         });
 
         contentPanel.add(buttonPanel);
@@ -238,6 +382,7 @@ public class newLocation extends JPanel {
         cafet.addActionListener(e -> {
             if (cafet.isSelected()) {
                 cafetOptions.setVisible(true);
+                buttonPanel.setVisible(true);
             } else {
                 cafetOptions.setVisible(false);
                 if(!salle.isSelected()) {
@@ -298,17 +443,19 @@ public class newLocation extends JPanel {
         return panel;
     }
 
-    private void appendOptions(JPanel optionsPanel, StringBuilder sb) {
+    private StringBuilder appendOptions(JPanel optionsPanel) {
+        StringBuilder sb = new StringBuilder();
         for (Component c : optionsPanel.getComponents()) {
             if (c instanceof JPanel) {
                 Component[] row = ((JPanel) c).getComponents();
                 if (row.length >= 3 && row[0] instanceof JLabel && row[1] instanceof JRadioButton) {
                     String question = ((JLabel) row[0]).getText();
                     boolean selected = ((JRadioButton) row[1]).isSelected(); // bouton "Oui"
-                    sb.append("- ").append(question).append(" : ").append(selected ? "Oui" : "Non").append("\n");
+                    sb.append(selected ? "true" : "false").append(",");
                 }
             }
         }
+        sb.delete(sb.length() - 1 , sb.length());
+        return sb;
     }
-
 }
