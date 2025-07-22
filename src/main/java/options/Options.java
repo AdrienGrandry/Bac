@@ -2,6 +2,7 @@ package options;
 
 import principale.MainFrame;
 import ressources.Style;
+import ressources.XmlConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class Options extends JFrame
 		setLocationRelativeTo(null);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 
-		final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
+		final ImageIcon icon = new ImageIcon(XmlConfig.getPath("logo"));
 		setIconImage(icon.getImage());
 
 		final ColorXml colorXml = new ColorXml();

@@ -2,6 +2,7 @@ package ressources.dataBase;
 
 import ressources.Message;
 import options.ColorXml;
+import ressources.XmlConfig;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -49,9 +50,7 @@ public class Requete
 	 * Constructeur de la classe vide
 	 */
 	public Requete()
-	{
-		LOGGER.info("Creation classe Requete");
-	}
+	{}
 
 	/**
 	 * Fonction pour faire la requete sql et retourner un tableau avec la réponse
@@ -62,13 +61,13 @@ public class Requete
 		final JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BorderLayout());
 
-		try (Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
-		        Statement statement = connection.createStatement();
-		        ResultSet resultSet = statement.executeQuery(query))
+		try (Connection connection = DriverManager.getConnection("jdbc:sqlite:"+XmlConfig.getPath("database"));
+		        Statement statement = connection.createStatement();)
 		{
 			final String lowerCaseString = query.toLowerCase(Locale.ROOT);
 			if (lowerCaseString.startsWith("select"))
 			{
+				ResultSet resultSet = statement.executeQuery(query);
 				final JTable table = buildTable(resultSet, styleCase);
 				table.getTableHeader().setBackground(Color.decode(color.xmlReader("background")));
 				final JScrollPane scrollPane = new JScrollPane(table);
@@ -154,6 +153,24 @@ public class Requete
 							component.setForeground(Color.BLACK);
 						}
 						break;
+						case "lieuLocation":
+							if (isSpecificColumnExists(this, "Lieu"))
+							{
+								final String typeValue = getColumnValue(this, row, "Lieu");
+
+								if ("Salle".equalsIgnoreCase(typeValue))
+								{
+									component.setBackground(Color.decode("#EEA5EA"));
+								} else if ("Cafétéria".equalsIgnoreCase(typeValue))
+								{
+									component.setBackground(Color.decode("#EEC884"));
+								} else if ("Salle + Cafétéria".equalsIgnoreCase(typeValue))
+								{
+									component.setBackground(Color.decode("#72b4e6"));
+								}
+								component.setForeground(Color.BLACK);
+							}
+							break;
 
 					default:
 						component.setBackground(Color.WHITE);
@@ -306,10 +323,23 @@ public class Requete
 	/**
 	 * Fonction qui execute la requete sql et retourne un objet QueryResult
 	 */
-	static public QueryResult executeQuery(final String query) throws SQLException {
-		Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
-		Statement statement = connection.createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-		return new QueryResult(connection, resultSet);
+	static public QueryResult executeQuery(final String query) {
+
+		try
+		{
+			Connection connection = DriverManager.getConnection("jdbc:sqlite:"+XmlConfig.getPath("database"));
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(query);
+			return new QueryResult(connection, resultSet);
+		}
+		catch (SQLException e)
+		{
+			if(e.getErrorCode() != 101)
+			{
+				Message.showErrorMessage("Erreur", e.getMessage());
+			}
+
+			return null;
+		}
 	}
 }

@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import options.ColorXml;
+import ressources.XmlConfig;
 
 public class StartLocation extends JPanel
 {
@@ -27,7 +28,7 @@ public class StartLocation extends JPanel
 
 		try
 		{
-			BufferedImage img = ImageIO.read(new File("ressources/img/logo.png"));
+			BufferedImage img = ImageIO.read(new File(XmlConfig.getPath("logo")));
 			Image scaledImage = img.getScaledInstance(515, 309, Image.SCALE_SMOOTH);
 
 			JLabel textLabel = new JLabel("Gesti'Bac");

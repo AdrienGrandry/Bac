@@ -72,7 +72,12 @@ public class Mouvement extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String sql = "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' FROM inclure JOIN mouvement ON mouvement.id = inclure.id_mouvement JOIN produit ON produit.id = inclure.id_produit ORDER BY date_creation DESC;";
+                String sql =
+                        "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', " +
+                        "strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' " +
+                        "FROM inclure " +
+                        "JOIN mouvement ON mouvement.id = inclure.id_mouvement " +
+                        "JOIN produit ON produit.id = inclure.id_produit ORDER BY date_creation DESC;";
 
                 tableauPanel.removeAll();
                 JPanel tab = null;

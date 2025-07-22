@@ -9,7 +9,7 @@ public class Message
 	// Méthode pour afficher un message d'erreur avec un nom de panel inexistant
 	public static void showErrorMessage(final String errorName, final String description)
 	{
-		ImageIcon icon = new ImageIcon("./error.png");
+		ImageIcon icon = new ImageIcon(XmlConfig.getPath("error"));
 		JOptionPane.showMessageDialog(null, description, errorName, JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
@@ -17,7 +17,7 @@ public class Message
 	// inexistant
 	public static void showValidMessage(String errorName, String description)
 	{
-		ImageIcon icon = new ImageIcon("./valid.png");
+		ImageIcon icon = new ImageIcon(XmlConfig.getPath("valid"));
 		JOptionPane.showMessageDialog(null, description, errorName, JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 }

@@ -4,6 +4,7 @@ import boisson.start.Start;
 import options.ColorXml;
 import ressources.Message;
 import principale.MainFrame;
+import ressources.XmlConfig;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -64,7 +65,7 @@ public final class Boisson extends JFrame
         setExtendedState(Frame.MAXIMIZED_BOTH);
         setSize(new Dimension(800, 800));
 
-        final ImageIcon icon = new ImageIcon("ressources/img/logo.png");
+        final ImageIcon icon = new ImageIcon(XmlConfig.getPath("logo"));
         setIconImage(icon.getImage());
     }
 

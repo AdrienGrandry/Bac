@@ -119,8 +119,8 @@ public class Style
 
 	public static void applyCheckBoxStyle(JCheckBox checkBox) {
 		// Charge les icônes depuis les fichiers
-		Icon uncheckedIcon = new ImageIcon("./square.png");
-		Icon checkedIcon = new ImageIcon("./check.png");
+		Icon uncheckedIcon = new ImageIcon(XmlConfig.getPath("nocheck"));
+		Icon checkedIcon = new ImageIcon(XmlConfig.getPath("check"));
 
 		checkBox.setIcon(uncheckedIcon);
 		checkBox.setSelectedIcon(checkedIcon);
@@ -133,8 +133,8 @@ public class Style
 
 	public static void applyRadioStyle(JRadioButton radioButton) {
 		// Charge les icônes depuis les fichiers
-		Icon uncheckedIcon = new ImageIcon("./square.png");
-		Icon checkedIcon = new ImageIcon("./check.png");
+		Icon uncheckedIcon = new ImageIcon(XmlConfig.getPath("nocheck"));
+		Icon checkedIcon = new ImageIcon(XmlConfig.getPath("check"));
 
 		radioButton.setIcon(uncheckedIcon);
 		radioButton.setSelectedIcon(checkedIcon);

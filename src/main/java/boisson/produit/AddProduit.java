@@ -83,6 +83,7 @@ public class AddProduit extends JDialog
 		panneauPrincipal.add(prix);
 
 		final JCheckBox checkBoxVisibilite = new JCheckBox("Visible");
+		Style.applyCheckBoxStyle(checkBoxVisibilite);
 		checkBoxVisibilite.setFont(new Font("Arial", Font.BOLD, 18));
 		checkBoxVisibilite.setBounds(50, 550, 100, 30);
 		checkBoxVisibilite.setBackground(Color.decode(color.xmlReader("background")));
@@ -148,7 +149,7 @@ public class AddProduit extends JDialog
 						break;
 					}
 
-					try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+					try (Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
 					        Statement statement = connection.createStatement())
 					{
 
@@ -194,7 +195,7 @@ public class AddProduit extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+				try (Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
 				        Statement statement = connection.createStatement())
 				{
 
@@ -213,7 +214,7 @@ public class AddProduit extends JDialog
 		{
 			panneauPrincipal.add(boutonSupprimer);
 
-			try (Connection connection = DriverManager.getConnection("jdbc:sqlite:Database.db");
+			try (Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
 			        Statement statement = connection.createStatement())
 			{
 

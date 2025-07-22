@@ -4,41 +4,117 @@ Programme de gestion de stock pour le bac.
 
 # Organisation du projet - Avancement
 
-- Principale
-- [X] Fenètre principale
-- agenda
-- [X] agenda
-- location
-- [ ] Enregistrer location
-- [ ] Gérer location
-- [ ] Facture
-- [ ] Tarif
-- boisson
-- [ ] Mouvement
-- [ ] Stock
-- [ ] Produits
-- [ ] Prévision
-- [ ] Commande
-- options
-- [X] Options
-
+- **Principale**
+- **Agenda**
+- locations
+    - Enregistrer location
+    - Gérer location
+    - Facture
+    - Tarif
+- Boissons
+    - **Mouvement**
+    - **Stock**
+    - **Produits**
+    - Prévision
+    - Commande
+- **Options**
 
 # Test du projet
 
 - Principale
-- [X] Fenètre principale
+    - Agenda **CHARGEMENT INFINI SI PAS DE WIFI**
+    - **Gestion Locations**
+    - **Boissons**
+    - **Options**
+    - **Quitter**
 - agenda
-- [] agenda
+    - Affichage
+    - Changement de mois <<
+    - Changement de mois >>
 - location
-- [ ] Enregistrer location
-- [ ] Gérer location
-- [ ] Facture
-- [ ] Tarif
+    - Enregistrer location **CHARGEMENT INFINI SI PAS DE WIFI**
+    - Gérer location
+    - Facture
+    - Tarif
 - boisson
-- [ ] Mouvement
-- [ ] Stock
-- [ ] Produits
-- [ ] Prévision
-- [ ] Commande
-- options
-- [X] Options
+    - **Mouvement**
+        - **Affichage**
+        - **Mouvement**
+            - **Aucune Boisson**
+            - **Boisson**
+            - **MAJ Stock**
+        - **Inventaire**
+            - **Sans Boisson**
+            - **Avec Boisson**
+            - **MAJ Stock**
+    - **Stock**
+    - **Produits**
+    - Prévision
+    - Commande
+- **Options**
+    - **Lecture des couleurs**
+    - **Lecture du chemin**
+    - **Modification de la couleur**
+    - **Modification du chemin**
+
+# Optimisation et claireté du code
+
+- agenda **Chat GPT Donc pas vérif**
+    - app
+        - DayPanel
+        - EventLabel
+        - GoogleAgendaStyleCalendar
+    - google
+        - EventMapper
+        - GoogleAuthorizeUtil
+        - GoogleCalendarService
+    - model
+        - CalendarModel
+        - EventModel
+    - util
+        - DateUtilis
+- **boisson**
+    - **database**
+        - **Database**
+    - **mouvement**
+        - **AddMouvement**
+        - **Boisson**
+        - **Inventaire**
+        - **Mouvement**
+    - **produit**
+        - **AddProduit**
+        - **Produit**
+    - **start**
+        - **Start**
+    - **stock**
+        - **Stock**
+    - **Boisson**
+    - **createMenu**
+- location
+    - facture
+    - manageLocation
+    - newLocation
+        - **DateParser**
+        - newLocation
+    - **start**
+        - **StartLocation**
+    - tarifs
+    - **CreateMenuLocation**
+    - **Location**
+- **options**
+    - **ColorChooserWin11Style**
+    - **ColorInfo**
+    - **ColorXml**
+    - **FolderChooserWin11Style**
+    - **Options**
+- **principal**
+    - **MainFrame**
+- **ressources**
+    - **DataBase**
+        - **QueryResult**
+        - **Requete**
+    - **LoadingDialog**
+    - **Message**
+    - **Style**
+    - **XmlConfig**
+-**MainApplication**
