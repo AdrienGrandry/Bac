@@ -88,8 +88,8 @@ public class CreateMenuLocation extends JPanel
 		/*
 		*AFFICHER PDF INCLUS
 		 */
-		menuItems.add("Enregistrer et retour");
-		menuItems.add("Enregister Location");//AJout dans ajenda + db de la loc avec options + choix 1 ou deux salles
+		menuItems.add("Retour");
+		menuItems.add("Enregister Location");
 		menuItems.add("Gérer Location");
 		//liste boisson(affichée ou enregistrer) + document location + info choix loc future ou cloturée
 		//pouvoir annuler location --> remboursement

@@ -32,7 +32,7 @@ public class MainFrame extends JFrame {
         JButton btnCompta = new JButton("Gestion Locations");
         JButton btnBoissons = new JButton("Boissons");
         JButton btnOption = new JButton("Option");
-        JButton btnQuitter = new JButton("Enregistrer et Quitter");
+        JButton btnQuitter = new JButton("Quitter");
 
         JButton[] boutons = { btnAgenda, btnCompta, btnBoissons, btnOption, btnQuitter };
         for (JButton btn : boutons) {

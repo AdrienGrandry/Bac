@@ -73,7 +73,7 @@ public class CreateMenu extends JPanel
 	// Initialisation des éléments du menu
 	private void initMenuItems()
 	{
-		menuItems.add("Enregistrer et retour");
+		menuItems.add("Retour");
 		menuItems.add("Mouvements");
 		menuItems.add("Stock");
 		menuItems.add("Produits");
