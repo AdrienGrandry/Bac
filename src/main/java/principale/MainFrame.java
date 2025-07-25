@@ -51,41 +51,19 @@ public class MainFrame extends JFrame {
         });
 
         btnCompta.addActionListener(e -> {
-            Location loacation = new Location();
+            Location loacation = new Location(null);
             loacation.setVisible(true);
             this.dispose();
         });
 
         btnAgenda.addActionListener(e -> {
-            LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement...");
-
-            // Affiche la fenêtre de chargement
-            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
-
-            // Traitement long dans un thread à part
             new Thread(() -> {
-                try {
-                    // Test de connexion Internet avant d'aller plus loin
-                    if (!NetworkUtils.hasInternetAccess()) {
-                        SwingUtilities.invokeLater(() -> {
-                            loadingDialog.setVisible(false);
-                            Message.showErrorMessage("Pas d'accès Internet", "Impossible de se connecter à Internet. Veuillez vérifier votre connexion.");
-                        });
-                        return;
-                    }
+                GoogleAgendaStyleCalendar agenda = new GoogleAgendaStyleCalendar(this);
 
-                    GoogleAgendaStyleCalendar agenda = new GoogleAgendaStyleCalendar();
-
+                if (agenda.isLoaded) {
                     SwingUtilities.invokeLater(() -> {
-                        loadingDialog.setVisible(false);
                         agenda.setVisible(true);
                         this.dispose();
-                    });
-
-                } catch (IOException | GeneralSecurityException ex) {
-                    SwingUtilities.invokeLater(() -> {
-                        loadingDialog.setVisible(false);
-                        Message.showErrorMessage("Connexion Refusée", "La connexion à l'agenda Google a échoué !");
                     });
                 }
             }).start();

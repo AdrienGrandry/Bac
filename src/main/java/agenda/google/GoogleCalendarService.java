@@ -12,7 +12,10 @@ import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.ColorDefinition;
 
 import agenda.model.EventModel;
+import ressources.LoadingDialog;
+import ressources.Message;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -182,36 +185,11 @@ public class GoogleCalendarService {
     }
 
     /**
-     * Ajoute un événement journée complète à une date donnée dans un calendrier.
-     */
-    public EventModel ajouterEvenementDans(String nomCalendrier, String titre, LocalDate date) throws IOException {
-        Map<String, String> calendrierIds = getCalendarNameIdMap();
-        String calendarId = calendrierIds.get(nomCalendrier);
-        if (calendarId == null) {
-            throw new IllegalArgumentException("Calendrier introuvable : " + nomCalendrier);
-        }
-
-        Event event = new Event().setSummary(titre);
-
-        // Journée complète: start date et end date (fin exclusive)
-        EventDateTime start = new EventDateTime().setDate(new com.google.api.client.util.DateTime(date.toString()));
-        EventDateTime end = new EventDateTime().setDate(new com.google.api.client.util.DateTime(date.plusDays(1).toString()));
-
-        event.setStart(start);
-        event.setEnd(end);
-
-        Event createdEvent = service.events().insert(calendarId, event).execute();
-
-        EventModel created = new EventModel(date, titre);
-        created.setEventId(createdEvent.getId());
-        return created;
-    }
-
-    /**
      * Ajoute un événement sur plusieurs jours (journée complète).
+     *
      * @param finExclu Date de fin exclusive (comme demandé par l'API Google Calendar)
      */
-    public EventModel ajouterEvenementPlageJours(String nomCalendrier, String titre, String description, LocalDate debut, LocalDate finExclu) throws IOException {
+    public void ajouterEvenementPlageJours(String nomCalendrier, String titre, String description, LocalDate debut, LocalDate finExclu) throws IOException {
         Map<String, String> calendrierIds = getCalendarNameIdMap();
         String calendarId = calendrierIds.get(nomCalendrier);
         if (calendarId == null) {
@@ -227,8 +205,48 @@ public class GoogleCalendarService {
 
         EventModel created = new EventModel(debut, titre);
         created.setEventId(createdEvent.getId());
-        return created;
     }
+
+    public void safeAjouterEvenementPlageJours(JFrame parent, String nomCalendrier, String titre, String description, LocalDate debut, LocalDate finExclu) {
+        LoadingDialog loadingDialog = new LoadingDialog(parent, "Ajout de l'événement...");
+
+        SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+        new Thread(() -> {
+            try {
+                ajouterEvenementPlageJours(nomCalendrier, titre, description, debut, finExclu);
+
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+                    Message.showValidMessage("Validation de la location", "La location a bien été enregistrée et ajoutée dans l'agenda");
+                });
+
+            } catch (IOException ex) {
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+
+                    String message;
+                    if (ex instanceof java.net.UnknownHostException || ex instanceof java.net.SocketTimeoutException) {
+                        message = "La location à été enregistrée et sera ajoutée à l'agenda lors de votre prochaine connexion à internet !";
+
+                        ////////////////////////////////////////////////////////////////////
+                        //AJOUTER DANS LA DB LES INFO PAS ENCODE POUR AJOUTER EN 2e THREAD//
+                        ////////////////////////////////////////////////////////////////////
+                    } else {
+                        message = "Impossible de se connecter à Google Agenda.";
+                    }
+
+                    Message.showErrorMessage("Erreur ajout location", message);
+                });
+            } catch (IllegalArgumentException ex) {
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+                    Message.showErrorMessage("Erreur ajout location", ex.getMessage());
+                });
+            }
+        }).start();
+    }
+
 
     /**
      * Met à jour un événement existant (journée complète).

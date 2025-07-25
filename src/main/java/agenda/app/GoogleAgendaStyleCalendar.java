@@ -3,23 +3,26 @@ package agenda.app;
 import agenda.model.CalendarModel;
 import agenda.model.EventModel;
 import agenda.google.GoogleCalendarService;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.ColorDefinition;
-import com.google.api.services.calendar.model.Colors;
 import principale.MainFrame;
 import ressources.LoadingDialog;
+import ressources.Message;
 import ressources.Style;
+import ressources.XmlConfig;
+import location.Location;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.List;
+
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.ColorDefinition;
+import com.google.api.services.calendar.model.Colors;
 
 public class GoogleAgendaStyleCalendar extends JFrame {
 
@@ -29,7 +32,6 @@ public class GoogleAgendaStyleCalendar extends JFrame {
     // Composants UI principaux
     private JLabel monthYearLabel;
     private JPanel calendarGrid;
-    private JComboBox<String> agendaSelector;
 
     private CalendarModel calendarModel;
     private GoogleCalendarService calendarService;
@@ -40,19 +42,39 @@ public class GoogleAgendaStyleCalendar extends JFrame {
     // Couleurs associées aux agendas
     private Map<String, Color> agendaColors;
 
-    public GoogleAgendaStyleCalendar() throws GeneralSecurityException, IOException {
-        currentMonth = LocalDate.now().withDayOfMonth(1);
-        calendarModel = new CalendarModel();
-        calendarService = new GoogleCalendarService();
+    public boolean isLoaded = false;
 
-        // Récupérer uniquement les agendas filtrés
-        filteredAgendas = calendarService.getFilteredCalendarNames();
+    public GoogleAgendaStyleCalendar(JFrame parent) {
+        LoadingDialog loadingDialog = new LoadingDialog(parent, "Chargement...");
+        SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
-        // Charger les couleurs des agendas via l'API Google Calendar
-        agendaColors = loadAgendaColors();
+        try {
+            currentMonth = LocalDate.now().withDayOfMonth(1);
+            calendarModel = new CalendarModel();
+            calendarService = new GoogleCalendarService();
 
-        initUI();
-        refreshCalendar();
+            filteredAgendas = calendarService.getFilteredCalendarNames();
+            agendaColors = loadAgendaColors();
+
+            initUI();
+            refreshCalendar();
+
+            isLoaded = true;
+            loadingDialog.setVisible(false);
+        } catch (IOException | GeneralSecurityException ex) {
+            SwingUtilities.invokeLater(() -> {
+                String message;
+                if (ex instanceof java.net.UnknownHostException) {
+                    message = "Vérifiez votre connexion Internet (DNS introuvable).";
+                } else if (ex instanceof java.net.SocketTimeoutException) {
+                    message = "Connexion trop lente ou réseau instable.";
+                } else {
+                    message = "Impossible de se connecter à Google Agenda.";
+                }
+                Message.showErrorMessage("Connexion échouée", message);
+                loadingDialog.setVisible(false);
+            });
+        }
     }
 
     /**
@@ -64,6 +86,9 @@ public class GoogleAgendaStyleCalendar extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+
+        final ImageIcon icon = new ImageIcon(XmlConfig.getPath("logo"));
+        setIconImage(icon.getImage());
 
         // Header avec bouton retour et titre
         JPanel header = new JPanel(new BorderLayout());
@@ -97,14 +122,9 @@ public class GoogleAgendaStyleCalendar extends JFrame {
             agendaNames.add(cle.getSummary());
         }
 
-        agendaSelector = new JComboBox<>(agendaNames.toArray(new String[0]));
-        Style.applyBoxStyle(agendaSelector);
-        agendaSelector.setFocusable(false);
-
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         centerPanel.setOpaque(false);
         centerPanel.add(monthYearLabel);
-        centerPanel.add(agendaSelector);
 
         monthPanel.add(prev, BorderLayout.WEST);
         monthPanel.add(centerPanel, BorderLayout.CENTER);
@@ -135,13 +155,22 @@ public class GoogleAgendaStyleCalendar extends JFrame {
             safeRefresh();
         });
 
-        // Changement d'agenda
-        agendaSelector.addActionListener(e -> safeRefresh());
-
         // Grid pour affichage calendrier
         calendarGrid = new JPanel(new GridLayout(0, 7));
         calendarGrid.setBackground(Color.WHITE);
         add(calendarGrid, BorderLayout.CENTER);
+
+        JPanel panelNewLocation = new JPanel();
+        JButton newLocation = new JButton("Ajouter une location");
+        Style.applyButtonStyle(newLocation);
+        newLocation.addActionListener(e -> {
+            Location location = new Location("newLocation");
+            location.setVisible(true);
+            dispose();
+        });
+
+        panelNewLocation.add(newLocation, BorderLayout.EAST);
+        add(panelNewLocation, BorderLayout.SOUTH);
     }
 
     /**
@@ -186,31 +215,16 @@ public class GoogleAgendaStyleCalendar extends JFrame {
 
         // Récupération des événements filtrés
         List<EventModel> allEvents = new ArrayList<>();
-        String selectedAgenda = (String) agendaSelector.getSelectedItem();
 
-        if ("Tous".equals(selectedAgenda)) {
-            for (CalendarListEntry cle : filteredAgendas) {
-                List<EventModel> events = calendarService.getEventsForMonth(currentMonth, cle.getId());
+        for (CalendarListEntry cle : filteredAgendas) {
+            List<EventModel> events = calendarService.getEventsForMonth(currentMonth, cle.getId());
 
-                // Assigner le nom du calendrier à chaque événement
-                for (EventModel ev : events) {
-                    ev.setCalendarName(cle.getSummary());
-                }
-
-                allEvents.addAll(events);
+            // Assigner le nom du calendrier à chaque événement
+            for (EventModel ev : events) {
+                ev.setCalendarName(cle.getSummary());
             }
-        } else {
-            CalendarListEntry selectedCal = filteredAgendas.stream()
-                    .filter(c -> c.getSummary().equals(selectedAgenda))
-                    .findFirst()
-                    .orElse(null);
 
-            if (selectedCal != null) {
-                allEvents = calendarService.getEventsForMonth(currentMonth, selectedCal.getId());
-                for (EventModel ev : allEvents) {
-                    ev.setCalendarName(selectedCal.getSummary());
-                }
-            }
+            allEvents.addAll(events);
         }
 
         calendarModel.setEvents(allEvents);
@@ -273,11 +287,18 @@ public class GoogleAgendaStyleCalendar extends JFrame {
                 // Une fois terminé, revenir dans l'EDT pour cacher la popup
                 SwingUtilities.invokeLater(() -> loadingDialog.setVisible(false));
 
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            } catch (Exception ex) {
                 SwingUtilities.invokeLater(() -> {
+                    String message;
+                    if (ex instanceof java.net.UnknownHostException) {
+                        message = "Vérifiez votre connexion Internet (DNS introuvable).";
+                    } else if (ex instanceof java.net.SocketTimeoutException) {
+                        message = "Connexion trop lente ou réseau instable.";
+                    } else {
+                        message = "Impossible de se connecter à Google Agenda.";
+                    }
+                    Message.showErrorMessage("Connexion échouée", message);
                     loadingDialog.setVisible(false);
-                    JOptionPane.showMessageDialog(this, "Erreur lors du chargement du calendrier : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 });
             }
         }).start();

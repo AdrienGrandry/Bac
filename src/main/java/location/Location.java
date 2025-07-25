@@ -27,7 +27,7 @@ public final class Location extends JFrame
     final private static StartLocation start = new StartLocation(null);
     final private static ColorXml color = new ColorXml();
 
-    public Location() {
+    public Location(String namePanelToLoad) {
         createMainFrame();
 
         // Définition du listener pour les actions des boutons du menu
@@ -52,7 +52,17 @@ public final class Location extends JFrame
         add(panel, BorderLayout.CENTER);
 
         // Panneau de copyright
-        addCopyrightPanel(this);
+        
+        if(namePanelToLoad == null)
+        {
+            addCopyrightPanel(this);
+        } else if (namePanelToLoad.equals("newLocation")) {
+            try {
+                loadSpecificPanel("location.newLocation.newLocation", this);
+            } catch (Exception e) {
+                Message.showErrorMessage("Chargement du panel", "Impossible d'ouvrir l'onglet de ce nom");
+            }
+        }
 
         // Affichage de la fenêtre
         setVisible(true);
@@ -135,7 +145,7 @@ public final class Location extends JFrame
             parentFrame.repaint();
         } else
         {
-            throw new IllegalArgumentException("La classe " + className + " n'est pas un JPanel.");
+            Message.showErrorMessage("Chargement du panel", "Impossible d'ouvrir l'onglet de ce nom");
         }
     }
 }
