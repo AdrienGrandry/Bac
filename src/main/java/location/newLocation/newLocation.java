@@ -38,7 +38,7 @@ public class newLocation extends JPanel {
         Font baseFont = new Font("Arial", Font.PLAIN, 16);
 
         // SECTION 1 : Informations Générales
-        JPanel infoPanel = new JPanel(new GridLayout(11, 2, 20, 10));
+        JPanel infoPanel = new JPanel(new GridLayout(12, 2, 20, 10));
         infoPanel.setOpaque(false);
 
         String[] labels = {"Nom :", "Prénom :", "Adresse :", "Code Postal :", "Localité :", "N° GSM :",
@@ -52,6 +52,16 @@ public class newLocation extends JPanel {
             infoPanel.add(label);
             infoPanel.add(fields[i]);
         }
+
+        JLabel labelOption = new JLabel("Option : ");
+        labelOption.setFont(baseFont);
+        infoPanel.add(labelOption);
+
+        JCheckBox boxOption = new JCheckBox();
+        Style.applyCheckBoxStyle(boxOption);
+        infoPanel.add(boxOption);
+
+
 
         contentPanel.add(sectionWrapper("Informations Générales", infoPanel, color));
         contentPanel.add(Box.createVerticalStrut(50));
@@ -159,7 +169,7 @@ public class newLocation extends JPanel {
 
             StringBuilder sb = new StringBuilder();
             sb.append("Informations Générales :\n");
-            requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria) VALUES (");
+            requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria, Option) VALUES (");
             for (int i = 0; i < labels.length; i++) {
                 sb.append(labels[i]).append(" ").append(fields[i].getText()).append("\n");
                 requeteLocation.append("'").append(fields[i].getText()).append("', ");
@@ -213,6 +223,7 @@ public class newLocation extends JPanel {
             SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
             // Traitement long dans un thread à part
+            String finalTypeAgenda = typeAgenda;
             new Thread(() -> {
                 try {
                     QueryResult queryResult = null;
@@ -243,10 +254,16 @@ public class newLocation extends JPanel {
                             queryResult.close();
                     }
 
-                    /*calendarService.set(new GoogleCalendarService());
-                    calendarService.get().ajouterEvenementPlageJours(typeAgenda,
-                            fields[0].getText().toUpperCase() + " " + fields[0].getText(),
-                            sb.toString(), date, date.plusDays(1));*/
+                    String titreEvenement = "";
+                    if(boxOption.isSelected())
+                    {
+                        titreEvenement += "(Option) ";
+                    }
+                    titreEvenement += fields[0].getText().toUpperCase() + " " + fields[0].getText();
+
+                    calendarService.set(new GoogleCalendarService());
+                    calendarService.get().safeAjouterEvenementPlageJours(parentFrame, finalTypeAgenda, titreEvenement,
+                            sb.toString(), date, date.plusDays(1));
 
                     int idSalle = -1;
                     int idCafet = -1;
@@ -324,11 +341,20 @@ public class newLocation extends JPanel {
                             if (queryResult != null)
                                 queryResult.close();
                         }
-                        requeteLocation.append(idCafet + ");");
+                        requeteLocation.append(idCafet + ", ");
                     }
                     else
                     {
-                        requeteLocation.append("null);");
+                        requeteLocation.append("null, ");
+                    }
+
+                    if(boxOption.isSelected())
+                    {
+                        requeteLocation.append("true);");
+                    }
+                    else
+                    {
+                        requeteLocation.append("false);");
                     }
 
                     queryResult = null;
@@ -347,11 +373,7 @@ public class newLocation extends JPanel {
                     SwingUtilities.invokeLater(() -> {
                         loadingDialog.setVisible(false);
                     });
-
-                    Message.showValidMessage("Validation de la location",
-                            "La location a été ajoutée à l'agenda");
-
-                } catch (/*GeneralSecurityException | IOException*/Exception ex) {
+                } catch (Exception ex) {
                     SwingUtilities.invokeLater(() -> {
                         loadingDialog.setVisible(false);
                         Message.showErrorMessage("Erreur", ex.getMessage());
