@@ -1,5 +1,6 @@
 package location.newLocation;
 
+Coimport ressources.DateParser;
 import ressources.LoadingDialog;
 import ressources.Message;
 import ressources.dataBase.QueryResult;
@@ -11,8 +12,10 @@ import agenda.google.GoogleCalendarService;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static ressources.DateParser.parseDateToIsoString;
+import static ressources.DateParser.parseStringToLocalDate;
 
 public class newLocation extends JPanel {
 
@@ -172,7 +175,14 @@ public class newLocation extends JPanel {
             requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria, Option) VALUES (");
             for (int i = 0; i < labels.length; i++) {
                 sb.append(labels[i]).append(" ").append(fields[i].getText()).append("\n");
-                requeteLocation.append("'").append(fields[i].getText()).append("', ");
+                if(i == 8)
+                {
+                    requeteLocation.append("'").append(parseDateToIsoString(fields[i].getText())).append("', ");
+                }
+                else
+                {
+                    requeteLocation.append("'").append(fields[i].getText()).append("', ");
+                }
             }
 
             sb.append("\nPersonne Responsable :\n");
@@ -204,13 +214,13 @@ public class newLocation extends JPanel {
                     requeteCafet.append(");");
                 }
             } else {
-                typeAgenda = "BAC - Cafeteria";
+                typeAgenda = "BAC - Cafétéria";
                 requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
                 requeteCafet.append(appendOptions(cafetOptions));
                 requeteCafet.append(");");
             }
 
-            LocalDate date = DateParser.parseDate(fields[8].getText());
+            String date = DateParser.parseDateToIsoString(fields[8].getText());
             if(date == null)
             {
                 Message.showErrorMessage("Erreur date", "Le format de la date est incorrect !");
@@ -230,19 +240,26 @@ public class newLocation extends JPanel {
 
                     try
                     {
-                        queryResult = Requete.executeQuery("select count(*) from location where Date = '" + DateParser.parseString(fields[8].getText()) + "'");
+                        queryResult = Requete.executeQuery("select count(*) from location where Date = '" + DateParser.parseDateToIsoString(fields[8].getText()) + "'");
 
                         if(queryResult.getResultSet().next())
                         {
                             if(queryResult.getResultSet().getInt(1) != 0)
                             {
-                                SwingUtilities.invokeLater(() -> {
-                                    loadingDialog.setVisible(false);
-                                });
+                                int choix = JOptionPane.showConfirmDialog(
+                                        parentFrame,
+                                        "Une location existe déjà pour cette date. Continuer ?",
+                                        "Confirmation",
+                                        JOptionPane.YES_NO_OPTION,
+                                        JOptionPane.QUESTION_MESSAGE
+                                );
 
-                                Message.showErrorMessage("Ajout Location", "Une location existe déja à cette date !");
-
-                                return;
+                                if (choix == JOptionPane.NO_OPTION) {
+                                    SwingUtilities.invokeLater(() ->{
+                                        loadingDialog.setVisible(false);
+                                    });
+                                    return;
+                                }
                             }
                         }
                     } catch (Exception ex) {
@@ -263,7 +280,7 @@ public class newLocation extends JPanel {
 
                     calendarService.set(new GoogleCalendarService());
                     calendarService.get().safeAjouterEvenementPlageJours(parentFrame, finalTypeAgenda, titreEvenement,
-                            sb.toString(), date, date.plusDays(1));
+                            sb.toString(), parseStringToLocalDate(date), parseStringToLocalDate(date).plusDays(1));
 
                     int idSalle = -1;
                     int idCafet = -1;

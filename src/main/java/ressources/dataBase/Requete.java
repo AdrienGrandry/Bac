@@ -170,9 +170,20 @@ public class Requete
 								}
 								component.setForeground(Color.BLACK);
 							}
+							// Mise en rouge si colonne Options contient "Options"
+							if (isSpecificColumnExists(this, "Options") && "Options".equalsIgnoreCase(getColumnName(column)))
+							{
+								String optionValue = getColumnValue(this, row, "Options");
+								if ("Options".equalsIgnoreCase(optionValue))
+								{
+									component.setBackground(Color.RED);
+									component.setForeground(Color.WHITE);
+								}
+							}
+
 							break;
 
-					default:
+						default:
 						component.setBackground(Color.WHITE);
 						component.setForeground(Color.BLACK);
 						break;

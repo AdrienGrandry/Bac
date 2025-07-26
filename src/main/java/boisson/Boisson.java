@@ -86,7 +86,7 @@ public final class Boisson extends JFrame
         {
             switch (panelName)
             {
-                case "Enregistrer et retour":
+                case "Retour":
                     MainFrame mainFrame = new MainFrame();
                     mainFrame.setVisible(true);
                     dispose(); // ferme Boisson
