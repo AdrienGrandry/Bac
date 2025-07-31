@@ -2,6 +2,7 @@ package boisson;
 
 import boisson.start.Start;
 import options.ColorXml;
+import ressources.LoadingDialog;
 import ressources.Message;
 import principale.MainFrame;
 import ressources.XmlConfig;
@@ -14,11 +15,7 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public final class Boisson extends JFrame
@@ -87,9 +84,21 @@ public final class Boisson extends JFrame
             switch (panelName)
             {
                 case "Retour":
-                    MainFrame mainFrame = new MainFrame();
-                    mainFrame.setVisible(true);
-                    dispose(); // ferme Boisson
+                    LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement du nombre de mail...");
+                    SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+                    // Crée un thread en arrière-plan pour simuler le chargement
+                    new Thread(() -> {
+                        MainFrame mainFrame = new MainFrame();
+                        mainFrame.setVisible(true);
+
+                        SwingUtilities.invokeLater(() -> {
+                            loadingDialog.setVisible(false);
+                            loadingDialog.dispose();
+
+                            dispose();
+                        });
+                    }).start();
                     break;
                 case "Stock":
                     loadSpecificPanel("boisson.stock.Stock", parentFrame);

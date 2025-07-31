@@ -1,6 +1,7 @@
 package options;
 
 import principale.MainFrame;
+import ressources.LoadingDialog;
 import ressources.Style;
 import ressources.XmlConfig;
 
@@ -40,9 +41,21 @@ public class Options extends JFrame
 		JButton retour = new JButton("Retour");
 		Style.applyButtonStyle(retour);
 		retour.addActionListener(e -> {
-			MainFrame mainFrame = new MainFrame();
-			mainFrame.setVisible(true);
-			dispose();
+			LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement du nombre de mail...");
+			SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+			// Crée un thread en arrière-plan pour simuler le chargement
+			new Thread(() -> {
+				MainFrame mainFrame = new MainFrame();
+				mainFrame.setVisible(true);
+
+				SwingUtilities.invokeLater(() -> {
+					loadingDialog.setVisible(false);
+					loadingDialog.dispose();
+
+					dispose();
+				});
+			}).start();
 		});
 		leftPanel.add(retour);
 		TitrePanel.add(leftPanel, BorderLayout.WEST);

@@ -12,6 +12,7 @@ import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.ColorDefinition;
 
 import agenda.model.EventModel;
+import principale.GoogleAuthorizeUtil;
 import ressources.LoadingDialog;
 import ressources.Message;
 
@@ -45,7 +46,7 @@ public class GoogleCalendarService {
         var credentials = GoogleAuthorizeUtil.authorize();
 
         service = new Calendar.Builder(httpTransport, jsonFactory, credentials)
-                .setApplicationName("Mon Calendrier Google")
+                .setApplicationName("GestiBac")
                 .build();
     }
 

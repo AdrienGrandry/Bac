@@ -1,4 +1,4 @@
-package agenda.google;
+package principale;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -19,7 +19,11 @@ import java.util.List;
 public class GoogleAuthorizeUtil {
     private static final String CREDENTIALS_FILE_PATH = "./ressources/credentials.json";
     private static final String TOKENS_DIRECTORY_PATH = "./ressources/tokens";
-    private static final List<String> SCOPES = List.of("https://www.googleapis.com/auth/calendar");
+    private static final List<String> SCOPES = List.of(
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/gmail.readonly", // ou autre scope Gmail
+            "https://www.googleapis.com/auth/gmail.modify"
+    );
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     public static Credential authorize() throws IOException, GeneralSecurityException {

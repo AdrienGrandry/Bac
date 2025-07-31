@@ -45,7 +45,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
     public boolean isLoaded = false;
 
     public GoogleAgendaStyleCalendar(JFrame parent) {
-        LoadingDialog loadingDialog = new LoadingDialog(parent, "Chargement...");
+        LoadingDialog loadingDialog = new LoadingDialog(parent, "Chargement de l'agenda...");
         SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
         try {
@@ -139,9 +139,21 @@ public class GoogleAgendaStyleCalendar extends JFrame {
 
         // Listener bouton Retour
         btnRetour.addActionListener(e -> {
-            MainFrame mainFrame = new MainFrame();
-            mainFrame.setVisible(true);
-            dispose();
+            LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement du nombre de mail...");
+            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+            // Crée un thread en arrière-plan pour simuler le chargement
+            new Thread(() -> {
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
+
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+                    loadingDialog.dispose();
+
+                    dispose();
+                });
+            }).start();
         });
 
         // Navigation mois
@@ -273,7 +285,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
      * Exécute refreshCalendar en gérant les exceptions.
      */
     private void safeRefresh() {
-        LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement...");
+        LoadingDialog loadingDialog = new LoadingDialog(this, "Chargement de l'agenda...");
 
         // Affiche le dialog dans l'EDT
         SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
