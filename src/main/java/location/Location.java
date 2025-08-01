@@ -49,10 +49,14 @@ public final class Location extends JFrame
         add(panel, BorderLayout.CENTER);
 
         // Panneau de copyright
-        
+        addCopyrightPanel(this);
         if(namePanelToLoad == null)
         {
-            addCopyrightPanel(this);
+            try {
+                loadSpecificPanel("location.manageLocation.showLocation", this);
+            } catch (Exception e) {
+                Message.showErrorMessage("Chargement du panel", "Impossible d'ouvrir l'onglet de ce nom");
+            }
         } else if (namePanelToLoad.equals("newLocation")) {
             try {
                 loadSpecificPanel("location.newLocation.newLocation", this);

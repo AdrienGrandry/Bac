@@ -1,6 +1,6 @@
 package location.newLocation;
 
-Coimport ressources.DateParser;
+import ressources.DateParser;
 import ressources.LoadingDialog;
 import ressources.Message;
 import ressources.dataBase.QueryResult;
@@ -11,6 +11,7 @@ import agenda.google.GoogleCalendarService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicReference;
 

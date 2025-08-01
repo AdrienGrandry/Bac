@@ -62,9 +62,9 @@ public class MainFrame extends JFrame {
             int year = dt.getYear();
             int current_Year = year + 1900;
 
-            JLabel LabelMailNonLu = createStyledLabel("Nombre de mail non lu : " + nbMailNonLu);
-            JLabel LabelMailEnvoyer = createStyledLabel("Nombre de mail envoyé (" + current_Year + ") : " + nbMailEnvoyer);
-            JLabel LabelMailRecu = createStyledLabel("Nombre de mail reçu (" + current_Year + ") : " + nbMailRecu);
+            JLabel LabelMailNonLu = createStyledLabel("Mail non lu : " + nbMailNonLu);
+            JLabel LabelMailEnvoyer = createStyledLabel("Mail envoyé (" + current_Year + ") : " + nbMailEnvoyer);
+            JLabel LabelMailRecu = createStyledLabel("Mail reçu (" + current_Year + ") : " + nbMailRecu);
 
             if(nbMailNonLu > 0)
             {
@@ -172,7 +172,7 @@ public class MainFrame extends JFrame {
         label.setMinimumSize(new Dimension(250, 50));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Arial", Font.PLAIN, 15));
+        label.setFont(new Font("Arial", Font.PLAIN, 20));
 
         return label;
     }

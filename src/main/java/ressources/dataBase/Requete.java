@@ -42,11 +42,6 @@ public class Requete
 	public ColorXml color = new ColorXml();
 
 	/**
-	 * Variable LOGGER pour eviter l'erreur Constructeur
-	 */
-	private static final Logger LOGGER = Logger.getLogger(Requete.class.getName());
-
-	/**
 	 * Constructeur de la classe vide
 	 */
 	public Requete()
@@ -128,31 +123,31 @@ public class Requete
 				{
 					switch (styleCase)
 					{
-					case "pair_impair":
-						component.setBackground((row % 2 == 0) ? Color.decode(color.xmlReader("background_tab_impair"))
-						        : Color.decode(color.xmlReader("background_tab_pair")));
-						component.setForeground(Color.BLACK);
-						break;
-
-					case "type_colonne":
-
-						if (isSpecificColumnExists(this, "Type"))
-						{
-							final String typeValue = getColumnValue(this, row, "Type");
-
-							if ("Entrée".equalsIgnoreCase(typeValue) || "Commande".equalsIgnoreCase(typeValue))
-							{
-								component.setBackground(Color.decode("#98FB98"));
-							} else if ("Sortie".equalsIgnoreCase(typeValue) || "Location".equalsIgnoreCase(typeValue))
-							{
-								component.setBackground(Color.decode("#f14949"));
-							} else
-							{
-								component.setBackground(Color.decode("#72b4e6"));
-							}
+						case "pair_impair":
+							component.setBackground((row % 2 == 0) ? Color.decode(color.xmlReader("background_tab_impair"))
+									: Color.decode(color.xmlReader("background_tab_pair")));
 							component.setForeground(Color.BLACK);
-						}
-						break;
+							break;
+
+						case "type_colonne":
+
+							if (isSpecificColumnExists(this, "Type"))
+							{
+								final String typeValue = getColumnValue(this, row, "Type");
+
+								if ("Entrée".equalsIgnoreCase(typeValue) || "Commande".equalsIgnoreCase(typeValue))
+								{
+									component.setBackground(Color.decode("#98FB98"));
+								} else if ("Sortie".equalsIgnoreCase(typeValue) || "Location".equalsIgnoreCase(typeValue))
+								{
+									component.setBackground(Color.decode("#f14949"));
+								} else
+								{
+									component.setBackground(Color.decode("#72b4e6"));
+								}
+								component.setForeground(Color.BLACK);
+							}
+							break;
 						case "lieuLocation":
 							if (isSpecificColumnExists(this, "Lieu"))
 							{
@@ -180,12 +175,11 @@ public class Requete
 									component.setForeground(Color.WHITE);
 								}
 							}
-
 							break;
 
 						default:
-						component.setBackground(Color.WHITE);
-						component.setForeground(Color.BLACK);
+							component.setBackground(Color.WHITE);
+							component.setForeground(Color.BLACK);
 						break;
 					}
 				}

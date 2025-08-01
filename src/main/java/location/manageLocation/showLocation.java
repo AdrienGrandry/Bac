@@ -1,6 +1,7 @@
 package location.manageLocation;
 
-import boisson.produit.AddProduit;
+import location.Location;
+import ressources.dataBase.JPanelLocationRequete;
 import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
 import ressources.Style;
@@ -16,6 +17,8 @@ import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static ressources.DateParser.parseDateToIsoString;
+
 public class showLocation extends JPanel
 {
     private static final long serialVersionUID = 1L;
@@ -24,7 +27,6 @@ public class showLocation extends JPanel
     public showLocation(final JFrame parentFrame)
     {
         final ColorXml color = new ColorXml();
-        final Requete requete = new Requete();
 
         setBackground(Color.decode(color.xmlReader("background")));
         setLayout(new BorderLayout(10, 10));
@@ -43,7 +45,7 @@ public class showLocation extends JPanel
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
         String[] periods =
-                { "Tous", "En cours", "Cloturée" };
+                { "Tous", "Futures", "Cloturées" };
 
         final JComboBox<String> comboBox = new JComboBox<>(periods);
         Style.applyBoxStyle(comboBox);
@@ -76,13 +78,13 @@ public class showLocation extends JPanel
                 switch (selectedPeriod)
                 {
                     case "Tous":
-                        sql = "select Nom, Prenom, Date, case when location.IdSalle is not NULL AND  location.idCafeteria is NULL Then 'Salle' When location.IdSalle is NULL AND location.idCafeteria is not NULL Then 'Cafétéria' When location.IdSalle is not NULL AND location.idCafeteria is not NULL Then 'Salle + Cafétéria' else 'Rien' end as Lieu, case When salle.BarAsbl = 1 or Cafeteria.BarAsbl = 1 Then 'Boisson' else '' end as Boisson from location left join Salle on location.IdSalle = salle.idSalle left join Cafeteria on location.IdCafeteria = Cafeteria.idCafeteria ORDER BY Date";
+                        sql = "SELECT Nom, Prenom, strftime('%d/%m/%Y', Date) AS Date, CASE WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NULL THEN 'Salle' WHEN location.IdSalle IS NULL AND location.idCafeteria IS NOT NULL THEN 'Cafétéria' WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NOT NULL THEN 'Salle + Cafétéria' ELSE 'Rien' END AS Lieu, option AS Options, CafeteriaSeule, Cuisine, Reunion, Cafeteria.BarAsbl, Cafeteria.BarVide, Projecteur FROM location LEFT JOIN Salle ON location.IdSalle = salle.idSalle LEFT JOIN Cafeteria ON location.IdCafeteria = Cafeteria.idCafeteria ORDER BY option DESC, Date;";
                         break;
-                    case "En cours":
-                        sql = "select Nom, Prenom, Date, case when location.IdSalle is not NULL AND  location.idCafeteria is NULL Then 'Salle' When location.IdSalle is NULL AND location.idCafeteria is not NULL Then 'Cafétéria' When location.IdSalle is not NULL AND location.idCafeteria is not NULL Then 'Salle + Cafétéria' else 'Rien' end as Lieu, case When salle.BarAsbl = 1 or Cafeteria.BarAsbl = 1 Then 'Boisson' else '' end as Boisson from location left join Salle on location.IdSalle = salle.idSalle left join Cafeteria on location.IdCafeteria = Cafeteria.idCafeteria ORDER BY Date";
+                    case "Futures":
+                        sql = "SELECT Nom, Prenom, strftime('%d/%m/%Y', Date) AS Date, CASE WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NULL THEN 'Salle' WHEN location.IdSalle IS NULL AND location.idCafeteria IS NOT NULL THEN 'Cafétéria' WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NOT NULL THEN 'Salle + Cafétéria' ELSE 'Rien' END AS Lieu, CASE WHEN salle.BarAsbl = 1 OR Cafeteria.BarAsbl = 1 THEN 'Boisson' ELSE '' END AS Boisson, CASE WHEN option = 1 THEN 'Options' ELSE '' END AS Options FROM location LEFT JOIN Salle ON location.IdSalle = salle.idSalle LEFT JOIN Cafeteria ON location.IdCafeteria = Cafeteria.idCafeteria WHERE Cloturee = 0 ORDER BY Date;";
                         break;
-                    case "Cloturée":
-                        sql = "select Nom, Prenom, Date, case when location.IdSalle is not NULL AND  location.idCafeteria is NULL Then 'Salle' When location.IdSalle is NULL AND location.idCafeteria is not NULL Then 'Cafétéria' When location.IdSalle is not NULL AND location.idCafeteria is not NULL Then 'Salle + Cafétéria' else 'Rien' end as Lieu, case When salle.BarAsbl = 1 or Cafeteria.BarAsbl = 1 Then 'Boisson' else '' end as Boisson from location left join Salle on location.IdSalle = salle.idSalle left join Cafeteria on location.IdCafeteria = Cafeteria.idCafeteria ORDER BY Date";
+                    case "Cloturées":
+                        sql = "SELECT Nom, Prenom, strftime('%d/%m/%Y', Date) AS Date, CASE WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NULL THEN 'Salle' WHEN location.IdSalle IS NULL AND location.idCafeteria IS NOT NULL THEN 'Cafétéria' WHEN location.IdSalle IS NOT NULL AND location.idCafeteria IS NOT NULL THEN 'Salle + Cafétéria' ELSE 'Rien' END AS Lieu, CASE WHEN salle.BarAsbl = 1 OR Cafeteria.BarAsbl = 1 THEN 'Boisson' ELSE '' END AS Boisson, CASE WHEN option = 1 THEN 'Options' ELSE '' END AS Options FROM location LEFT JOIN Salle ON location.IdSalle = salle.idSalle LEFT JOIN Cafeteria ON location.IdCafeteria = Cafeteria.idCafeteria WHERE Cloturee = 1 ORDER BY Date;";
                         break;
                 }
 
@@ -90,8 +92,7 @@ public class showLocation extends JPanel
                 {
                     tableauPanel.removeAll();
                     JPanel tab = null;
-                    tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(),
-                            "lieuLocation");
+                    tab = JPanelLocationRequete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth());
                     final JTable table = (JTable) ((JScrollPane) tab.getComponent(0)).getViewport().getView();
 
                     table.addMouseListener(new MouseAdapter()
@@ -103,30 +104,25 @@ public class showLocation extends JPanel
                             if (row >= 0)
                             {
                                 TableModel model = table.getModel();
-                                String numeroProduitStr = model.getValueAt(row, 0).toString();
-                                String libelleProduit = model.getValueAt(row, 1).toString();
-                                String lieuProduit = model.getValueAt(row, 2).toString();
+                                String NomLocation = model.getValueAt(row, 0).toString();
+                                String PrenomLocation = model.getValueAt(row, 1).toString();
+                                String DateLocation = model.getValueAt(row, 2).toString();
 
-                                int numeroProduit = Integer.parseInt(numeroProduitStr);
                                 int id = 0;
                                 try
                                 {
-                                    id = getIdRow(numeroProduit, libelleProduit, lieuProduit);
+                                    id = getIdRow(PrenomLocation, NomLocation, DateLocation);
                                 } catch (Exception e1)
                                 {
                                     e1.printStackTrace();
                                 }
 
-                                AddProduit fenetreProduit = new AddProduit(parentFrame, id);
-                                fenetreProduit.addWindowListener(new java.awt.event.WindowAdapter()
-                                {
-                                    @Override
-                                    public void windowClosed(java.awt.event.WindowEvent windowEvent)
-                                    {
-                                        changeTab.actionPerformed(null);
-                                    }
-                                });
-                                fenetreProduit.setVisible(true);
+                                detailLocation panel = new detailLocation(parentFrame, id);
+
+                                Location.panel.removeAll();
+                                Location.panel.add(panel, BorderLayout.CENTER);
+                                parentFrame.revalidate();
+                                parentFrame.repaint();
                             }
                         }
                     });
@@ -143,10 +139,10 @@ public class showLocation extends JPanel
         changeTab.actionPerformed(null);
     }
 
-    public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit) throws SQLException
+    public int getIdRow(String Prenom, String Nom, String Date) throws SQLException
     {
-        String query = "SELECT id FROM produit WHERE numero = " + numeroProduit + " AND libelle = '" + libelleProduit
-                + "' AND lieu = '" + lieuProduit + "'";
+        String query = "SELECT idlocation FROM location WHERE prenom = '" + Prenom + "' AND nom = '" + Nom
+                + "' AND date = '" + parseDateToIsoString(Date) + "'";
 
         QueryResult queryResult = null;
         int id = 0;
@@ -158,7 +154,7 @@ public class showLocation extends JPanel
 
             if (resultSet.next())
             {
-                id = resultSet.getInt("id");
+                id = resultSet.getInt("idLocation");
             }
         } catch (Exception e)
         {
