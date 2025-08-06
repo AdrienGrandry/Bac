@@ -92,7 +92,9 @@ public class MainApplication {
                     }
                 }
             }
-            Message.showValidMessage("Ajout de location", nbLocation + " ont été ajoutée(s) dans l'agenda.");
+            if(nbLocation > 0) {
+                Message.showValidMessage("Ajout de location", nbLocation + " ont été ajoutée(s) dans l'agenda.");
+            }
         }
     }
 
