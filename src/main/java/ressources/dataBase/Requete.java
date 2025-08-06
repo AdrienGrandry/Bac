@@ -18,7 +18,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.Locale;
-import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -345,6 +344,18 @@ public class Requete
 			}
 
 			return null;
+		}
+	}
+
+	static public int executeUpdate(final String query) {
+		try (Connection connection = DriverManager.getConnection("jdbc:sqlite:" + XmlConfig.getPath("database"));
+			 Statement statement = connection.createStatement()) {
+			return statement.executeUpdate(query);
+		} catch (SQLException e) {
+			if (e.getErrorCode() != 101) {
+				Message.showErrorMessage("Erreur", e.getMessage());
+			}
+			return -1; // ou autre valeur d'erreur
 		}
 	}
 }

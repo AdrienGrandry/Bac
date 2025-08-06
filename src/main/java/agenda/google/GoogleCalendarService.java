@@ -15,6 +15,7 @@ import agenda.model.EventModel;
 import principale.GoogleAuthorizeUtil;
 import ressources.LoadingDialog;
 import ressources.Message;
+import ressources.dataBase.Requete;
 
 import javax.swing.*;
 import java.awt.*;
@@ -230,9 +231,10 @@ public class GoogleCalendarService {
                     if (ex instanceof java.net.UnknownHostException || ex instanceof java.net.SocketTimeoutException) {
                         message = "La location à été enregistrée et sera ajoutée à l'agenda lors de votre prochaine connexion à internet !";
 
-                        ////////////////////////////////////////////////////////////////////
-                        //AJOUTER DANS LA DB LES INFO PAS ENCODE POUR AJOUTER EN 2e THREAD//
-                        ////////////////////////////////////////////////////////////////////
+                        String newTitre = titre.replace("'", "''");
+                        String newDescription = description.replace("'", "''");
+
+                        Requete.executeUpdate("INSERT INTO AjoutAgenda(Agenda, Titre, Description, Date) VALUES ('" + nomCalendrier + "', '" + newTitre + "', '" + newDescription + "', '" + debut.toString() + "')");
                     } else {
                         message = "Impossible de se connecter à Google Agenda.";
                     }
@@ -296,5 +298,4 @@ public class GoogleCalendarService {
 
         return result;
     }
-
 }

@@ -22,7 +22,6 @@ public class newLocation extends JPanel {
 
     public newLocation(final JFrame parentFrame) {
         final ColorXml color = new ColorXml();
-        final Requete requete = new Requete();
         AtomicReference<GoogleCalendarService> calendarService = new AtomicReference<>();
 
         setBackground(Color.decode(color.xmlReader("background")));
@@ -204,7 +203,7 @@ public class newLocation extends JPanel {
 
             if (salleSelected) {
                 typeAgenda = "BAC - Salle";
-                requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuissine240, BarAsbl, BarVide, PompeVide) values (");
+                requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuisine240, BarAsbl, BarVide, PompeVide) values (");
                 requeteSalle.append(appendOptions(salleOptions));
                 requeteSalle.append(");");
                 if (cafetSelected)

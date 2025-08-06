@@ -16,6 +16,8 @@ public class GmailStats {
         int year = dt.getYear();
         int current_Year = year + 1900;
 
+        //Time out = 10 sec
+        final int TIMEOUT = 5_000;
         // Authentification
         var credential = GoogleAuthorizeUtil.authorize();
 
@@ -23,7 +25,11 @@ public class GmailStats {
         Gmail service = new Gmail.Builder(
                 com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
                 com.google.api.client.json.jackson2.JacksonFactory.getDefaultInstance(),
-                credential)
+                request -> {
+                    credential.initialize(request);
+                    request.setConnectTimeout(TIMEOUT);
+                    request.setReadTimeout(TIMEOUT);
+                })
                 .setApplicationName("GestiBac")
                 .build();
 
