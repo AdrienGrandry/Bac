@@ -21,7 +21,7 @@ public class ColorXml
 
     private static final String XML_FILE_PATH = "./ressources/config.xml";
 
-    public String xmlReader(String colorName)
+    public static String xmlReader(String colorName)
     {
         try
         {
@@ -148,7 +148,7 @@ public class ColorXml
         }
     }
     
-    private Document loadXmlDocument() throws Exception
+    private static Document loadXmlDocument() throws Exception
     {
         File xmlFile = new File(XML_FILE_PATH);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

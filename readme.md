@@ -3,9 +3,8 @@
 Programme de gestion de stock pour le bac.
 
 # Action toujours à faire
-
-- Mettre l'ajout de l'agenda en hors conection
-- Style pour les mail, en dessous en meme police et en transparent le fond et le fond des mail non lu en rouge/vert selon le nombre avec si click ouverture de gmail
+- panel info : gauche locataire, centre option, droite responsable comme en dessous mais sans division, remonter selon la taille
+- afficher options selement si oui, premiere colonne options cafet et 2e salle
 
 # Organisation du projet - Avancement
 

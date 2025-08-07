@@ -65,7 +65,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
             SwingUtilities.invokeLater(() -> {
                 String message;
                 if (ex instanceof java.net.UnknownHostException) {
-                    message = "Vérifiez votre connexion Internet (DNS introuvable).";
+                    message = "Vérifiez votre connexion Internet.";
                 } else if (ex instanceof java.net.SocketTimeoutException) {
                     message = "Connexion trop lente ou réseau instable.";
                 } else {

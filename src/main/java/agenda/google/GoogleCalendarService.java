@@ -250,7 +250,6 @@ public class GoogleCalendarService {
         }).start();
     }
 
-
     /**
      * Met à jour un événement existant (journée complète).
      * @param calendarId ID du calendrier
@@ -297,5 +296,34 @@ public class GoogleCalendarService {
         }
 
         return result;
+    }
+
+    /**
+     * Recherche un événement à partir du nom complet et d'une date dans les calendriers filtrés.
+     *
+     * @param nomPrenom Nom et prénom (ex: "GRANDRY Grandry")
+     * @param date Date de l'événement à rechercher
+     * @return EventModel trouvé ou null si aucun événement correspondant
+     */
+    public List<EventModel> findEventsByNameAndDate(String nomPrenom, LocalDate date) throws IOException {
+        Map<String, String> calendarMap = getCalendarNameIdMap();
+        List<EventModel> matches = new ArrayList<>();
+
+        for (Map.Entry<String, String> entry : calendarMap.entrySet()) {
+            String calendarId = entry.getValue();
+
+            // Charger les événements du mois
+            List<EventModel> events = getEventsForMonth(date.withDayOfMonth(1), calendarId);
+
+            for (EventModel event : events) {
+                // Vérifier la date exacte
+                if (event.getDate().equals(date) && event.getTitle().equals("(Option) " + nomPrenom))
+                {
+                    matches.add(event);
+                }
+            }
+        }
+
+        return matches;
     }
 }
