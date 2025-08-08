@@ -276,7 +276,7 @@ public class newLocation extends JPanel {
                     {
                         titreEvenement += "(Option) ";
                     }
-                    titreEvenement += fields[0].getText().toUpperCase() + " " + fields[0].getText();
+                    titreEvenement += fields[0].getText().toUpperCase() + " " + fields[1].getText();
 
                     calendarService.set(new GoogleCalendarService());
                     calendarService.get().safeAjouterEvenementPlageJours(parentFrame, finalTypeAgenda, titreEvenement,

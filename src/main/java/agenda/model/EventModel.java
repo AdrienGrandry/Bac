@@ -7,6 +7,7 @@ public class EventModel {
     private String title;
     private String eventId;
     private String calendarName; // <-- nouveau champ
+    private String calendarId;
 
     public EventModel(LocalDate date, String title) {
         this.date = date;
@@ -45,5 +46,13 @@ public class EventModel {
 
     public void setCalendarName(String calendarName) {
         this.calendarName = calendarName;
+    }
+
+    public String getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(String calendarId) {
+        this.calendarId = calendarId;
     }
 }

@@ -312,13 +312,15 @@ public class GoogleCalendarService {
         for (Map.Entry<String, String> entry : calendarMap.entrySet()) {
             String calendarId = entry.getValue();
 
-            // Charger les événements du mois
+            // Charger les événements du mois pour ce calendrier
             List<EventModel> events = getEventsForMonth(date.withDayOfMonth(1), calendarId);
 
             for (EventModel event : events) {
-                // Vérifier la date exacte
-                if (event.getDate().equals(date) && event.getTitle().equals("(Option) " + nomPrenom))
-                {
+                if (event.getDate() != null && event.getTitle() != null
+                        && event.getDate().equals(date)
+                        && event.getTitle().equals("(Option) " + nomPrenom)) {
+                    // Assigner le calendarId à l'événement avant de l'ajouter
+                    event.setCalendarId(calendarId);  // <-- ici on conserve le calendarId
                     matches.add(event);
                 }
             }
@@ -326,4 +328,5 @@ public class GoogleCalendarService {
 
         return matches;
     }
+
 }
