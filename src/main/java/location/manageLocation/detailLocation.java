@@ -21,7 +21,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public class detailLocation extends JPanel {
     boolean isOption = false;
@@ -71,7 +70,7 @@ public class detailLocation extends JPanel {
         scrollPaneInfo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPaneInfo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         int hauteurParent = parentFrame.getHeight();
-        scrollPaneInfo.setPreferredSize(new Dimension(400, hauteurParent / 7));
+        scrollPaneInfo.setPreferredSize(new Dimension(400, hauteurParent / 4));
         scrollPaneInfo.setBorder(new LineBorder(Color.BLACK, 2));
 
         gbc.gridy = 0;
@@ -85,13 +84,23 @@ public class detailLocation extends JPanel {
         contenu.add(Box.createRigidArea(new Dimension(0, 10)), gbc);
 
         // Panels données (exemple simplifié avec 3 couleurs)
+        JPanel panelBoisons = new JPanel();
+        panelBoisons.setBackground(getBackground());
+        JButton buttonBoisson = new JButton("Boissons");
+        Style.applyButtonStyle(buttonBoisson);
+        panelBoisons.add(buttonBoisson, BorderLayout.NORTH);
+
+        JPanel panelCasse = new JPanel();
+
+        JPanel panelDocuments = new JPanel();
+
         JPanel panelDonnees = new JPanel(new GridBagLayout());
         panelDonnees.setBackground(backgroundColor);
-        addDataPanel(panelDonnees, 0, Color.RED);
+        addDataPanel(panelDonnees, 0, panelBoisons);
         addSpace(panelDonnees, 1, backgroundColor);
-        addDataPanel(panelDonnees, 2, Color.GREEN);
+        addDataPanel(panelDonnees, 2, panelCasse);
         addSpace(panelDonnees, 3, backgroundColor);
-        addDataPanel(panelDonnees, 4, Color.BLUE);
+        addDataPanel(panelDonnees, 4, panelDocuments);
 
         JPanel panelDonneesWrapper = new JPanel(new BorderLayout());
         panelDonneesWrapper.setBackground(backgroundColor);
@@ -149,6 +158,31 @@ public class detailLocation extends JPanel {
     }
 
     private String createLabelB(ResultSet rs) throws SQLException {
+        StringBuilder sb = new StringBuilder("<html>Cafétéria : <br><br>");
+
+        if ("1".equals(rs.getString("CafeteriaSeule"))) {
+            sb.append("Caféria Seule : oui<br>");
+        }
+        if ("1".equals(rs.getString("Cuisine"))) {
+            sb.append("Cuisine : oui<br>");
+        }
+        if ("1".equals(rs.getString("Reunion"))) {
+            sb.append("Réunion : oui<br>");
+        }
+        if ("1".equals(rs.getString("BarAsbl"))) {
+            sb.append("Bar avec boissons : oui<br>");
+        }
+        if ("1".equals(rs.getString("Barvide"))) {
+            sb.append("Bar Sans boissons : oui<br>");
+        }
+        if ("1".equals(rs.getString("Projecteur"))) {
+            sb.append("Projecteur : oui<br>");
+        }
+        sb.append("</html>");
+        return sb.toString();
+    }
+
+    private String createLabelC(ResultSet rs) throws SQLException {
         StringBuilder sb = new StringBuilder("<html>Salle : <br><br>");
 
         if ("1".equals(rs.getString("SalleSeul"))) {
@@ -174,32 +208,6 @@ public class detailLocation extends JPanel {
         return sb.toString();
     }
 
-    private String createLabelC(ResultSet rs) throws SQLException {
-        StringBuilder sb = new StringBuilder("<html>Cafétéria : <br><br>");
-
-        if ("1".equals(rs.getString("CafeteriaSeule"))) {
-            sb.append("Caféria Seule : oui<br>");
-        }
-        if ("1".equals(rs.getString("Cuisine"))) {
-            sb.append("Cuisine : oui<br>");
-        }
-        if ("1".equals(rs.getString("Reunion"))) {
-            sb.append("Réunion : oui<br>");
-        }
-        if ("1".equals(rs.getString("BarAsbl"))) {
-            sb.append("Bar avec boissons : oui<br>");
-        }
-        if ("1".equals(rs.getString("Barvide"))) {
-            sb.append("Bar Sans boissons : oui<br>");
-        }
-        if ("1".equals(rs.getString("Projecteur"))) {
-            sb.append("Projecteur : oui<br>");
-        }
-
-        sb.append("</html>");
-        return sb.toString();
-    }
-
     private String createLabelD(ResultSet rs) throws SQLException {
         String nom = rs.getString("NomResponsable");
         String prenom = rs.getString("PrenomResponsable");
@@ -207,7 +215,7 @@ public class detailLocation extends JPanel {
         String tel = rs.getString("TelResponsable");
 
         if (nom == null && prenom == null && gsm == null && tel == null) {
-            return "<html>Responsable :<br>Organisateur</html>";
+            return "<html>Responsable :<br>Responsable location</html>";
         }
         return String.format(
                 "<html>Responsable :<br>%s %s<br>%s %s<br></html>",
@@ -243,17 +251,17 @@ public class detailLocation extends JPanel {
         parent.add(panel, gbc);
     }
 
-    private void addDataPanel(JPanel parent, int gridx, Color bg) {
-        JPanel panel = new JPanel();
-        panel.setBackground(bg);
-        panel.setBorder(new LineBorder(Color.BLACK, 1));
+    private void addDataPanel(JPanel parent, int gridx, JPanel content) {
+        content.setBorder(new LineBorder(Color.BLACK, 2));
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = gridx;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
-        gbc.weighty = 1; // Étire aussi verticalement
-        parent.add(panel, gbc);
+        gbc.weighty = 1;
+
+        parent.add(content, gbc);
     }
 
     private void addSpace(JPanel parent, int gridx, Color bg) {

@@ -38,7 +38,7 @@ public class Requete
 	/**
 	 * Variable de la classe ColorXml
 	 */
-	public ColorXml color = new ColorXml();
+	public static ColorXml color = new ColorXml();
 
 	/**
 	 * Constructeur de la classe vide
@@ -49,8 +49,8 @@ public class Requete
 	/**
 	 * Fonction pour faire la requete sql et retourner un tableau avec la réponse
 	 */
-	public JPanel executeQueryAndReturnPanel(final String query, final int height, final int width,
-	        final String styleCase)
+	public static JPanel executeQueryAndReturnPanel(final String query, final int height, final int width,
+                                                    final String styleCase)
 	{
 		final JPanel resultPanel = new JPanel();
 		resultPanel.setLayout(new BorderLayout());
@@ -87,7 +87,7 @@ public class Requete
 		return resultPanel;
 	}
 
-	private JTable buildTable(final ResultSet resultSet, final String styleCase) throws SQLException
+	private static JTable buildTable(final ResultSet resultSet, final String styleCase) throws SQLException
 	{
 		final ResultSetMetaData metaData = resultSet.getMetaData();
 		final int columnCount = metaData.getColumnCount();
@@ -257,7 +257,7 @@ public class Requete
 		return table;
 	}
 
-	private String[] getColumnNames(final ResultSet resultSet) throws SQLException
+	private static String[] getColumnNames(final ResultSet resultSet) throws SQLException
 	{
 		final ResultSetMetaData metaData = resultSet.getMetaData();
 		final int columnCount = metaData.getColumnCount();
@@ -269,7 +269,7 @@ public class Requete
 		return columnNames;
 	}
 
-	private DefaultTableModel buildTableModel(final ResultSet resultSet, final String... columnNames)
+	private static DefaultTableModel buildTableModel(final ResultSet resultSet, final String... columnNames)
 	        throws SQLException
 	{
 		final DefaultTableModel model = new DefaultTableModel()
@@ -296,7 +296,8 @@ public class Requete
 		return model;
 	}
 
-	/* default */boolean isSpecificColumnExists(final JTable table, final String columnName)
+	/* default */
+    static boolean isSpecificColumnExists(final JTable table, final String columnName)
 	{
 		boolean ret = false;
 		for (int i = 0; i < table.getColumnCount(); i++)
@@ -309,7 +310,8 @@ public class Requete
 		return ret;
 	}
 
-	/* default */String getColumnValue(final JTable table, final int row, final String columnName)
+	/* default */
+    static String getColumnValue(final JTable table, final int row, final String columnName)
 	{
 		String result = "";
 		for (int i = 0; i < table.getColumnCount(); i++)
