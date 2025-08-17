@@ -26,17 +26,17 @@ Programme de gestion de stock pour le bac.
 # Test du projet
 
 - Principale
-    - Agenda **CHARGEMENT INFINI SI PAS DE WIFI**
+    - **Agenda**
     - **Gestion Locations**
     - **Boissons**
     - **Options**
     - **Quitter**
 - agenda
-    - Affichage
-    - Changement de mois <<
-    - Changement de mois >>
+    - **Affichage**
+    - **Changement de mois <<**
+    - **Changement de mois >>**
 - location
-    - Enregistrer location **CHARGEMENT INFINI SI PAS DE WIFI**
+    - **Enregistrer location**
     - Gérer location
     - Facture
     - Tarif
