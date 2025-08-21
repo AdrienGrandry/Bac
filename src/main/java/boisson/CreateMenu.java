@@ -74,11 +74,11 @@ public class CreateMenu extends JPanel
 	private void initMenuItems()
 	{
 		menuItems.add("Retour");
-		menuItems.add("Mouvements");
 		menuItems.add("Stock");
-		menuItems.add("Produits");
 		menuItems.add("Prévision Boissons");//Comme le excel présent
+		menuItems.add("Produits");//ajouter prix/cassier et nbbouteille et prix unitaire location(calculer)/reunion/pensionnés/paroisse
 		menuItems.add("Commande");
+		menuItems.add("Mouvements");
 	}
 
 	// Mise à jour de la disposition des boutons selon la taille de la fenêtre

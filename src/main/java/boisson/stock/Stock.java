@@ -56,8 +56,8 @@ public class Stock extends JPanel {
 		comboBox.setMaximumSize(new Dimension(250, 40));
 
 		JPanel totalPanel = new JPanel();
-		totalPanel.setPreferredSize(new Dimension(250, 40));
-		totalPanel.setMaximumSize(new Dimension(250, 40));
+		totalPanel.setPreferredSize(new Dimension(300, 40));
+		totalPanel.setMaximumSize(new Dimension(300, 40));
 		Style.applyPanelStyle(totalPanel);
 
 		totalLabel.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -110,7 +110,7 @@ public class Stock extends JPanel {
 			ResultSet rs = result.getResultSet();
 			if (rs.next()) {
 				String value = rs.getString("valeur_totale_stock");
-				totalLabel.setText("Stock total : " + value + " €");
+				totalLabel.setText("Stock total HTVA : " + value + " €");
 			} else {
 				totalLabel.setText("Stock total : 0 €");
 			}
@@ -122,7 +122,7 @@ public class Stock extends JPanel {
 
 	private String buildStockQuery(String period) {
 		String base = "SELECT numero AS 'Numéro', libelle AS 'Libelle', lieu AS 'Lieu', stock AS 'Stock', " +
-				"prix AS 'Prix Unité', ROUND((prix * stock), 3) AS 'Prix total' " +
+				"prix AS 'Prix Unité HTVA', ROUND((prix * stock), 3) AS 'Prix total HTVA' " +
 				"FROM produit WHERE visible = 1";
 
 		if (!"Tous".equalsIgnoreCase(period)) {
