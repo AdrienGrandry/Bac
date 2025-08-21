@@ -50,6 +50,7 @@ public class Style
 		comboBox.setForeground(Color.decode(color.xmlReader("bonton_texte")));
 		comboBox.setBorder(BorderFactory.createLineBorder(Color.black));
 		comboBox.setFocusable(false);
+		comboBox.setFont(new Font("Arial", Font.BOLD, 18));
 
 		comboBox.setRenderer(new DefaultListCellRenderer()
 		{
@@ -61,7 +62,7 @@ public class Style
 			{
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
 				        cellHasFocus);
-				label.setFont(new Font("Arial", Font.BOLD, 14));
+				label.setFont(new Font("Arial", Font.BOLD, 18));
 				label.setForeground(Color.decode(color.xmlReader("foreground")));
 				label.setHorizontalAlignment(SwingConstants.CENTER);
 				if (isSelected)

@@ -5,15 +5,19 @@ import ressources.Message;
 import ressources.Style;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.Serial;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+/////////////////////////////////////////////////////////////////////////////////////////
+/// AFFICHER A COTE DU NOM CASE FUTS POUR CHANGER TVA=21 ET PRIX FUTS ET PAS NBCASIER ///
+/////////////////////////////////////////////////////////////////////////////////////////
 
 public class AddProduit extends JDialog
 {
@@ -50,17 +54,27 @@ public class AddProduit extends JDialog
 
 		final JTextField nom = new JTextField();
 		styleTextField(nom);
-		nom.setBounds(50, 145, 400, 30);
+		nom.setBounds(50, 145, 300, 30);
 		panneauPrincipal.add(nom);
+
+		final JCheckBox checkBoxFut = new JCheckBox();
+		Style.applyCheckBoxStyle(checkBoxFut);
+		checkBoxFut.setBounds(370, 145, 30, 30);
+		panneauPrincipal.add(checkBoxFut);
+
+		JLabel instructionFuts = new JLabel("Fût");
+		styleLabel(instructionFuts);
+		instructionFuts.setBounds(400, 145, 50, 30);
+		panneauPrincipal.add(instructionFuts);
 
 		JLabel instructionLieu = new JLabel("Lieu");
 		styleLabel(instructionLieu);
 		instructionLieu.setBounds(50, 195, 400, 30);
 		panneauPrincipal.add(instructionLieu);
 
-		String[] periods =
+		String[] lieu =
 		{ "Salle", "Cafétéria" };
-		final JComboBox<String> comboBox = new JComboBox<>(periods);
+		final JComboBox<String> comboBox = new JComboBox<>(lieu);
 		comboBox.setBounds(50, 230, 400, 30);
 		Style.applyBoxStyle(comboBox);
 		panneauPrincipal.add(comboBox);
@@ -75,67 +89,103 @@ public class AddProduit extends JDialog
 		stock.setBounds(50, 315, 400, 30);
 		panneauPrincipal.add(stock);
 
-		JLabel instructionPrix = new JLabel("Prix d'achat par Casier");
+		JLabel instructionPrix = new JLabel("PA/Casier HTVA");
 		styleLabel(instructionPrix);
-		instructionPrix.setBounds(50, 365, 250, 30);
+		instructionPrix.setBounds(50, 365, 175, 30);
 		panneauPrincipal.add(instructionPrix);
 
 		final JTextField prix = new JTextField();
 		styleTextField(prix);
-		prix.setBounds(270, 365, 180, 30);
+		prix.setBounds(200, 365, 75, 30);
 		panneauPrincipal.add(prix);
 
-		JLabel instructionQuantite = new JLabel("Nombre/Casier");
+		JLabel euro = new JLabel("€");
+		styleLabel(euro);
+		euro.setBounds(275, 365, 25, 30);
+		panneauPrincipal.add(euro);
+
+		JLabel instructionTVA = new JLabel("TVA");
+		styleLabel(instructionTVA);
+		instructionTVA.setBounds(50, 400, 150, 30);
+		panneauPrincipal.add(instructionTVA);
+
+		String[] tva =
+				{"6 %", "21 %"};
+		final JComboBox<String> comboBoxTVA = new JComboBox<>(tva);
+		comboBoxTVA.setBounds(90, 400, 75, 30);
+		Style.applyBoxStyle(comboBoxTVA);
+		panneauPrincipal.add(comboBoxTVA);
+
+		JLabel instructionQuantite = new JLabel("Nbr/Casier");
 		styleLabel(instructionQuantite);
-		instructionQuantite.setBounds(50, 400, 250, 30);
+		instructionQuantite.setBounds(300, 365, 150, 30);
 		panneauPrincipal.add(instructionQuantite);
 
 		final JTextField quantite = new JTextField();
 		styleTextField(quantite);
-		quantite.setBounds(185, 400, 25, 30);
+		quantite.setBounds(400, 365, 50, 30);
 		panneauPrincipal.add(quantite);
 
-		JLabel instructionPrixVente = new JLabel("Prix de vente : ");
+		JLabel instructionTaux = new JLabel("Taux");
+		styleLabel(instructionTaux);
+		instructionTaux.setBounds(175, 400, 50, 30);
+		panneauPrincipal.add(instructionTaux);
+
+		String[] taux =
+				{"0 %", "1 %", "2 %", "3 %", "4 %", "5 %", "6 %", "7 %", "8 %",
+						"9 %", "10 %", "11 %", "12 %", "13 %", "14 %", "15 %" };
+		final JComboBox<String> comboBoxTaux = new JComboBox<>(taux);
+		comboBoxTaux.setBounds(225, 400, 75, 30);
+		Style.applyBoxStyle(comboBoxTaux);
+		panneauPrincipal.add(comboBoxTaux);
+
+		JLabel instructionPrixVente = new JLabel("PVU : ");
 		styleLabel(instructionPrixVente);
-		instructionPrixVente.setBounds(270, 400, 180, 30);
+		instructionPrixVente.setBounds(325, 400, 125, 30);
 		panneauPrincipal.add(instructionPrixVente);
 
-		javax.swing.event.DocumentListener calculListener = new javax.swing.event.DocumentListener() {
-			private void update() {
+		DocumentListener calculListener = new DocumentListener() {
+			public void update() {
 				try {
 					double prixCasier = Double.parseDouble(prix.getText().replace(",", "."));
 					int qte = Integer.parseInt(quantite.getText());
+
+					if(checkBoxFut.isSelected())
+					{
+						qte = 1;
+					}
 
 					if (qte > 0) {
 						double prixUnitaire = prixCasier / qte;
 						//CALCULER LA FORMULE 10% ET TVA
 
-						instructionPrixVente.setText("Prix de vente : " + String.format("%.3f", prixUnitaire));
+						instructionPrixVente.setText("PVU : " + String.format("%.2f", prixUnitaire) + " €");
 					} else {
-						instructionPrixVente.setText("Prix de vente : -");
+						instructionPrixVente.setText("PVU : -");
 					}
 				} catch (NumberFormatException e) {
-					instructionPrixVente.setText("Prix de vente : -");
+					instructionPrixVente.setText("PVU : -");
 				}
 			}
 
 			@Override
-			public void insertUpdate(javax.swing.event.DocumentEvent e) {
+			public void insertUpdate(DocumentEvent e) {
 				update();
 			}
 
 			@Override
-			public void removeUpdate(javax.swing.event.DocumentEvent e) {
+			public void removeUpdate(DocumentEvent e) {
 				update();
 			}
 
 			@Override
-			public void changedUpdate(javax.swing.event.DocumentEvent e) {
+			public void changedUpdate(DocumentEvent e) {
 				update();
 			}
 		};
 		prix.getDocument().addDocumentListener(calculListener);
 		quantite.getDocument().addDocumentListener(calculListener);
+		checkBoxFut.addItemListener(e -> calculListener.insertUpdate(null));
 
 		JLabel instructionPrixGlobal = new JLabel("Prix :");
 		styleLabel(instructionPrixGlobal);
@@ -182,6 +232,25 @@ public class AddProduit extends JDialog
 		checkBoxVisibilite.setBackground(Color.decode(ColorXml.xmlReader("background")));
 		checkBoxVisibilite.setSelected(true);
 		panneauPrincipal.add(checkBoxVisibilite);
+
+		checkBoxFut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (checkBoxFut.isSelected()) {
+					instructionPrix.setText("PA/Fût HTVA");
+					instructionQuantite.setVisible(false);
+					quantite.setVisible(false);
+					instructionTVA.setText("TVA    21 %");
+					comboBoxTVA.setVisible(false);
+				} else {
+					instructionPrix.setText("PA/Casier HTVA");
+					instructionQuantite.setVisible(true);
+					quantite.setVisible(true);
+					instructionTVA.setText("TVA");
+					comboBoxTVA.setVisible(true);
+				}
+			}
+		});
 
 		JButton boutonFermer = new JButton("Fermer");
 		boutonFermer.addActionListener(new ActionListener()
@@ -323,6 +392,8 @@ public class AddProduit extends JDialog
 					String stockSql = resultSet.getString("stock"); // correction ici aussi
 					String prixSql = resultSet.getString("prix").replace(".", ",");
 					String nbCasierSql = resultSet.getString("nbCasier");
+					int tvaSql = resultSet.getInt("TVA");
+					int tauxSql = resultSet.getInt("taux");
 					String prixReunionSql = resultSet.getString("PrixReunion").replace(".", ",");
 					String prixPensionnesSql = resultSet.getString("PrixPensionnes").replace(".", ",");
 					String prixParoisseSql = resultSet.getString("PrixParoisse").replace(".", ",");
@@ -344,6 +415,17 @@ public class AddProduit extends JDialog
 					prixReunion.setText(prixReunionSql);
 					prixPensionnes.setText(prixPensionnesSql);
 					prixParoisse.setText(prixParoisseSql);
+
+					if(tvaSql == 6)
+					{
+						comboBoxTVA.setSelectedIndex(0);
+					}
+					else
+					{
+						comboBoxTVA.setSelectedIndex(1);
+					}
+
+					comboBoxTaux.setSelectedIndex(tauxSql);
 
 					checkBoxVisibilite.setSelected(visibleSql.equals("1"));
 				} else {

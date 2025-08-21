@@ -122,7 +122,7 @@ public class Stock extends JPanel {
 
 	private String buildStockQuery(String period) {
 		String base = "SELECT numero AS 'Numéro', libelle AS 'Libelle', lieu AS 'Lieu', stock AS 'Stock', " +
-				"prix AS 'Prix Unité HTVA', ROUND((prix * stock), 3) AS 'Prix total HTVA' " +
+				"ROUND(prix/nbCasier, 3) AS 'Prix Unité HTVA', ROUND(((prix/nbCasier) * stock), 3) AS 'Prix total HTVA' " +
 				"FROM produit WHERE visible = 1";
 
 		if (!"Tous".equalsIgnoreCase(period)) {
