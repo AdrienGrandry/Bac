@@ -185,9 +185,37 @@ public class AddMouvement extends JDialog {
 
 	private void addProduct(JComboBox<Boisson> comboBox, JTextField stockField) {
 		Boisson selectedBoisson = (Boisson) comboBox.getSelectedItem();
-		int quantity = Integer.parseInt(stockField.getText());
-		tableModel.addRow(new Object[]{selectedBoisson.getId(), selectedBoisson, quantity});
+		if (selectedBoisson == null || stockField.getText().trim().isEmpty()) {
+			return;
+		}
+
+		int quantity;
+		try {
+			quantity = Integer.parseInt(stockField.getText().trim());
+		} catch (NumberFormatException e) {
+			Message.showErrorMessage("Erreur", "La quantité doit être un nombre valide !");
+			return;
+		}
+
+		// Vérifier si la boisson est déjà dans le tableau
+		boolean alreadyExists = false;
+		for (int i = 0; i < tableModel.getRowCount(); i++) {
+			int idBoisson = (int) tableModel.getValueAt(i, 0);
+			if (idBoisson == selectedBoisson.getId()) {
+				// Si déjà présent, on met à jour la quantité au lieu d'ajouter une ligne
+				int currentQuantity = Integer.parseInt(tableModel.getValueAt(i, 2).toString());
+				tableModel.setValueAt(currentQuantity + quantity, i, 2);
+				alreadyExists = true;
+				break;
+			}
+		}
+
+		// Sinon on ajoute une nouvelle ligne
+		if (!alreadyExists) {
+			tableModel.addRow(new Object[]{selectedBoisson.getId(), selectedBoisson, quantity});
+		}
 	}
+
 
 	private void validateData(JTextField commentaireField, JComboBox<String> comboBoxType) {
 		int rowCount = tableModel.getRowCount(); // Obtenir le nombre de lignes dans le modéle
@@ -268,12 +296,15 @@ public class AddMouvement extends JDialog {
 				}
 
 				int quantite_db = 0;
+				String libelle = "";
 				queryResult = null;
 				try
 				{
-					queryResult = Requete.executeQuery("SELECT stock FROM produit WHERE id = \" + id_prod");
+					queryResult = Requete.executeQuery("SELECT stock, libelle FROM produit WHERE id =" + id_prod);
 					if (queryResult.getResultSet().next()) {
 						quantite_db = queryResult.getResultSet().getInt("stock");
+						libelle = queryResult.getResultSet().getString("libelle");
+
 					}
 				} catch (Exception ex) {
 					Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
@@ -285,6 +316,32 @@ public class AddMouvement extends JDialog {
 				}
 
 				int quantite_totale = quantite_db + quantite;
+
+				if(quantite_totale < 0)
+				{
+					Message.showErrorMessage("Erreur de Stock", "Le stock de " + libelle + " est trop faible !");
+
+					queryResult = null;
+					int id = 0;
+					try
+					{
+						queryResult = Requete.executeQuery("SELECT MAX(id) AS id FROM mouvement");
+						if (queryResult.getResultSet().next()) {
+							id = queryResult.getResultSet().getInt("id");
+						}
+					} catch (Exception ex) {
+						Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+					}
+					finally
+					{
+						if (queryResult != null)
+							queryResult.close();
+					}
+					Requete.executeUpdate("Delete FROM inclure WHERE id_mouvement =" + id);
+					Requete.executeUpdate("Delete FROM mouvement WHERE id =" + id);
+
+					return;
+				}
 
 				queryResult = null;
 				try

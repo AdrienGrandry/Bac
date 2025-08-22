@@ -42,7 +42,7 @@ public class Produit extends JPanel
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
 		String[] periods =
-		{ "Tous", "Salle", "Cafétéria" };
+		{ "Tous", "Salle", "Cafétéria", "Salle + Cafétéria"};
 
 		final JComboBox<String> comboBox = new JComboBox<>(periods);
 		Style.applyBoxStyle(comboBox);
@@ -84,13 +84,16 @@ public class Produit extends JPanel
 				switch (selectedPeriod)
 				{
 				case "Tous":
-					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit ORDER BY numero";
+					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', CASE WHEN lieu = 'deux' THEN 'Salle + Cafétéria' ELSE lieu END AS 'Lieu' FROM produit ORDER BY numero";
 					break;
 				case "Salle":
-					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'salle' ORDER BY numero";
+					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', CASE WHEN lieu = 'deux' THEN 'Salle + Cafétéria' ELSE lieu END AS 'Lieu' FROM produit WHERE lieu LIKE 'salle' ORDER BY numero";
 					break;
 				case "Cafétéria":
-					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', lieu AS 'Lieu' FROM produit WHERE lieu LIKE 'cafeteria' ORDER BY numero";
+					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', CASE WHEN lieu = 'deux' THEN 'Salle + Cafétéria' ELSE lieu END AS 'Lieu' FROM produit WHERE lieu LIKE 'cafeteria' ORDER BY numero";
+					break;
+				case "Salle + Cafétéria":
+					sql = "SELECT numero AS 'Numéro', libelle AS 'Libellé', CASE WHEN lieu = 'deux' THEN 'Salle + Cafétéria' ELSE lieu END AS 'Lieu' FROM produit WHERE lieu LIKE 'deux' ORDER BY numero";
 					break;
 				}
 
@@ -171,6 +174,10 @@ public class Produit extends JPanel
 
 	public int getIdRow(int numeroProduit, String libelleProduit, String lieuProduit) throws SQLException
 	{
+		if(lieuProduit.equals("Salle + Cafétéria"))
+		{
+			lieuProduit = "deux";
+		}
 		String query = "SELECT id FROM produit WHERE numero = " + numeroProduit + " AND libelle = '" + libelleProduit
 		        + "' AND lieu = '" + lieuProduit + "'";
 

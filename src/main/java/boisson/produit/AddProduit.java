@@ -15,9 +15,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-/////////////////////////////////////////////////////////////////////////////////////////
-/// AFFICHER A COTE DU NOM CASE FUTS POUR CHANGER TVA=21 ET PRIX FUTS ET PAS NBCASIER ///
-/////////////////////////////////////////////////////////////////////////////////////////
 
 public class AddProduit extends JDialog
 {
@@ -73,7 +70,7 @@ public class AddProduit extends JDialog
 		panneauPrincipal.add(instructionLieu);
 
 		String[] lieu =
-		{ "Salle", "Cafétéria" };
+		{ "Salle", "Cafétéria", "Salle + Cafétéria"};
 		final JComboBox<String> comboBox = new JComboBox<>(lieu);
 		comboBox.setBounds(50, 230, 400, 30);
 		Style.applyBoxStyle(comboBox);
@@ -353,12 +350,16 @@ public class AddProduit extends JDialog
 					case "Cafétéria":
 						lieu = "cafeteria";
 						break;
+					case "Salle + Cafétéria":
+						lieu = "deux";
+						break;
                     }
 
 					boolean fut;
 					if(checkBoxFut.isSelected())
 					{
 						fut = true;
+						quantiteCasier = 1;
 					}
 					else
 					{
@@ -492,6 +493,8 @@ public class AddProduit extends JDialog
 						case "cafeteria":
 							comboBox.setSelectedIndex(1);
 							break;
+						case "deux":
+							comboBoxTaux.setSelectedIndex(2);
 					}
 					stock.setText(stockSql);
 					num.setText(numeroSql);

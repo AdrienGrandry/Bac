@@ -49,7 +49,7 @@ public class Stock extends JPanel {
 		buttonPanel.setBackground(backgroundColor);
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-		String[] periods = {"Tous", "Salle", "Cafétéria"};
+		String[] periods = {"Tous", "Salle", "Cafétéria", "Salle + Cafétéria"};
 		JComboBox<String> comboBox = new JComboBox<>(periods);
 		Style.applyBoxStyle(comboBox);
 		comboBox.setPreferredSize(new Dimension(250, 40));
@@ -121,11 +121,14 @@ public class Stock extends JPanel {
 	}
 
 	private String buildStockQuery(String period) {
-		String base = "SELECT numero AS 'Numéro', libelle AS 'Libelle', lieu AS 'Lieu', stock AS 'Stock', " +
+		String base = "SELECT numero AS 'Numéro', libelle AS 'Libelle', CASE WHEN lieu = 'deux' THEN 'Salle + Cafétéria' ELSE lieu END AS 'Lieu', stock AS 'Stock', " +
 				"ROUND(prix/nbCasier, 3) AS 'Prix Unité HTVA', ROUND(((prix/nbCasier) * stock), 3) AS 'Prix total HTVA' " +
 				"FROM produit WHERE visible = 1";
 
-		if (!"Tous".equalsIgnoreCase(period)) {
+		if("Salle + Cafétéria".equals(period)) {
+			base += " AND lieu = 'deux'";
+		}
+		else if (!"Tous".equalsIgnoreCase(period)) {
 			base += " AND lieu = '" + period.toLowerCase().replace("é", "e") + "'";
 		}
 
@@ -135,7 +138,10 @@ public class Stock extends JPanel {
 	private String buildTotalQuery(String period) {
 		String base = "SELECT SUM(stock * prix) AS valeur_totale_stock FROM produit WHERE visible = 1";
 
-		if (!"Tous".equalsIgnoreCase(period)) {
+		if("Salle + Cafétéria".equals(period)) {
+			base += " AND lieu = 'deux'";
+		}
+		else if (!"Tous".equalsIgnoreCase(period)) {
 			base += " AND lieu = '" + period.toLowerCase().replace("é", "e") + "'";
 		}
 
