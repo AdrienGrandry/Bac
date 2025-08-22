@@ -3,8 +3,7 @@
 Programme de gestion de stock pour le bac.
 
 # Action toujours à faire
-- panel info : gauche locataire, centre option, droite responsable comme en dessous mais sans division, remonter selon la taille
-- afficher options selement si oui, premiere colonne options cafet et 2e salle
+- calculer facture boissons avec le nombre arrondi sans les chifre apres
 
 # Organisation du projet - Avancement
 

@@ -126,7 +126,7 @@ public class AddProduit extends JDialog
 		quantite.setBounds(400, 365, 50, 30);
 		panneauPrincipal.add(quantite);
 
-		JLabel instructionTaux = new JLabel("Taux");
+		JLabel instructionTaux = new JLabel("MB");
 		styleLabel(instructionTaux);
 		instructionTaux.setBounds(175, 400, 50, 30);
 		panneauPrincipal.add(instructionTaux);
@@ -150,16 +150,52 @@ public class AddProduit extends JDialog
 					double prixCasier = Double.parseDouble(prix.getText().replace(",", "."));
 					int qte = Integer.parseInt(quantite.getText());
 
+					double tva = 0;
+					double taux = 0;
+
+					switch ((String) comboBoxTVA.getSelectedItem())
+					{
+						case "6 %":
+							tva = 1.06;
+							break;
+						case "21 %":
+							tva = 1.21;
+							break;
+					}
+
+					switch ((String) comboBoxTaux.getSelectedItem()) {
+						case "0 %":  taux = 1.00;  break;
+						case "1 %":  taux = 1.01; break;
+						case "2 %":  taux = 1.02; break;
+						case "3 %":  taux = 1.03; break;
+						case "4 %":  taux = 1.04; break;
+						case "5 %":  taux = 1.05; break;
+						case "6 %":  taux = 1.06; break;
+						case "7 %":  taux = 1.07; break;
+						case "8 %":  taux = 1.08; break;
+						case "9 %":  taux = 1.09; break;
+						case "10 %": taux = 1.10; break;
+						case "11 %": taux = 1.11; break;
+						case "12 %": taux = 1.12; break;
+						case "13 %": taux = 1.13; break;
+						case "14 %": taux = 1.14; break;
+						case "15 %": taux = 1.15; break;
+					}
+
 					if(checkBoxFut.isSelected())
 					{
 						qte = 1;
+						tva = 1.21;
 					}
 
 					if (qte > 0) {
-						double prixUnitaire = prixCasier / qte;
+
+
+						double prixUnitaireHtva = prixCasier / qte;
+						double prixUnitaireFinal = prixUnitaireHtva * tva * taux;
 						//CALCULER LA FORMULE 10% ET TVA
 
-						instructionPrixVente.setText("PVU : " + String.format("%.2f", prixUnitaire) + " €");
+						instructionPrixVente.setText("PVU : " + String.format("%.2f", prixUnitaireFinal) + " €");
 					} else {
 						instructionPrixVente.setText("PVU : -");
 					}
@@ -185,6 +221,8 @@ public class AddProduit extends JDialog
 		};
 		prix.getDocument().addDocumentListener(calculListener);
 		quantite.getDocument().addDocumentListener(calculListener);
+		comboBoxTVA.addActionListener(e -> calculListener.insertUpdate(null));
+		comboBoxTaux.addActionListener(e -> calculListener.insertUpdate(null));
 		checkBoxFut.addItemListener(e -> calculListener.insertUpdate(null));
 
 		JLabel instructionPrixGlobal = new JLabel("Prix :");
@@ -317,6 +355,48 @@ public class AddProduit extends JDialog
 						break;
                     }
 
+					boolean fut;
+					if(checkBoxFut.isSelected())
+					{
+						fut = true;
+					}
+					else
+					{
+						fut = false;
+					}
+
+					int tvasql = 0;
+					int tauxsql = 0;
+
+					switch ((String) comboBoxTVA.getSelectedItem())
+					{
+						case "6 %":
+							tvasql = 6;
+							break;
+						case "21 %":
+							tvasql = 21;
+							break;
+					}
+
+					switch ((String) comboBoxTaux.getSelectedItem()) {
+						case "0 %":  tauxsql = 0;  break;
+						case "1 %":  tauxsql = 1; break;
+						case "2 %":  tauxsql = 2; break;
+						case "3 %":  tauxsql = 3; break;
+						case "4 %":  tauxsql = 4; break;
+						case "5 %":  tauxsql = 5; break;
+						case "6 %":  tauxsql = 6; break;
+						case "7 %":  tauxsql = 7; break;
+						case "8 %":  tauxsql = 8; break;
+						case "9 %":  tauxsql = 9; break;
+						case "10 %": tauxsql = 10; break;
+						case "11 %": tauxsql = 11; break;
+						case "12 %": tauxsql = 12; break;
+						case "13 %": tauxsql = 13; break;
+						case "14 %": tauxsql = 14; break;
+						case "15 %": tauxsql = 15; break;
+					}
+
 					try (Connection connection = DriverManager.getConnection("jdbc:sqlite:ressources/Database.db");
 					        Statement statement = connection.createStatement())
 					{
@@ -324,15 +404,19 @@ public class AddProduit extends JDialog
 						if (id == 0)
 						{
 							statement.executeUpdate(
-							        "INSERT INTO produit (libelle, lieu, stock, numero, prix, visible, nbCasier, PrixReunion, PrixPensionnes, prixParoisse) VALUES ('"
+							        "INSERT INTO produit (libelle, lieu, stock, numero, prix, visible, nbCasier," +
+											"PrixReunion, PrixPensionnes, prixParoisse, Fut, TVA, Taux) VALUES ('"
 							                + nomProduit + "', '" + lieu + "', " + stockProduit + ", " + numProduit
-							                + ", " + prixProduit + ", " + visible + ", " + quantiteCasier + ", " + prixReunionProduit + ", " + prixPensionnesProduit + ", " + prixParoisseProduit + ");");
+											+ ", " + prixProduit + ", " + visible + ", " + quantiteCasier + ", " + prixReunionProduit
+											+ ", " + prixPensionnesProduit + ", " + prixParoisseProduit + ", " + fut
+											+ ", " + tvasql + ", " + tauxsql + ");");
 						} else
 						{
 							statement.executeUpdate("UPDATE produit SET libelle='" + nomProduit + "', lieu='" + lieu
 							        + "', stock=" + stockProduit + ", numero=" + numProduit + ", prix=" + prixProduit
 							        + ", visible=" + visible + ", nbCasier=" + quantiteCasier + ", PrixReunion=" + prixReunionProduit
-									+ ", PrixPensionnes=" + prixPensionnesProduit + ", PrixParoisse=" + prixParoisseProduit + " WHERE id=" + id + ";");
+									+ ", PrixPensionnes=" + prixPensionnesProduit + ", PrixParoisse=" + prixParoisseProduit
+									+ ", Fut=" + fut + ", TVA=" + tvasql + ",Taux=" + tauxsql + " WHERE id=" + id + ";");
 						}
 					} catch (SQLException ex)
 					{
@@ -394,6 +478,7 @@ public class AddProduit extends JDialog
 					String nbCasierSql = resultSet.getString("nbCasier");
 					int tvaSql = resultSet.getInt("TVA");
 					int tauxSql = resultSet.getInt("taux");
+					boolean fut = resultSet.getBoolean("Fut");
 					String prixReunionSql = resultSet.getString("PrixReunion").replace(".", ",");
 					String prixPensionnesSql = resultSet.getString("PrixPensionnes").replace(".", ",");
 					String prixParoisseSql = resultSet.getString("PrixParoisse").replace(".", ",");
@@ -426,6 +511,16 @@ public class AddProduit extends JDialog
 					}
 
 					comboBoxTaux.setSelectedIndex(tauxSql);
+
+					if(fut)
+					{
+						checkBoxFut.setSelected(fut);
+						instructionPrix.setText("PA/Fût HTVA");
+						instructionQuantite.setVisible(false);
+						quantite.setVisible(false);
+						instructionTVA.setText("TVA    21 %");
+						comboBoxTVA.setVisible(false);
+					}
 
 					checkBoxVisibilite.setSelected(visibleSql.equals("1"));
 				} else {
