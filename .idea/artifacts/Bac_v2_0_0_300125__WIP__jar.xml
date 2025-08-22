@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Bac v2.0.0.300125 (WIP):jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Bac_v2_0_0_300125__WIP__jar</output-path>
+    <root id="archive" name="Bac v2.0.0.300125 (WIP).jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

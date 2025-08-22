@@ -27,9 +27,7 @@ public class MainApplication {
         new Thread(() -> {
             try {
                 GoogleAuthorizeUtil.authorize();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } catch (Exception e) {}
 
             SwingUtilities.invokeLater(() -> {
                 loadingDialog.get().dispose();
