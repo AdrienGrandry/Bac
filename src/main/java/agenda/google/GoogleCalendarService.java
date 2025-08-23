@@ -15,6 +15,7 @@ import agenda.model.EventModel;
 import principale.GoogleAuthorizeUtil;
 import ressources.LoadingDialog;
 import ressources.Message;
+import ressources.XmlConfig;
 import ressources.dataBase.Requete;
 
 import javax.swing.*;
@@ -35,11 +36,7 @@ public class GoogleCalendarService {
     private final Calendar service;
 
     // Les noms des agendas affichés uniquement
-    private static final List<String> NOMS_AGENDAS_AFFICHER = List.of(
-            "BAC - Salle",
-            "BAC - Cafétéria",
-            "BAC - Salle/Cafétéria"
-    );
+    private static final List<String> NOMS_AGENDAS_AFFICHER = XmlConfig.lireAgendasDepuisXml();
 
     public GoogleCalendarService() throws GeneralSecurityException, IOException {
         var httpTransport = GoogleNetHttpTransport.newTrustedTransport();

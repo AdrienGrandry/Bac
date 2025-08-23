@@ -4,13 +4,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,6 +41,23 @@ public class XmlConfig
             e.printStackTrace();
             return "#FFFFFF";
         }
+    }
+
+    public static List<String> lireAgendasDepuisXml() {
+        List<String> agendas = new ArrayList<>();
+        try {
+            Document document = loadXmlDocument();
+
+            // Récupère tous les <agenda>
+            NodeList nodes = document.getElementsByTagName("agenda");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                agendas.add(nodes.item(i).getTextContent().trim());
+            }
+
+        } catch (Exception e) {
+            Message.showErrorMessage("Chargement des noms des agendas", "Impossible de lire les noms des agendas : " + e.getMessage());
+        }
+        return agendas;
     }
 
     private static Document loadXmlDocument() throws Exception
