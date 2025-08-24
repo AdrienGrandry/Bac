@@ -3,28 +3,47 @@ package principale;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.Message;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Date;
+import java.time.Year;
 import java.util.List;
 
 public class GmailStats {
 
-    public static int[] getNbMail() throws IOException, GeneralSecurityException {
-        Date dt = new Date();
-        int year = dt.getYear();
-        int current_Year = year + 1900;
+    private static int mailsNonLus = 0;
+    private static int mailsRecus = 0;
+    private static int mailsEnvoyes = 0;
 
-        //Time out = 10 sec
+    private final Gmail service;
+
+    public GmailStats() throws IOException, GeneralSecurityException {
+        this.service = createGmailService();
+    }
+
+    /**
+     * Initialise et calcule les statistiques pour l’année courante.
+     */
+    public void fetchMailStats() throws IOException {
+        int currentYear = Year.now().getValue();
+
+        this.mailsNonLus = countMessages("is:unread in:inbox");
+        this.mailsEnvoyes = countMessages("in:sent after:" + currentYear + "/01/01 before:" + (currentYear + 1) + "/01/01");
+        this.mailsRecus = countMessages("after:" + currentYear + "/01/01 before:" + (currentYear + 1) + "/01/01 -in:sent");
+    }
+
+    /**
+     * Crée le service Gmail avec authentification et timeouts.
+     */
+    private Gmail createGmailService() throws IOException, GeneralSecurityException {
         final int TIMEOUT = 5_000;
-        // Authentification
         var credential = GoogleAuthorizeUtil.authorize();
 
-        // Création du service Gmail
-        Gmail service = new Gmail.Builder(
-                com.google.api.client.googleapis.javanet.GoogleNetHttpTransport.newTrustedTransport(),
-                com.google.api.client.json.jackson2.JacksonFactory.getDefaultInstance(),
+        return new Gmail.Builder(
+                GoogleNetHttpTransport.newTrustedTransport(),
+                JacksonFactory.getDefaultInstance(),
                 request -> {
                     credential.initialize(request);
                     request.setConnectTimeout(TIMEOUT);
@@ -32,23 +51,18 @@ public class GmailStats {
                 })
                 .setApplicationName("GestiBac")
                 .build();
-
-        // Appel et affichage
-        int unreadCount = countMessages(service, "me", "is:unread");
-        int sentCount = countMessages(service, "me", "in:sent after:" + current_Year + "/01/01 before:"+ (current_Year+1) + "/01/01");
-        int receivedCount = countMessages(service, "me", " after:" + current_Year + "/01/01 before:" + (current_Year+1) + "/01/01");
-
-        int tab[] = {unreadCount, sentCount, receivedCount};
-
-        return tab;
     }
 
-    private static int countMessages(Gmail service, String userId, String query) throws IOException {
+    /**
+     * Compte les messages Gmail correspondant à une requête.
+     */
+    private int countMessages(String query) throws IOException {
         int count = 0;
         String nextPageToken = null;
 
         do {
-            Gmail.Users.Messages.List request = service.users().messages().list(userId)
+            Gmail.Users.Messages.List request = service.users().messages()
+                    .list("me")
                     .setQ(query)
                     .setPageToken(nextPageToken);
 
@@ -63,5 +77,19 @@ public class GmailStats {
         } while (nextPageToken != null);
 
         return count;
+    }
+
+    // --- Getters ---
+
+    public static int getMailsNonLus() {
+        return mailsNonLus;
+    }
+
+    public static int getMailsRecus() {
+        return mailsRecus;
+    }
+
+    public static int getMailsEnvoyes() {
+        return mailsEnvoyes;
     }
 }

@@ -202,19 +202,19 @@ public class newLocation extends JPanel {
             String typeAgenda = "";
 
             if (salleSelected) {
-                typeAgenda = "BAC - Salle";
+                typeAgenda = "Salle paroissiale du Bac";
                 requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuisine240, BarAsbl, BarVide, PompeVide) values (");
                 requeteSalle.append(appendOptions(salleOptions));
                 requeteSalle.append(");");
                 if (cafetSelected)
                 {
-                    typeAgenda = "BAC - Salle/Cafétéria";
+                    typeAgenda = "Salle/Cafétéria";
                     requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
                     requeteCafet.append(appendOptions(cafetOptions));
                     requeteCafet.append(");");
                 }
             } else {
-                typeAgenda = "BAC - Cafétéria";
+                typeAgenda = "Cafétéria";
                 requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
                 requeteCafet.append(appendOptions(cafetOptions));
                 requeteCafet.append(");");

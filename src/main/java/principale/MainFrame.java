@@ -47,10 +47,9 @@ public class MainFrame extends JFrame {
         int nbMailNonLu = 0, nbMailEnvoyer = 0, nbMailRecu = 0;
 
         try {
-            int list[] = GmailStats.getNbMail();
-            nbMailNonLu = list[0];
-            nbMailEnvoyer = list[1];
-            nbMailRecu = list[2] - nbMailEnvoyer;
+            nbMailNonLu = GmailStats.getMailsNonLus();
+            nbMailEnvoyer = GmailStats.getMailsEnvoyes();
+            nbMailRecu = GmailStats.getMailsRecus();
 
             JPanel mailPanel = new JPanel();
             mailPanel.setBackground(Color.LIGHT_GRAY);

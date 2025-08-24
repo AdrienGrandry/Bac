@@ -1,4 +1,5 @@
 import agenda.google.GoogleCalendarService;
+import principale.GmailStats;
 import principale.GoogleAuthorizeUtil;
 import principale.MainFrame;
 import ressources.LoadingDialog;
@@ -34,6 +35,16 @@ public class MainApplication {
                 loadingDialog.set(new LoadingDialog(null, "Chargement du nombre d'Email..."));
                 loadingDialog.get().setVisible(true);
             });
+            GmailStats stats = null;
+            try {
+                stats = new GmailStats();
+                stats.fetchMailStats();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            }
+
 
             MainFrame mainFrame = new MainFrame();
 
