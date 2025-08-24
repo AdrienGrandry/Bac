@@ -202,7 +202,7 @@ public class newLocation extends JPanel {
             String typeAgenda = "";
 
             if (salleSelected) {
-                typeAgenda = "Salle paroissiale du Bac";
+                typeAgenda = "Salle";
                 requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuisine240, BarAsbl, BarVide, PompeVide) values (");
                 requeteSalle.append(appendOptions(salleOptions));
                 requeteSalle.append(");");
