@@ -26,7 +26,7 @@ public class detailLocation extends JPanel {
     boolean isOption = false;
     JLabel lblDonneesA, lblDonneesB, lblDonneesC, lblDonneesD;
     String date, nomPrenom;
-    int id;
+    int id, idSalle, idCafet;
     JFrame parentframe;
 
     public detailLocation(final JFrame parentFrame, int id) {
@@ -55,7 +55,6 @@ public class detailLocation extends JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1;
 
-        // Panels info
         // Panels info
         JPanel panelInfo = new JPanel(new GridBagLayout());
         panelInfo.setBackground(backgroundColor);
@@ -131,6 +130,9 @@ public class detailLocation extends JPanel {
                 isOption = queryResult.getResultSet().getBoolean("Option");
                 date = queryResult.getResultSet().getString("Date");
                 nomPrenom = queryResult.getResultSet().getString("nom").toUpperCase() + " " + queryResult.getResultSet().getString("prenom");
+
+                idSalle = queryResult.getResultSet().getInt("IdSalle");
+                idCafet = queryResult.getResultSet().getInt("IdCafeteria");
 
                 lblDonneesA.setText(createLabelA(queryResult.getResultSet()));
                 if (queryResult.getResultSet().getBoolean("IdSalle")) {
@@ -285,9 +287,20 @@ public class detailLocation extends JPanel {
 
         JButton option = new JButton("Annuler l'option");
         Style.applyButtonStyle(option);
+        option.addActionListener(e -> deleteLocation());
 
         JButton annuler = new JButton("Annuler la location");//Demander si facture
         Style.applyButtonStyle(annuler);
+        annuler.addActionListener(e ->
+        {
+            boolean reponse = Message.askYesNoQuestion("Générer une facture ?", "Annulation de la location");
+
+            if(reponse)
+            {
+                Message.showValidMessage("Facture", "Réalisation future de la facture...");
+            }
+            deleteLocation();An
+        });
 
         JPanel panelBtn = new JPanel();
         panelBtn.setBackground(bg);
@@ -305,7 +318,7 @@ public class detailLocation extends JPanel {
     private void updateGoogleCalendar() {
         LocalDate localdate = DateParser.parseStringToLocalDate(date);
 
-        LoadingDialog loadingDialog = new LoadingDialog(parentframe, "Chargement du nombre de mail...");
+        LoadingDialog loadingDialog = new LoadingDialog(parentframe, "Validation de l'option...");
         SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
         new Thread(() -> {
@@ -346,6 +359,70 @@ public class detailLocation extends JPanel {
             } catch (GeneralSecurityException | IOException ex) {
                 Message.showErrorMessage("Erreur Google Calendar", ex.getMessage());
             }
+        }).start();
+    }
+
+    private void deleteLocation() {
+        LoadingDialog loadingDialog = new LoadingDialog(parentframe, "Annulation de l'option...");
+        SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+        new Thread(() -> {
+            if (idSalle != 0) {
+                Requete.executeUpdate("delete from Salle where IdSalle = " + idSalle);
+            }
+            if (idCafet != 0) {
+                Requete.executeUpdate("delete from Cafeteria where IdCafeteria = " + idCafet);
+            }
+            Requete.executeUpdate("delete from Location where IdLocation = " + id);
+
+            SwingUtilities.invokeLater(() -> {
+                loadingDialog.setTitle("Supression de l'option dans l'agenda...");
+            });
+
+            if(isOption)
+            {
+                nomPrenom = "(Option) " + nomPrenom;
+            }
+
+            try {
+                GoogleCalendarService googleCalendarService = new GoogleCalendarService();
+                List<EventModel> evenements = googleCalendarService.findEventsByNameAndDate(nomPrenom, DateParser.parseStringToLocalDate(date));
+
+                if (evenements.isEmpty()) {
+                    return;
+                }
+
+                String eventId= evenements.get(0).getEventId();
+
+                String calendarId = evenements.get(0).getCalendarId();
+
+                if (calendarId == null || eventId == null) {
+                    Message.showErrorMessage("Validation de l'option", "Impossible de retrouver le calendarId dans l'événement.");
+                    return;
+                }
+
+                googleCalendarService.deleteEvent(calendarId, eventId);
+
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+                    loadingDialog.dispose();
+                });
+
+                showLocation panel = new showLocation(parentframe);
+                Location.panel.removeAll();
+                Location.panel.add(panel, BorderLayout.CENTER);
+                parentframe.revalidate();
+                parentframe.repaint();
+
+                Message.showValidMessage("Annulation de la location", "La location a été annulée !");
+            } catch (GeneralSecurityException | IOException ex) {
+                Message.showErrorMessage("Erreur Google Calendar", ex.getMessage());
+            }
+
+            SwingUtilities.invokeLater(() -> {
+                loadingDialog.setVisible(false);
+                loadingDialog.dispose();
+            });
         }).start();
     }
 }

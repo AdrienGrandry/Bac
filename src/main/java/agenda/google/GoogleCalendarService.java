@@ -302,7 +302,7 @@ public class GoogleCalendarService {
      * @param date Date de l'événement à rechercher
      * @return EventModel trouvé ou null si aucun événement correspondant
      */
-    public List<EventModel> findEventsByNameAndDate(String nomPrenom, LocalDate date) throws IOException {
+    public List<EventModel> findEventsByNameAndDate(String titre, LocalDate date) throws IOException {
         Map<String, String> calendarMap = getCalendarNameIdMap();
         List<EventModel> matches = new ArrayList<>();
 
@@ -315,7 +315,7 @@ public class GoogleCalendarService {
             for (EventModel event : events) {
                 if (event.getDate() != null && event.getTitle() != null
                         && event.getDate().equals(date)
-                        && event.getTitle().equals("(Option) " + nomPrenom)) {
+                        && event.getTitle().equals(titre)) {
                     // Assigner le calendarId à l'événement avant de l'ajouter
                     event.setCalendarId(calendarId);  // <-- ici on conserve le calendarId
                     matches.add(event);

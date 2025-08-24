@@ -243,15 +243,9 @@ public class newLocation extends JPanel {
                         {
                             if(queryResult.getResultSet().getInt(1) != 0)
                             {
-                                int choix = JOptionPane.showConfirmDialog(
-                                        parentFrame,
-                                        "Une location existe déjà pour cette date. Continuer ?",
-                                        "Confirmation",
-                                        JOptionPane.YES_NO_OPTION,
-                                        JOptionPane.QUESTION_MESSAGE
-                                );
+                                boolean choix = Message.askYesNoQuestion("Une location existe déjà pour cette date. Continuer ?","Confirmation");
 
-                                if (choix == JOptionPane.NO_OPTION) {
+                                if (!choix) {
                                     SwingUtilities.invokeLater(() ->{
                                         loadingDialog.setVisible(false);
                                     });
