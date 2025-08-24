@@ -1,11 +1,8 @@
 package location.newLocation;
 
-import ressources.DateParser;
-import ressources.LoadingDialog;
-import ressources.Message;
+import ressources.*;
 import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
-import ressources.Style;
 import options.ColorXml;
 import agenda.google.GoogleCalendarService;
 
@@ -202,19 +199,19 @@ public class newLocation extends JPanel {
             String typeAgenda = "";
 
             if (salleSelected) {
-                typeAgenda = "Salle";
+                typeAgenda = XmlConfig.recupNomAgenda("salle");
                 requeteSalle.append("INSERT INTO salle (SalleSeul, Cuisine160, Cuisine240, BarAsbl, BarVide, PompeVide) values (");
                 requeteSalle.append(appendOptions(salleOptions));
                 requeteSalle.append(");");
                 if (cafetSelected)
                 {
-                    typeAgenda = "Salle/Cafétéria";
+                    typeAgenda = XmlConfig.recupNomAgenda("deux");
                     requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
                     requeteCafet.append(appendOptions(cafetOptions));
                     requeteCafet.append(");");
                 }
             } else {
-                typeAgenda = "Cafétéria";
+                typeAgenda = XmlConfig.recupNomAgenda("cafet");
                 requeteCafet.append("INSERT INTO cafeteria (CafeteriaSeule, Cuisine, Reunion, BarAsbl, BarVide, Projecteur) values (");
                 requeteCafet.append(appendOptions(cafetOptions));
                 requeteCafet.append(");");
@@ -403,6 +400,8 @@ public class newLocation extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getVerticalScrollBar().setBlockIncrement(50);
         add(scrollPane, BorderLayout.CENTER);
 
         // Gestion exclusive

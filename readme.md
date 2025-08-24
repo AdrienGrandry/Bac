@@ -3,6 +3,8 @@
 Programme de gestion de stock pour le bac.
 
 # Action toujours à faire
+- Suprimer la location avec ou pas de facture afficher
+- lier agenda et programme avec date lieu titre
 - calculer facture boissons avec le nombre arrondi sans les chifre apres
 
 # Organisation du projet - Avancement

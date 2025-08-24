@@ -50,14 +50,40 @@ public class XmlConfig
 
             // Récupère tous les <agenda>
             NodeList nodes = document.getElementsByTagName("agenda");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                agendas.add(nodes.item(i).getTextContent().trim());
+            for (int i = 0; i < nodes.getLength(); i++)
+            {
+                Element agendaElement = (Element) nodes.item(i);
+                String name = agendaElement.getElementsByTagName("value").item(0).getTextContent();
+                agendas.add(name);
             }
 
         } catch (Exception e) {
             Message.showErrorMessage("Chargement des noms des agendas", "Impossible de lire les noms des agendas : " + e.getMessage());
         }
         return agendas;
+    }
+
+    public static String recupNomAgenda(String nom) {
+        String value = "";
+        try {
+            Document document = loadXmlDocument();
+
+            // Récupère tous les <agenda>
+            NodeList nodes = document.getElementsByTagName("agenda");
+            for (int i = 0; i < nodes.getLength(); i++)
+            {
+                Element agendaElement = (Element) nodes.item(i);
+                String name = agendaElement.getElementsByTagName("name").item(0).getTextContent();
+                if(name.equals(nom))
+                {
+                    value = agendaElement.getElementsByTagName("value").item(0).getTextContent();
+                }
+            }
+
+        } catch (Exception e) {
+            Message.showErrorMessage("Chargement des noms des agendas", "Impossible de lire les noms des agendas : " + e.getMessage());
+        }
+        return value;
     }
 
     private static Document loadXmlDocument() throws Exception
