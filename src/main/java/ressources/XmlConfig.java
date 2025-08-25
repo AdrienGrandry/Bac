@@ -86,6 +86,33 @@ public class XmlConfig
         return value;
     }
 
+    public static String recupNomDepuisValue(String valueRecherche) {
+        String name = "";
+        try {
+            Document document = loadXmlDocument();
+
+            // Récupère tous les <agenda>
+            NodeList nodes = document.getElementsByTagName("agenda");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element agendaElement = (Element) nodes.item(i);
+                String value = agendaElement.getElementsByTagName("value").item(0).getTextContent();
+
+                if (value.equals(valueRecherche)) {
+                    name = agendaElement.getElementsByTagName("name").item(0).getTextContent();
+                    break; // trouvé, on peut sortir de la boucle
+                }
+            }
+
+        } catch (Exception e) {
+            Message.showErrorMessage(
+                    "Chargement des noms des agendas",
+                    "Impossible de lire les noms des agendas : " + e.getMessage()
+            );
+        }
+        return name;
+    }
+
+
     private static Document loadXmlDocument() throws Exception
     {
         File xmlFile = new File(XML_FILE_PATH);

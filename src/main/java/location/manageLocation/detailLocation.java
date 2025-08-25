@@ -299,7 +299,7 @@ public class detailLocation extends JPanel {
             {
                 Message.showValidMessage("Facture", "Réalisation future de la facture...");
             }
-            deleteLocation();An
+            deleteLocation();
         });
 
         JPanel panelBtn = new JPanel();

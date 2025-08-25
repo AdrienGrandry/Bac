@@ -176,7 +176,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
         JButton newLocation = new JButton("Ajouter une location");
         Style.applyButtonStyle(newLocation);
         newLocation.addActionListener(e -> {
-            Location location = new Location("newLocation");
+            Location location = new Location("newLocation", 0);
             location.setVisible(true);
             dispose();
         });
@@ -256,7 +256,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
             List<EventModel> eventsForDay = calendarModel.getEventsForDate(date);
 
             // Utilisation de DayPanel personnalisé (possiblement modifié pour EventLabel)
-            agenda.app.DayPanel panel = new agenda.app.DayPanel(date, eventsForDay, agendaColors);
+            agenda.app.DayPanel panel = new agenda.app.DayPanel(date, eventsForDay, agendaColors, this);
             calendarGrid.add(panel);
         }
 

@@ -1,5 +1,6 @@
 package location;
 
+import location.manageLocation.detailLocation;
 import location.start.StartLocation;
 import options.ColorXml;
 import ressources.LoadingDialog;
@@ -24,7 +25,7 @@ public final class Location extends JFrame
     final private static StartLocation start = new StartLocation(null);
     final private static ColorXml color = new ColorXml();
 
-    public Location(String namePanelToLoad) {
+    public Location(String namePanelToLoad, int idLocation) {
         createMainFrame();
 
         // Définition du listener pour les actions des boutons du menu
@@ -63,6 +64,12 @@ public final class Location extends JFrame
             } catch (Exception e) {
                 Message.showErrorMessage("Chargement du panel", "Impossible d'ouvrir l'onglet de ce nom");
             }
+        } else if (namePanelToLoad.equals("affichelocation")) {
+            detailLocation panellocation = new detailLocation(this, idLocation);
+            panel.removeAll();
+            panel.add(panellocation, BorderLayout.CENTER);
+            this.revalidate();
+            this.repaint();
         }
 
         // Affichage de la fenêtre

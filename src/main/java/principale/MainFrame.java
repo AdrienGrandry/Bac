@@ -110,7 +110,7 @@ public class MainFrame extends JFrame {
         });
 
         btnCompta.addActionListener(e -> {
-            Location loacation = new Location(null);
+            Location loacation = new Location(null, 0);
             loacation.setVisible(true);
             this.dispose();
         });
