@@ -9,7 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -62,125 +61,122 @@ public class JPanelLocationRequete extends JPanel
         return resultPanel;
     }
 
-    private static JTable buildTable(final ResultSet resultSet) throws SQLException
-    {
+    private static JTable buildTable(final ResultSet resultSet) throws SQLException {
         final ResultSetMetaData metaData = resultSet.getMetaData();
         final int columnCount = metaData.getColumnCount();
         final String[] columnNames = getColumnNames(resultSet);
 
         final DefaultTableModel model = buildTableModel(resultSet, columnNames);
 
-        // Le JTable avec surcharge prepareRenderer pour gérer la couleur des lignes
-        final JTable table = new JTable(model)
-        {
+        final JTable table = new JTable(model) {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column)
-            {
+            public Component prepareRenderer(final TableCellRenderer renderer, final int row, final int column) {
                 final Component component = super.prepareRenderer(renderer, row, column);
 
-                if (isRowSelected(row))
-                {
+                if (isRowSelected(row)) {
                     component.setBackground(getSelectionBackground().darker());
-                    component.setForeground(Color.white);
-                }
-                else
-                {
+                    component.setForeground(Color.WHITE);
+                } else {
                     Color bgColor = getBackgroundColorForLieu(this, row);
                     component.setBackground(bgColor);
                     component.setForeground(Color.BLACK);
-
-                    if (isSpecificColumnExists(this, "Options") && "Options".equalsIgnoreCase(getColumnName(column)))
-                    {
-                        String optionValue = getColumnValue(this, row, "Options");
-                        if ("Options".equalsIgnoreCase(optionValue))
-                        {
-                            component.setBackground(Color.RED);
-                            component.setForeground(Color.WHITE);
-                        }
-                    }
                 }
                 return component;
             }
         };
 
-        // Ajuster largeur colonnes selon contenu
-        for (int i = 0; i < columnCount; i++)
-        {
-            final TableColumn column = table.getColumnModel().getColumn(i);
+        // Transformer les titres en 1, 2 ou 3 lignes selon le nombre de mots
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            String header = table.getColumnName(i).trim();
+            String[] words = header.split(" ");
 
+            StringBuilder html = new StringBuilder("<html>");
+            if (words.length <= 3) {
+                html.append(header); // 1 ligne
+            } else if (words.length <= 6) {
+                int mid = words.length / 2; // 2 lignes
+                String line1 = String.join(" ", java.util.Arrays.copyOfRange(words, 0, mid));
+                String line2 = String.join(" ", java.util.Arrays.copyOfRange(words, mid, words.length));
+                html.append(line1).append("<br>").append(line2);
+            } else {
+                // 3 lignes
+                int part1 = words.length / 3;
+                int part2 = 2 * words.length / 3;
+                String line1 = String.join(" ", java.util.Arrays.copyOfRange(words, 0, part1));
+                String line2 = String.join(" ", java.util.Arrays.copyOfRange(words, part1, part2));
+                String line3 = String.join(" ", java.util.Arrays.copyOfRange(words, part2, words.length));
+                html.append(line1).append("<br>").append(line2).append("<br>").append(line3);
+            }
+            html.append("</html>");
+            table.getColumnModel().getColumn(i).setHeaderValue(html.toString());
+        }
+
+        // Renderer pour l'en-tête avec couleurs personnalisées
+        table.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus,
+                                                           int row, int column) {
+                final Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                comp.setBackground(Color.decode(color.xmlReader("background_tab")));
+                comp.setForeground(Color.decode(color.xmlReader("background_tab_texte")));
+                setHorizontalAlignment(CENTER);
+                setVerticalAlignment(BOTTOM);
+                return comp;
+            }
+        });
+
+        // Ajuster largeur colonnes selon contenu
+        for (int i = 0; i < columnCount; i++) {
+            final TableColumn column = table.getColumnModel().getColumn(i);
             TableCellRenderer headerRenderer = column.getHeaderRenderer();
-            if (headerRenderer == null)
-            {
+            if (headerRenderer == null) {
                 headerRenderer = table.getTableHeader().getDefaultRenderer();
             }
             final Component headerComp = headerRenderer.getTableCellRendererComponent(table, column.getHeaderValue(),
                     false, false, 0, 0);
             int maxWidth = headerComp.getPreferredSize().width;
 
-            for (int row = 0; row < table.getRowCount(); row++)
-            {
-                final TableCellRenderer cellRenderer = table.getCellRenderer(row, i);
-                final Component cellComp = cellRenderer.getTableCellRendererComponent(table, table.getValueAt(row, i),
-                        false, false, row, i);
-                maxWidth = Math.max(cellComp.getPreferredSize().width, maxWidth);
+            for (int row = 0; row < table.getRowCount(); row++) {
+                final Component cellComp = table.getCellRenderer(row, i)
+                        .getTableCellRendererComponent(table, table.getValueAt(row, i), false, false, row, i);
+                maxWidth = Math.max(maxWidth, cellComp.getPreferredSize().width);
             }
-
             column.setPreferredWidth(maxWidth + 20);
         }
 
-        for (int i = 0; i < table.getColumnCount(); i++)
-        {
+        // Bloquer le redimensionnement
+        for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setResizable(false);
         }
 
         table.getTableHeader().setReorderingAllowed(false);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setRowHeight(20);
+        table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getPreferredSize().width, 50));
 
-        table.getTableHeader().setPreferredSize(new Dimension(table.getTableHeader().getPreferredSize().width, 30));
-
-        // Style en-tête
-        table.getTableHeader().setDefaultRenderer(new DefaultTableCellRenderer()
-        {
+        // Renderer cellules
+        final DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             private static final long serialVersionUID = 1L;
 
             @Override
             public Component getTableCellRendererComponent(final JTable table, final Object value,
-                                                           final boolean isSelected, final boolean hasFocus, final int row, final int column)
-            {
-                final Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-                        column);
-                comp.setBackground(Color.decode(color.xmlReader("background_tab")));
-                comp.setForeground(Color.decode(color.xmlReader("background_tab_texte")));
-                setBorder(new EmptyBorder(0, 10, 0, 0));
-                return comp;
-            }
-        });
-
-        // Style cellules
-        final DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer()
-        {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public Component getTableCellRendererComponent(final JTable table, final Object value,
-                                                           final boolean isSelected, final boolean hasFocus, final int row, final int column)
-            {
-                final Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row,
-                        column);
+                                                           final boolean isSelected, final boolean hasFocus,
+                                                           final int row, final int column) {
+                final Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 setBorder(new EmptyBorder(0, 10, 0, 0));
                 return comp;
             }
         };
         table.setDefaultRenderer(Object.class, cellRenderer);
 
-        // Colonnes 5 à 11 en checkbox
-        for (int i = 4; i <= 10; i++)
-        {
-            if (i < table.getColumnCount())
-            {
+        // Colonnes 5 à 16 en checkbox
+        for (int i = 4; i <= 16; i++) {
+            if (i < table.getColumnCount()) {
                 table.getColumnModel().getColumn(i).setCellRenderer(new CheckBoxRenderer());
             }
         }
@@ -216,7 +212,7 @@ public class JPanelLocationRequete extends JPanel
             @Override
             public Class<?> getColumnClass(int columnIndex)
             {
-                if (columnIndex >= 4 && columnIndex <= 10)
+                if (columnIndex >= 4 && columnIndex <= 16)
                 {
                     return Boolean.class;
                 }
@@ -233,7 +229,7 @@ public class JPanelLocationRequete extends JPanel
             {
                 Object value = resultSet.getObject(col + 1);
 
-                if (col >= 4 && col <= 10)
+                if (col >= 4 && col <= 16)
                 {
                     if (value instanceof Number)
                     {
