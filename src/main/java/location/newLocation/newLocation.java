@@ -8,7 +8,6 @@ import agenda.google.GoogleCalendarService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -60,8 +59,6 @@ public class newLocation extends JPanel {
         JCheckBox boxOption = new JCheckBox();
         Style.applyCheckBoxStyle(boxOption);
         infoPanel.add(boxOption);
-
-
 
         contentPanel.add(sectionWrapper("Informations Générales", infoPanel, color));
         contentPanel.add(Box.createVerticalStrut(50));
@@ -146,10 +143,25 @@ public class newLocation extends JPanel {
         salleOptions.setVisible(false);
         cafetOptions.setVisible(false);
 
+        // PANEL POUR LE NOMBRE DE MANGE-DEBOUT
+        JPanel mangeDeboutPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        mangeDeboutPanel.setOpaque(false);
+        JLabel mangeDeboutLabel = new JLabel("Nombre de mange-debout : ");
+        mangeDeboutLabel.setFont(baseFont);
+
+        String[] options = {"0", "1", "2", "3", "4", "5"};
+        JComboBox<String> mangeDeboutCombo = new JComboBox<>(options);
+        Style.applyBoxStyle(mangeDeboutCombo);
+
+        mangeDeboutPanel.add(mangeDeboutLabel);
+        mangeDeboutPanel.add(mangeDeboutCombo);
+        mangeDeboutPanel.setVisible(false);
+
         espacePanel.add(salleOptions);
         espacePanel.add(Box.createVerticalStrut(10));
-        espacePanel.add(Box.createVerticalStrut(10));
         espacePanel.add(cafetOptions);
+        espacePanel.add(Box.createVerticalStrut(10));
+        espacePanel.add(mangeDeboutPanel);
 
         contentPanel.add(sectionWrapper("Choix d’espace à réserver", espacePanel, color));
         contentPanel.add(Box.createVerticalStrut(50));
@@ -162,6 +174,28 @@ public class newLocation extends JPanel {
         buttonPanel.add(enregistrer);
         buttonPanel.setVisible(false);
 
+        contentPanel.add(buttonPanel);
+
+        JScrollPane scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
+        scrollPane.getVerticalScrollBar().setBlockIncrement(50);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Gestion de l'affichage du choix des options
+        salle.addActionListener(e -> {
+            salleOptions.setVisible(salle.isSelected());
+            mangeDeboutPanel.setVisible(salle.isSelected() || cafet.isSelected());
+            buttonPanel.setVisible(salle.isSelected() || cafet.isSelected());
+        });
+
+        cafet.addActionListener(e -> {
+            cafetOptions.setVisible(cafet.isSelected());
+            mangeDeboutPanel.setVisible(salle.isSelected() || cafet.isSelected());
+            buttonPanel.setVisible(salle.isSelected() || cafet.isSelected());
+        });
+
+
         enregistrer.addActionListener(e -> {
             StringBuilder requeteSalle = new StringBuilder();
             StringBuilder requeteCafet = new StringBuilder();
@@ -169,7 +203,7 @@ public class newLocation extends JPanel {
 
             StringBuilder sb = new StringBuilder();
             sb.append("Informations Générales :\n");
-            requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria, Option) VALUES (");
+            requeteLocation.append("INSERT INTO Location (Nom, Prenom, Adresse, CodePostal, Localite, Gsm, Tel, Email, Date, NumTVA, TypeEvenement,NomResponsable, PrenomResponsable, GsmResponsable, TelResponsable, IdSalle, IdCafeteria, Option, MangeDebout) VALUES (");
             for (int i = 0; i < labels.length; i++) {
                 sb.append(labels[i]).append(" ").append(fields[i].getText()).append("\n");
                 if(i == 8)
@@ -237,7 +271,7 @@ public class newLocation extends JPanel {
 
                     try
                     {
-                        queryResult = Requete.executeQuery("select count(*) from location where Date = '" + DateParser.parseDateToIsoString(fields[8].getText()) + "'");
+                        queryResult = Requete.executeQuery("select count(*) from location where Date = '" + parseDateToIsoString(fields[8].getText()) + "'");
 
                         if(queryResult.getResultSet().next())
                         {
@@ -358,12 +392,14 @@ public class newLocation extends JPanel {
 
                     if(boxOption.isSelected())
                     {
-                        requeteLocation.append("true);");
+                        requeteLocation.append("true, ");
                     }
                     else
                     {
-                        requeteLocation.append("false);");
+                        requeteLocation.append("false, ");
                     }
+
+                    requeteLocation.append(mangeDeboutCombo.getSelectedItem() + ");");
 
                     queryResult = null;
                     try
@@ -388,39 +424,6 @@ public class newLocation extends JPanel {
                     });
                 }
             }).start();
-        });
-
-        contentPanel.add(buttonPanel);
-
-        JScrollPane scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-        scrollPane.getVerticalScrollBar().setBlockIncrement(50);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Gestion exclusive
-        salle.addActionListener(e -> {
-            if (salle.isSelected()) {
-                salleOptions.setVisible(true);
-                buttonPanel.setVisible(true);
-            } else {
-                salleOptions.setVisible(false);
-                if(!cafet.isSelected()) {
-                    buttonPanel.setVisible(false);
-                }
-            }
-        });
-
-        cafet.addActionListener(e -> {
-            if (cafet.isSelected()) {
-                cafetOptions.setVisible(true);
-                buttonPanel.setVisible(true);
-            } else {
-                cafetOptions.setVisible(false);
-                if(!salle.isSelected()) {
-                    buttonPanel.setVisible(false);
-                }
-            }
         });
     }
 

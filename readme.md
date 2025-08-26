@@ -1,9 +1,13 @@
 # Pojet Bac
 
-Programme de gestion de stock pour le bac.
+Programme de gestion de stock et location pour le bac.
 
 # Action toujours à faire
-- lier agenda et programme avec date lieu titre
+- boisons : nom, fourni, repris et consomé
+- pour reunion demander ce qu'on sort, demander qte avec facture
+    => dans boissons afficher qte consomé seul et lors de la facture
+    demander d'encodé les boissons à sortir du stock
+-
 - calculer facture boissons avec le nombre arrondi sans les chifre apres
 
 # Organisation du projet - Avancement
