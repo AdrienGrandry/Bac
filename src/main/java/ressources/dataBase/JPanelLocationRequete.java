@@ -95,7 +95,7 @@ public class JPanelLocationRequete extends JPanel
             StringBuilder html = new StringBuilder("<html>");
             if (words.length <= 3) {
                 html.append(header); // 1 ligne
-            } else if (words.length <= 6) {
+            } else if (words.length <= 5) {
                 int mid = words.length / 2; // 2 lignes
                 String line1 = String.join(" ", java.util.Arrays.copyOfRange(words, 0, mid));
                 String line2 = String.join(" ", java.util.Arrays.copyOfRange(words, mid, words.length));
