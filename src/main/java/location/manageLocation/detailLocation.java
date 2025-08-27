@@ -15,6 +15,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.sql.ResultSet;
@@ -82,12 +84,32 @@ public class detailLocation extends JPanel {
         gbc.weighty = 0;
         contenu.add(Box.createRigidArea(new Dimension(0, 10)), gbc);
 
-        // Panels données (exemple simplifié avec 3 couleurs)
         JPanel panelBoisons = new JPanel();
         panelBoisons.setBackground(getBackground());
+        panelBoisons.setLayout(new BorderLayout()); // très important pour BorderLayout
+
         JButton buttonBoisson = new JButton("Boissons");
         Style.applyButtonStyle(buttonBoisson);
+        buttonBoisson.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manageBoisson fenetreBoissons = null;
+
+                try {
+                    fenetreBoissons = new manageBoisson(parentFrame);
+                } catch (SQLException e1) {
+                    Message.showErrorMessage("Erreur", "Erreur de la base de données");
+                }
+                fenetreBoissons.setVisible(true);
+            }
+        });
         panelBoisons.add(buttonBoisson, BorderLayout.NORTH);
+
+        JPanel tablePanel = Requete.executeQueryAndReturnPanel("Select * from location", 0, 0, "pair_impair");
+        panelBoisons.add(tablePanel, BorderLayout.CENTER);
+        panelBoisons.revalidate();
+        panelBoisons.repaint();
 
         JPanel panelCasse = new JPanel();
 
