@@ -16,7 +16,7 @@ import static ressources.DateParser.parseStringToLocalDate;
 
 public class newLocation extends JPanel {
 
-    public newLocation(final JFrame parentFrame) {
+    public newLocation(final JFrame parentFrame, String dateDefault) {
         final ColorXml color = new ColorXml();
         AtomicReference<GoogleCalendarService> calendarService = new AtomicReference<>();
 
@@ -50,6 +50,10 @@ public class newLocation extends JPanel {
             fields[i] = new JTextField();
             infoPanel.add(label);
             infoPanel.add(fields[i]);
+        }
+
+        if(dateDefault != null) {
+            fields[8].setText(dateDefault);
         }
 
         JLabel labelOption = new JLabel("Option : ");

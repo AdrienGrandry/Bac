@@ -1,6 +1,7 @@
 package location;
 
 import location.manageLocation.detailLocation;
+import location.newLocation.newLocation;
 import location.start.StartLocation;
 import options.ColorXml;
 import ressources.LoadingDialog;
@@ -25,7 +26,7 @@ public final class Location extends JFrame
     final private static StartLocation start = new StartLocation(null);
     final private static ColorXml color = new ColorXml();
 
-    public Location(String namePanelToLoad, int idLocation) {
+    public Location(String namePanelToLoad, Object param) {
         createMainFrame();
 
         // Définition du listener pour les actions des boutons du menu
@@ -60,12 +61,23 @@ public final class Location extends JFrame
             }
         } else if (namePanelToLoad.equals("newLocation")) {
             try {
-                loadSpecificPanel("location.newLocation.newLocation", this);
+                if(param == null)
+                {
+                    loadSpecificPanel("location.newLocation.newLocation", this);
+                }
+                else
+                {
+                    newLocation newlocation = new newLocation(this, (String) param);
+                    panel.removeAll();
+                    panel.add(newlocation, BorderLayout.CENTER);
+                    this.revalidate();
+                    this.repaint();
+                }
             } catch (Exception e) {
                 Message.showErrorMessage("Chargement du panel", "Impossible d'ouvrir l'onglet de ce nom");
             }
         } else if (namePanelToLoad.equals("affichelocation")) {
-            detailLocation panellocation = new detailLocation(this, idLocation);
+            detailLocation panellocation = new detailLocation(this, (Integer) param);
             panel.removeAll();
             panel.add(panellocation, BorderLayout.CENTER);
             this.revalidate();
@@ -122,7 +134,11 @@ public final class Location extends JFrame
                     }).start();
                     break;
                 case "Enregister Location":
-                    loadSpecificPanel("location.newLocation.newLocation", parentFrame);
+                    newLocation newlocation = new newLocation(this, null);
+                    panel.removeAll();
+                    panel.add(newlocation, BorderLayout.CENTER);
+                    this.revalidate();
+                    this.repaint();
                     break;
                 case "Gérer Location":
                     loadSpecificPanel("location.manageLocation.showLocation", parentFrame);

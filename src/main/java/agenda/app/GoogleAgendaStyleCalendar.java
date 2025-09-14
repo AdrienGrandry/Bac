@@ -4,18 +4,19 @@ import agenda.model.CalendarModel;
 import agenda.model.EventModel;
 import agenda.google.GoogleCalendarService;
 import principale.MainFrame;
-import ressources.LoadingDialog;
-import ressources.Message;
-import ressources.Style;
-import ressources.XmlConfig;
+import ressources.*;
 import location.Location;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.*;
 import java.util.List;
@@ -176,7 +177,7 @@ public class GoogleAgendaStyleCalendar extends JFrame {
         JButton newLocation = new JButton("Ajouter une location");
         Style.applyButtonStyle(newLocation);
         newLocation.addActionListener(e -> {
-            Location location = new Location("newLocation", 0);
+            Location location = new Location("newLocation", null);
             location.setVisible(true);
             dispose();
         });
@@ -257,6 +258,18 @@ public class GoogleAgendaStyleCalendar extends JFrame {
 
             // Utilisation de DayPanel personnalisé (possiblement modifié pour EventLabel)
             agenda.app.DayPanel panel = new agenda.app.DayPanel(date, eventsForDay, agendaColors, this);
+            panel.addMouseListener(new MouseAdapter() {
+                                       @Override
+                                       public void mouseClicked(MouseEvent e) {
+                                           LocalDate date4 = panel.getDate();
+                                           DateTimeFormatter fullFmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                           String fullDate = date4.format(fullFmt);
+
+                                           Location location = new Location("newLocation", fullDate);
+                                           location.setVisible(true);
+                                           dispose();
+                                       }
+                                   });
             calendarGrid.add(panel);
         }
 

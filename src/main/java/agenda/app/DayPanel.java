@@ -72,6 +72,8 @@ public class DayPanel extends JPanel {
                     LocalDate dateEvent = date; // date du DayPanel
 
                     // Séparer sur le premier espace
+                    titre = titre.replaceFirst("^\\([^)]*\\)\\s*", "");
+                    // Maintenant tu peux séparer NOM et Prénom
                     String[] parts = titre.split(" ", 2);
 
                     String nom = parts[0].toLowerCase();
