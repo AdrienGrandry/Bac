@@ -4,10 +4,7 @@ import agenda.google.GoogleCalendarService;
 import agenda.model.EventModel;
 import location.Location;
 import options.ColorXml;
-import ressources.DateParser;
-import ressources.LoadingDialog;
-import ressources.Message;
-import ressources.Style;
+import ressources.*;
 import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
 
@@ -15,21 +12,20 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
 
 public class detailLocation extends JPanel {
     boolean isOption = false;
+    boolean isCloture = false;
     JLabel lblDonneesA, lblDonneesB, lblDonneesC, lblDonneesD;
     String date, nomPrenom;
     int id, idSalle, idCafet;
     JFrame parentframe;
+    JPanel tablePanel;
 
     public detailLocation(final JFrame parentFrame, int id) {
         Color backgroundColor = Color.decode(ColorXml.xmlReader("background"));
@@ -90,23 +86,33 @@ public class detailLocation extends JPanel {
 
         JButton buttonBoisson = new JButton("Boissons");
         Style.applyButtonStyle(buttonBoisson);
-        buttonBoisson.addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                manageBoisson fenetreBoissons = null;
-
+        panelBoisons.add(buttonBoisson, BorderLayout.NORTH);
+        buttonBoisson.addActionListener(e -> {
+            if(!isCloture)
+            {
                 try {
-                    fenetreBoissons = new manageBoisson(parentFrame);
-                } catch (SQLException e1) {
+                    manageBoisson fenetreBoissons = new manageBoisson(parentFrame, idSalle, idCafet);
+
+                    // brancher le listener
+                    fenetreBoissons.getValidationListener(() ->
+                    {
+                        tablePanel = Requete.executeQueryAndReturnPanel("SELECT libelle Boisson, Fournie, CASE WHEN Reprise == -1 THEN '' ELSE Reprise END Reprise, CASE WHEN Reprise == -1 THEN '' ELSE Fournie-Reprise END AS Consomé FROM MouvementLocation INNER JOIN produit ON produit.id = MouvementLocation.IdBoisson WHERE IdSalle = " + idSalle + " AND IdCafeteria = " + idCafet, 0, 0, "pair_impair");
+                        panelBoisons.removeAll();
+                        panelBoisons.add(buttonBoisson, BorderLayout.NORTH);
+                        panelBoisons.add(tablePanel, BorderLayout.CENTER);
+                        panelBoisons.revalidate();
+                        panelBoisons.repaint();
+                    });
+
+                    fenetreBoissons.setVisible(true);
+
+                } catch (SQLException ex) {
                     Message.showErrorMessage("Erreur", "Erreur de la base de données");
                 }
-                fenetreBoissons.setVisible(true);
             }
         });
-        panelBoisons.add(buttonBoisson, BorderLayout.NORTH);
 
-        JPanel tablePanel = Requete.executeQueryAndReturnPanel("Select * from location", 0, 0, "pair_impair");
+        tablePanel = Requete.executeQueryAndReturnPanel("SELECT libelle Boisson, Fournie, CASE WHEN Reprise == -1 THEN '' ELSE Reprise END Reprise, CASE WHEN Reprise == -1 THEN '' ELSE Fournie-Reprise END AS Consomé FROM MouvementLocation INNER JOIN produit ON produit.id = MouvementLocation.IdBoisson WHERE IdSalle = " + idSalle + " AND IdCafeteria = " + idCafet, 0, 0, "pair_impair");
         panelBoisons.add(tablePanel, BorderLayout.CENTER);
         panelBoisons.revalidate();
         panelBoisons.repaint();
@@ -147,26 +153,58 @@ public class detailLocation extends JPanel {
     }
 
     private void findDBData(int id) {
-        try (QueryResult queryResult = Requete.executeQuery("SELECT * FROM location LEFT JOIN Salle ON Location.IdSalle = Salle.IdSalle LEFT JOIN Cafeteria ON Location.IdCafeteria = Cafeteria.IdCafeteria WHERE idLocation = " + id)) {
+        QueryResult queryResult = null;
+        try {
+            // === Requête pour Location uniquement ===
+            queryResult = Requete.executeQuery("SELECT * FROM Location WHERE idLocation = " + id);
             if (queryResult.getResultSet().next()) {
                 isOption = queryResult.getResultSet().getBoolean("Option");
+                isCloture = queryResult.getResultSet().getBoolean("Cloturee");
                 date = queryResult.getResultSet().getString("Date");
-                nomPrenom = queryResult.getResultSet().getString("nom").toUpperCase() + " " + queryResult.getResultSet().getString("prenom");
+                nomPrenom = queryResult.getResultSet().getString("nom").toUpperCase() + " "
+                        + queryResult.getResultSet().getString("prenom");
 
                 idSalle = queryResult.getResultSet().getInt("IdSalle");
                 idCafet = queryResult.getResultSet().getInt("IdCafeteria");
 
+                // Label A et D → uniquement Location
                 lblDonneesA.setText(createLabelA(queryResult.getResultSet()));
-                if (queryResult.getResultSet().getBoolean("IdSalle")) {
-                    lblDonneesB.setText(createLabelB(queryResult.getResultSet()));
-                }
-                if (queryResult.getResultSet().getBoolean("IdCafeteria")) {
-                    lblDonneesC.setText(createLabelC(queryResult.getResultSet()));
-                }
                 lblDonneesD.setText(createLabelD(queryResult.getResultSet()));
             }
+            queryResult.close();
+
+            // === Requête pour Location + Cafeteria ===
+            if (idCafet > 0) {
+                queryResult = Requete.executeQuery(
+                        "SELECT * FROM Location l " +
+                                "JOIN Cafeteria c ON l.IdCafeteria = c.IdCafeteria " +
+                                "WHERE l.idLocation = " + id
+                );
+                if (queryResult.getResultSet().next()) {
+                    lblDonneesB.setText(createLabelB(queryResult.getResultSet()));
+                }
+                queryResult.close();
+            }
+
+            // === Requête pour Location + Salle ===
+            if (idSalle > 0) {
+                queryResult = Requete.executeQuery(
+                        "SELECT * FROM Location l " +
+                                "JOIN Salle s ON l.IdSalle = s.IdSalle " +
+                                "WHERE l.idLocation = " + id
+                );
+                if (queryResult.getResultSet().next()) {
+                    lblDonneesC.setText(createLabelC(queryResult.getResultSet()));
+                }
+                queryResult.close();
+            }
+
         } catch (Exception ex) {
             Message.showErrorMessage("Erreur de la base de données", ex.getMessage());
+        } finally {
+            if (queryResult != null) {
+                queryResult.close();
+            }
         }
     }
 
@@ -301,7 +339,7 @@ public class detailLocation extends JPanel {
         parent.add(espace, gbc);
     }
 
-    private JPanel createButtonPanel(Color bg, boolean isOption) {
+    private JPanel createButtonPanel(Color bg, boolean isOption){
 
         JButton optionValid = new JButton("Confirmer la location");
         Style.applyButtonStyle(optionValid);
@@ -324,17 +362,119 @@ public class detailLocation extends JPanel {
             deleteLocation();
         });
 
+        JButton facture = new JButton("Cloturer la location");//Demander si facture
+        Style.applyButtonStyle(facture);
+        facture.addActionListener(e -> clotureLocation());
+
         JPanel panelBtn = new JPanel();
         panelBtn.setBackground(bg);
         if (isOption) {
             panelBtn.add(optionValid);
             panelBtn.add(option);
         }
-        else
+        else if(!isCloture)
         {
             panelBtn.add(annuler);
+            panelBtn.add(facture);
         }
         return panelBtn;
+    }
+
+    private void clotureLocation() {
+        if (verifIsNullBoisson()) {
+            Message.showErrorMessage("Cloture de la location", "Toutes les boissons n'ont pas été contrôlées");
+            return;
+        }
+
+        String dbPath = "jdbc:sqlite:" + XmlConfig.getPath("database");
+
+        try (Connection conn = DriverManager.getConnection(dbPath)) {
+            conn.setAutoCommit(false); // ⚡ démarre une transaction
+
+            try (Statement stmt = conn.createStatement()) {
+                // 1. Insert du mouvement
+                stmt.executeUpdate("INSERT INTO mouvement (description, type) VALUES ('Location de " + nomPrenom + "', 'Location');");
+
+                // 2. Récupérer l'id du mouvement inséré
+                int idMouvement = 0;
+                try (ResultSet rs = stmt.executeQuery("SELECT last_insert_rowid()")) {
+                    if (rs.next()) {
+                        idMouvement = rs.getInt(1);
+                    }
+                }
+
+                // 3. Update MouvementLocation
+                stmt.executeUpdate("UPDATE MouvementLocation SET idMouvement = " + idMouvement +
+                        " WHERE IdSalle = " + idSalle + " AND IdCafeteria = " + idCafet);
+
+                // 4. Récupérer les consommations et mettre à jour produit
+                try (Statement selectStmt = conn.createStatement();
+                     ResultSet rs = selectStmt.executeQuery(
+                             "SELECT IdBoisson, (fournie - Reprise) AS consome " +
+                                     "FROM MouvementLocation WHERE IdCafeteria = " + idCafet +
+                                     " AND IdSalle = " + idSalle);
+                     PreparedStatement updateStmt = conn.prepareStatement(
+                             "UPDATE produit SET stock = stock - ? WHERE id = ?")) {
+
+                    while (rs.next()) {
+                        int idBoisson = rs.getInt("IdBoisson");
+                        int consome = rs.getInt("consome");
+
+                        updateStmt.setInt(1, consome);
+                        updateStmt.setInt(2, idBoisson);
+                        updateStmt.executeUpdate();
+                    }
+                }
+
+                // 5. Clôturer la location
+                stmt.executeUpdate("UPDATE location SET Cloturee = 1 WHERE idLocation = " + id);
+
+                conn.commit(); // ✅ valide tout
+            } catch (Exception e) {
+                conn.rollback(); // ❌ annule tout si erreur
+                throw e;
+            }
+        } catch (Exception e) {
+            Message.showErrorMessage("Erreur", "Erreur : " + e.getMessage());
+        }
+
+        Message.showErrorMessage("Amélioration", "Facture disponible plus tard");
+
+        showLocation showLocation = new showLocation(parentframe);
+        Location.panel.removeAll();
+        Location.panel.add(showLocation, BorderLayout.CENTER);
+        parentframe.revalidate();
+        parentframe.repaint();
+    }
+
+    private boolean verifIsNullBoisson()
+    {
+        QueryResult queryResult = null;
+        boolean ret = false;
+        try
+        {
+            queryResult = Requete.executeQuery("SELECT Reprise FROM MouvementLocation WHERE IdSalle = " + idSalle + " AND IdCafeteria = " + idCafet);
+
+            while (queryResult.getResultSet().next() && !ret)
+            {
+                if(queryResult.getResultSet().getInt(1) == -1)
+                {
+                    ret = true;
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            Message.showErrorMessage("Erreur", "Erreur : " + e.getMessage());
+        }
+        finally {
+            if(queryResult != null)
+            {
+                queryResult.close();
+            }
+        }
+
+        return ret;
     }
 
     private void updateGoogleCalendar() {
@@ -346,41 +486,49 @@ public class detailLocation extends JPanel {
         new Thread(() -> {
             try {
                 GoogleCalendarService googleCalendarService = new GoogleCalendarService();
-                List<EventModel> evenements = googleCalendarService.findEventsByNameAndDate(nomPrenom, localdate);
+                List<EventModel> evenements = googleCalendarService.findEventsByNameAndDate("(Option) " + nomPrenom, localdate);
 
                 if (evenements.isEmpty()) {
-                    return;
+                    Message.showErrorMessage("Google Calendar", "Aucun événement trouvé pour " + nomPrenom + " à la date " + localdate + ". La location est confirmée uniquement en base de données.");
+                } else {
+                    // On a trouvé au moins un événement → on modifie dans Google Calendar
+                    EventModel eventToUpdate = evenements.get(0);
+                    eventToUpdate.setTitle(nomPrenom);
+
+                    String calendarId = eventToUpdate.getCalendarId();
+
+                    if (calendarId == null || calendarId.isEmpty()) {
+                        SwingUtilities.invokeLater(() -> {
+                            loadingDialog.setVisible(false);
+                            loadingDialog.dispose();
+                            Message.showErrorMessage("Validation de l'option", "Impossible de retrouver le calendarId dans l'événement. La location est confirmée uniquement en base de données.");
+                        });
+                    } else {
+                        googleCalendarService.updateEvent(calendarId, eventToUpdate);
+                        Message.showValidMessage("Confirmation de la location", "L'événement a été confirmé dans Google Calendar et la location a été confirmée en base de données.");
+                    }
                 }
-
-                EventModel eventToUpdate = evenements.get(0);
-                eventToUpdate.setTitle(nomPrenom);
-
-                String calendarId = eventToUpdate.getCalendarId();
-
-                if (calendarId == null || calendarId.isEmpty()) {
-                    Message.showErrorMessage("Validation de l'option", "Impossible de retrouver le calendarId dans l'événement.");
-                    return;
-                }
-
-                googleCalendarService.updateEvent(calendarId, eventToUpdate);
-
                 Requete.executeUpdate("update location set Option = 0 where idLocation = " + id);
 
-                SwingUtilities.invokeLater(() -> {
-                    loadingDialog.setVisible(false);
-                    loadingDialog.dispose();
-                });
-
-                Message.showValidMessage("Confirmation de la location", "La location a été confirmée.");
-
+                // Rafraîchir l'écran dans les deux cas
                 detailLocation panel = new detailLocation(parentframe, id);
                 Location.panel.removeAll();
                 Location.panel.add(panel, BorderLayout.CENTER);
                 parentframe.revalidate();
                 parentframe.repaint();
+
             } catch (GeneralSecurityException | IOException ex) {
-                Message.showErrorMessage("Erreur Google Calendar", ex.getMessage());
+                SwingUtilities.invokeLater(() -> {
+                    loadingDialog.setVisible(false);
+                    loadingDialog.dispose();
+                    Message.showErrorMessage("Erreur Google Calendar", ex.getMessage());
+                });
             }
+
+            SwingUtilities.invokeLater(() -> {
+                loadingDialog.setVisible(false);
+                loadingDialog.dispose();
+            });
         }).start();
     }
 

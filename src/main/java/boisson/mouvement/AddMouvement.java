@@ -1,6 +1,7 @@
 package boisson.mouvement;
 
 import options.ColorXml;
+import ressources.Boisson;
 import ressources.Message;
 import ressources.Style;
 import ressources.dataBase.QueryResult;
@@ -13,9 +14,7 @@ import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Logger;
 
 public class AddMouvement extends JDialog {
