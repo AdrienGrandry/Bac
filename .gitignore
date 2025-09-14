@@ -25,6 +25,8 @@ ma_base_de_donnees.db
 gesti'Bac_lib/
 jre-1.8/
 launch4j.log
+ressources/tokens
+ressources/credentials.json
 
 ### Java ###
 # Compiled class file
@@ -49,4 +51,5 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# End of https://www.toptal.com/developers/gitignore/api/eclipse,java,maven,executable
+# End of https://www.toptal.com/developers/gitignore/api/eclipse,java,maven,executableressources/tokens/
+ressources/credentials.json

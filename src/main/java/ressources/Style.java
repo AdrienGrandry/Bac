@@ -5,9 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
 
-import boisson.mouvement.Boisson;
 import options.ColorXml;
 
 public class Style

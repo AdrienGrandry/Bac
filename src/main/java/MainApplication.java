@@ -14,37 +14,52 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static ressources.DateParser.parseStringToLocalDate;
 
 public class MainApplication {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Locale.setDefault(Locale.FRENCH);
 
-        AtomicReference<LoadingDialog> loadingDialog = new AtomicReference<>(new LoadingDialog(null, "Vérification des l'accès Google..."));
+        AtomicReference<LoadingDialog> loadingDialog =
+                new AtomicReference<>(new LoadingDialog(null, "Vérification de l'accès Google..."));
         SwingUtilities.invokeLater(() -> loadingDialog.get().setVisible(true));
 
         new Thread(() -> {
             try {
                 GoogleAuthorizeUtil.authorize();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                // Ignorer les erreurs d'autorisation au lancement
+            }
 
             SwingUtilities.invokeLater(() -> {
                 loadingDialog.get().dispose();
                 loadingDialog.set(new LoadingDialog(null, "Chargement du nombre d'Email..."));
                 loadingDialog.get().setVisible(true);
             });
-            GmailStats stats = null;
-            try {
-                stats = new GmailStats();
-                stats.fetchMailStats();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (GeneralSecurityException e) {
-                throw new RuntimeException(e);
-            }
 
+            // === Récupération des stats Gmail avec timeout 15 sec ===
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<?> future = executor.submit(() -> {
+                try {
+                    GmailStats stats = new GmailStats();
+                    stats.fetchMailStats();
+                } catch (IOException | GeneralSecurityException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            try {
+                future.get(15, TimeUnit.SECONDS); // max 15 sec
+            } catch (TimeoutException | InterruptedException | ExecutionException e) {
+                future.cancel(true);
+            }
+            finally {
+                executor.shutdownNow();
+            }
+            // ======================================================
 
             MainFrame mainFrame = new MainFrame();
 
@@ -65,8 +80,8 @@ public class MainApplication {
 
     private static void ajouterAgenda() throws GeneralSecurityException, IOException {
         int nbLocation = 0;
-        
-        if(isInternetAvailable()) {
+
+        if (isInternetAvailable()) {
             QueryResult queryResult = null;
             List<EventToSync> events = new ArrayList<>();
 
@@ -101,7 +116,7 @@ public class MainApplication {
                     }
                 }
             }
-            if(nbLocation > 0) {
+            if (nbLocation > 0) {
                 Message.showValidMessage("Ajout de location", nbLocation + " ont été ajoutée(s) dans l'agenda.");
             }
         }
@@ -116,7 +131,8 @@ public class MainApplication {
         }
     }
 
-    private static boolean addEventToGoogleCalendar(String agenda, String titre, String description, String date) throws GeneralSecurityException, IOException {
+    private static boolean addEventToGoogleCalendar(String agenda, String titre, String description, String date)
+            throws GeneralSecurityException, IOException {
         GoogleCalendarService googleCalendarService = new GoogleCalendarService();
         try {
             googleCalendarService.ajouterEvenementPlageJours(
