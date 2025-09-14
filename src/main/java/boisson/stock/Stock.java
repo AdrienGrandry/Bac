@@ -136,7 +136,7 @@ public class Stock extends JPanel {
 	}
 
 	private String buildTotalQuery(String period) {
-		String base = "SELECT SUM(stock * prix) AS valeur_totale_stock FROM produit WHERE visible = 1";
+		String base = "SELECT SUM(ROUND(((prix/nbCasier) * stock), 3)) AS valeur_totale_stock FROM produit WHERE visible = 1";
 
 		if("Salle + Cafétéria".equals(period)) {
 			base += " AND lieu = 'deux'";

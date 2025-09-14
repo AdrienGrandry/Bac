@@ -1,6 +1,7 @@
 package boisson.mouvement;
 
 import options.ColorXml;
+import ressources.Boisson;
 import ressources.Message;
 import ressources.Style;
 import ressources.dataBase.QueryResult;

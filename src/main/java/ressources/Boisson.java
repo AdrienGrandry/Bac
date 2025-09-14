@@ -1,4 +1,4 @@
-package boisson.mouvement;
+package ressources;
 
 public class Boisson
 {

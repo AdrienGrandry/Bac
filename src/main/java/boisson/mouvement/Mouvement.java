@@ -6,6 +6,8 @@ import ressources.Style;
 import options.ColorXml;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -72,17 +74,36 @@ public class Mouvement extends JPanel
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                String sql =
-                        "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite', " +
-                        "strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description' " +
-                        "FROM inclure " +
-                        "JOIN mouvement ON mouvement.id = inclure.id_mouvement " +
-                        "JOIN produit ON produit.id = inclure.id_produit ORDER BY date_creation DESC;";
-
+                String sql = "select type AS 'Type', libelle AS 'Nom du produit', Fournie-Reprise AS 'Quantite', \n" +
+                        "strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description', date_creation AS date_sort\n" +
+                        "from Mouvement\n" +
+                        "INNER JOIN MouvementLocation ON Mouvement.id = MouvementLocation.idMouvement\n" +
+                        "INNER JOIN produit ON produit.id = MouvementLocation.IdBoisson\n" +
+                        "WHERE Fournie-Reprise != 0\n" +
+                        "UNION\n" +
+                        "SELECT type AS 'Type', Libelle AS 'Nom du produit', quantite AS 'Quantite',\n" +
+                        "strftime('%d/%m/%Y', date_creation) AS 'Date', description AS 'Description', date_creation AS date_sort\n" +
+                        "FROM inclure\n" +
+                        "JOIN mouvement ON mouvement.id = inclure.id_mouvement\n" +
+                        "JOIN produit ON produit.id = inclure.id_produit ORDER BY date_sort DESC;";
                 tableauPanel.removeAll();
                 JPanel tab = null;
                 tab = requete.executeQueryAndReturnPanel(sql, tableauPanel.getHeight(), tableauPanel.getWidth(),
                         "type_colonne");
+
+                JScrollPane scrollPane = (JScrollPane) tab.getComponent(0);
+                JViewport viewport = scrollPane.getViewport();
+                JTable table = (JTable) viewport.getView();
+
+                // Masquer la dernière colonne
+                TableColumnModel columnModel = table.getColumnModel();
+                int lastColumnIndex = table.getColumnCount() - 1;
+                TableColumn column = columnModel.getColumn(lastColumnIndex);
+                column.setMinWidth(0);
+                column.setMaxWidth(0);
+                column.setWidth(0);
+                column.setPreferredWidth(0);
+
 
                 tableauPanel.add(tab);
                 revalidate();
