@@ -100,8 +100,7 @@ public class MainFrame extends JFrame {
             mailPanel.add(LabelMailEnvoyer);
             mailPanel.add(LabelMailRecu);
 
-            if(nbMailNonLu != 0 && nbMailEnvoyer != 0 && nbMailRecu != 0)
-            {
+            if (nbMailEnvoyer != 0 && nbMailRecu != 0) {
                 panelGauche.add(mailPanel, BorderLayout.SOUTH);
             }
         } catch (Exception ignored) {}

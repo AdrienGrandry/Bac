@@ -1,5 +1,7 @@
 package location.newLocation;
 
+import location.Location;
+import location.manageLocation.detailLocation;
 import ressources.*;
 import ressources.dataBase.QueryResult;
 import ressources.dataBase.Requete;
@@ -417,6 +419,36 @@ public class newLocation extends JPanel {
                         if (queryResult != null)
                             queryResult.close();
                     }
+
+                    QueryResult qr = null;
+                    int idLocation = 0;
+                    try
+                    {
+                        qr = Requete.executeQuery("select max(IdLocation) from Location");
+
+                        if (qr.getResultSet().next())
+                        {
+                            idLocation = qr.getResultSet().getInt(1);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Message.showErrorMessage("Erreur", ex.getMessage());
+                    }
+                    finally
+                    {
+                        if(queryResult != null)
+                        {
+                            queryResult.close();
+                        }
+                    }
+
+                    detailLocation panel = new detailLocation(parentFrame, idLocation);
+
+                    Location.panel.removeAll();
+                    Location.panel.add(panel, BorderLayout.CENTER);
+                    parentFrame.revalidate();
+                    parentFrame.repaint();
 
                     SwingUtilities.invokeLater(() -> {
                         loadingDialog.setVisible(false);

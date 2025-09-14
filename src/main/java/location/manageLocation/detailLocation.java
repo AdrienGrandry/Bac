@@ -210,12 +210,13 @@ public class detailLocation extends JPanel {
 
     private String createLabelA(ResultSet rs) throws SQLException {
         return String.format(
-                "<html>%s %s<br>%s<br>%s %s<br>%s %s<br>%s<br></html>",
+                "<html>%s %s<br>%s<br>%s %s<br>%s %s<br>%s<br><br>%s<br></html>",
                 rs.getString("Nom"), rs.getString("Prenom"),
                 rs.getString("Adresse"),
                 rs.getString("CodePostal"), rs.getString("Localite"),
                 rs.getString("Gsm"), rs.getString("Tel"),
-                rs.getString("Email")
+                rs.getString("Email"),
+                rs.getString("TypeEvenement")
         );
     }
 
